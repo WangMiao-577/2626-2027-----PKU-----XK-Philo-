@@ -1,0 +1,65 @@
+'\" t
+.\"     Title: miktex-formats
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-FORMATS" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-formats \- manage TeX formats
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\fR\ 'u
+\fBmiktex\fR [\fIcommon\-option\fR...] formats \fIcommand\fR [\fIcommand\-option\-or\-parameter\fR...]
+.SH "DESCRIPTION"
+.PP
+Commands for managing
+TeX
+formats and
+METAFONT
+bases\&.
+.SH "COMMANDS"
+.PP
+\fBbuild\fR [\fB\-\-engine \fR\fB\fIengine\fR\fR] [\fIkey\fR]
+.RS 4
+.\" --dump
+.\" format files: build
+Build
+TeX
+format files\&.
+.RE
+.PP
+\fBlist\fR [\fB\-\-template \fR\fB\fItemplate\fR\fR]
+.RS 4
+List
+TeX
+formats\&.
+.sp
+\fItemplate\fR
+controls the output of each record\&. It can contain the following placeholders:
+.sp
+{arguments}, {compiler}, {custom}, {description}, {exclude}, {inputFile}, {key}, {name}, {noExecutable}, {outputFile}, {preloaded}
+.RE
+.SH "SEE ALSO"
+\fBmiktex\fR(1)

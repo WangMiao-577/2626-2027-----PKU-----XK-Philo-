@@ -1,0 +1,384 @@
+% chktex-file 0
+\documentclass{ctexart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{soulutf8}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\pgfplotsset{compat=newest}
+\usepackage{tikz}
+\usepackage{xcolor} % 用于颜色设置
+\usepackage{listings} % 用于代码块
+\usepackage{fontspec} % 关键：用于使用系统字体 (XeLaTeX/LuaLaTeX)
+% Linux 环境中没有 Windows 宋体时，使用可用的中文衬线字体作为宋体替代
+\setCJKmainfont{Noto Serif CJK SC}
+\usepackage{authblk}
+\usepackage[
+    colorlinks=true,      % 使用颜色而非方框
+    linkcolor=blue,       % 内部链接颜色
+    citecolor=green,      % 引用链接颜色
+    urlcolor=red,         % URL 链接颜色
+    bookmarks=true,       % 生成 PDF 书签
+    bookmarksopen=true,   % 默认展开书签
+    pdfstartview=FitH     % 页面宽度适应窗口
+]{hyperref}
+
+\sethlcolor{yellow}%设置所需高亮颜色
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+% 页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% 定义草绿色
+\definecolor{grassgreen}{RGB}{124,179,66}
+% 补全缺失的浅蓝色定义（防止编译报错）
+\definecolor{lightblue}{RGB}{30,144,255} 
+
+% 清空默认
+\fancyhf{}
+
+% 页眉
+\fancyhead[L]{\textcolor{lightblue}{\kaishu Western Philosophy}}
+\fancyhead[R]{\textcolor{lightblue}{\textit{2026.9-2027.1}}}
+
+% 页脚页码居中
+\fancyfoot[C]{\textcolor{lightblue}{\thepage}}
+
+% 页眉、页脚线颜色
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\renewcommand{\footrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\newtcolorbox{fancybox}[2][blue]{ % 可选颜色参数
+  enhanced,
+  breakable,
+    colback=#1!3!white,
+    colframe=#1!18!white,
+    boxrule=0.8pt,
+    arc=6pt,
+    outer arc=6pt,
+  left=10pt,right=10pt,top=12pt,bottom=10pt,
+  title={\textbf{#2}},
+    fonttitle=\bfseries\color{#1!65!black},
+  attach boxed title to top left={yshift=-2mm,xshift=5mm},
+  boxed title style={
+        colback=#1!8!white,
+        colframe=#1!18!white,
+        boxrule=0.6pt,
+        arc=4pt,
+  },
+    shadow={1.5pt}{-1.5pt}{0pt}{black!10},
+}
+
+% 定义一套适合C++的配色方案
+\usepackage{tabularx}
+\newfontfamily{\consolasfont}{Ubuntu}
+
+\newcommand{\bluecode}[1]{{\color{blue}\consolasfont #1}}
+\lstdefinestyle{MyCppStyle}{
+    language = C++,
+    % 确保这里使用 \consolasfont
+    basicstyle = \consolasfont, 
+    keywordstyle = \color{blue!70!black}, 
+    commentstyle = \color{green!50!black}, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+}
+% --- lstdefinestyle HTML 风格定义 ---
+\lstdefinestyle{mhtml}{
+    language = HTML,
+    basicstyle = \consolasfont\small, 
+    tagstyle = \color{blue!70!black}\bfseries,
+    keywordstyle = \color{purple!80!black},
+    commentstyle = \color{green!50!black}\itshape, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+    morekeywords={als, doctype, html, head, title, meta, link, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, table, tr, th, td, pre, code, script, style},
+    morekeywords=[2]{class, id, href, src, rel, type, charset, lang, name, content, style},
+    keywordstyle=[2]\color{purple!80!black},
+}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    filecolor=magenta,    
+    urlcolor=cyan,        
+    pdftitle={我的文档标题}, 
+}
+
+% ==================== 正文部分 ====================
+\begin{document}
+
+% 开启无页眉页脚模式（针对封面和目录）
+\pagestyle{empty}
+
+% ------------------ 美化封面页 ------------------
+\begin{titlepage}
+    \centering
+    % 顶部 TikZ 几何几何装饰条（全宽 bleed 效果）
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[blue!50!white] (current page.north west) rectangle ([yshift=-2cm]current page.north east);
+        \fill[grassgreen] (current page.north west) ++(0,-2cm) rectangle ([yshift=-2.2cm]current page.north east);
+    \end{tikzpicture}
+    
+    \vspace*{3.5cm}
+    
+    % 大标题
+    {\fontsize{30pt}{36pt}\selectfont\bfseries\color{blue!80!black} 计算机系统导论（ICS）}\\[0.6em]
+    % 副标题或英文标识
+    {\fontsize{14pt}{18pt}\selectfont\color{gray}\textsf{Introduction to Computer System}}\\[1cm]
+    
+    % 居中装饰线
+    \centering\makebox[4cm]{\color{grassgreen}\rule{5cm}{1.5pt}}
+    
+    \vfill
+    
+    % 使用 tcolorbox 包装的精致作者信息框
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.55\textwidth,
+        colback=blue!5!white,
+        colframe=blue!5!white,
+        boxrule=1.2pt,
+        arc=6pt,
+        sharp corners=downhill, % 别致的对角切角效果
+        shadow={2pt}{-2pt}{0pt}{black!20},
+        halign=center,
+        valign=center,
+        top=15pt, bottom=15pt
+    ]
+        {\large\bfseries\color{black!80} Author：} {\large\kaishu Simson} \\[0.6em]
+        {\large\bfseries\color{black!80} Date：} {\large\kaishu September 2026}
+    \end{tcolorbox}
+    
+    \vfill
+    \vspace*{2cm}
+    
+    % 底部标识
+    {\color{gray!80}\small\the\year\ \copyright\ All Rights Reserved.}
+\end{titlepage}
+
+\pagestyle{fancy}
+
+\newpage
+\tableofcontents
+\newpage
+
+% 设置从当前页（正文第一页）开始采用阿拉伯数字编码，并自动重置为第 1 页
+\pagenumbering{arabic}
+
+\section{基本介绍}
+
+本课程非常著名，使用的教材是CSAPP《深入理解计算机系统》
+
+\subsection{ICS的主要内容}
+\begin{itemize}
+    \item 机器语言和编译（编译优化生成机器语言）
+    \item 程序性能评估和优化
+    \item 存储结构组织和管理
+    \item 网络技术和协议
+    \item 并行计算相关知识
+\end{itemize}
+
+\subsection{CSAPP的主要章节}
+\begin{enumerate}
+    \item 数据类型及其表示：了解计算规律和数学算术规律的差别
+    \item 汇编程序和程序的机器级表示
+    \begin{itemize}
+        \item 了解程序执行模型，查找相关的程序错误（底层汇编代码工具）
+        \item 程序性能调优
+        \item 软件开发和系统软件
+        \item 安全性分析（汇编代码静态分析）
+    \end{itemize}
+    \item 处理器体系结构
+    \item 存储器层次结构：程序和数据在栈上的分布
+    \item 异常控制流（定制shell程序实验）
+    \begin{itemize}
+        \item 进程控制
+        \item 信号和信号处理
+    \end{itemize}
+    \item 虚拟内存：数据的布局和数据组织
+    \item 算法性能分析
+    \begin{itemize}
+        \item 内存性能影响程序性能
+        \item 程序编写符合缓存大小和性能
+    \end{itemize}
+    \item 计算机网络和并发编程（代理服务器）
+\end{enumerate}
+
+\section{信息的表示和处理}
+
+\subsection{信息的二进制表示}
+
+Reason : Binary presentation is the most practical system to use.
+
+\subsubsection{信息量的单位}
+
+bits是最基本的单位。
+
+Byte = 8 bits
+
+\subsubsection{Boolean Algebra}
+逻辑运算的代数表示，与，或，非，异或。
+
+用boolean代数的表示方法，可以将与或非异或运算对应到交并补差等集合运算
+
+\subsubsection{数据的表示}
+
+\paragraph{Unsigned 数据}
+
+直接转换二进制存储
+
+\[
+B2U(X) = \sum_{i = 0}^{w - 1} 2 ^ i 
+\]
+
+范围：
+
+\[
+Umin = 0 ,\qquad
+Umax = 2^{w} - 1
+\]
+\paragraph{Signed 数据}
+
+负数原来使用源码表示，正负0不好区分等问题最终弃用，改为补码（Two's Complement）。
+最高位为符号位，0为正数，1为负数
+
+\[
+B2T(X) = -2 ^ {w - 1} + \sum_{i = 0}^{w - 2} 2 ^ i 
+\]
+
+负数的补码等于模减去该负数的绝对值；对于某一确定的模，某数减去小于模的另一个数，总可以用另一个数字加上该数字的补码来确定
+
+范围：
+
+\[
+Tmin = -2^{w-1} , \qquad
+Tmax = 2 ^{w-1} - 1
+\]
+
+\begin{fancybox}{Example}
+\[10 \to 01010\]
+\[-10 \to 10110 \]
+\[-1 \to 11111111...\](全是1)
+\end{fancybox}
+
+在编程中，有不同计算机的long类型有关键字可以跨平台进行。
+
+\begin{lstlisting}[style=MyCppStyle]
+#include<limits.h>
+
+LONG_MAX
+LONG_MIN
+
+\end{lstlisting}
+
+在C语言中，常量如果不加U,则默认为有符号数。加U则认为无符号数。
+
+类型的转换相当于先转换为二进制表示，再对于同一个二进制串使用不同的方式进行解读。
+在进行数值比较的时候，如果有无符号数同时出现，自动转换为无符号数字。
+
+存储大小如果变大，在高位复制填入符号位直到填满为止，操作称为扩充。
+存储大小如果缩小，直接按照所需的位数进行溢出截断，相当于对$2^n$进行取模运算
+
+\subsection{C语言的运算}
+
+C语言中，将数据看作二进制向量进行处理。
+
+\begin{itemize}
+    \item 算术运算
+    \item 逻辑运算
+    \item 移位运算
+\end{itemize}
+
+\subsubsection{算术运算}
+
+和位相关，直接按位进行Boolean代数运算。
+
+\subsubsection{逻辑运算}
+
+主要是逻辑与，逻辑或
+
+\subsubsection{移位运算}
+
+左移：右侧补0
+右移：分算术右移和逻辑右移，逻辑右移直接向右移动高位补0,算术右移右移补符号位
+
+\subsubsection{C语言的计算}
+
+\paragraph{C语言加法}
+
+首先是无符号数字的加法，首先是二进制加法，有可能发生溢出，相当于取模运算，最多取模一次
+
+\[
+Uadd(u, v) = u + v mod 2^w
+\]
+
+有符号数字的加法在bit位上有与无符号数完全相同的行为。如果计算结果超出了范围，可能发生正溢出，也可能发生负溢出。
+
+\[
+\boxed{
+\begin{aligned}
+\operatorname{TAdd}_w(u,v)
+&=
+\begin{cases}
+u+v+2^w, & u+v<TMin_w \quad \text{\textbf{(NegOver)}} \\[4pt]
+u+v, & TMin_w\le u+v\le TMax_w \\[4pt]
+u+v-2^w, & TMax_w<u+v \quad \text{\textbf{(PosOver)}}
+\end{cases}
+\end{aligned}
+}
+\]
+
+\paragraph{C语言乘法}
+
+乘法发生溢出的情况可能更多，可能需要算法包进行扩展，增大存储范围。
+
+\[
+Umult(u, v) = u \dot v mod 2^w
+\]
+
+由于可能发生正负溢出，所以TMult有时候和UMult相比会出现不同的正负性。
+
+乘法的具体操作是使用左右移动的方法，将乘数分解为二进制。左移k位，相当乘2的k次幂。
+
+\paragraph{C语言除法}
+
+除法相对于乘法，采用右移的方式来实现。除法涉及到向上取整的问题。
+
+\subsection{信息的表示和存储}
+
+内存就是一个大型的数组，以word为单位存储。程序通过地址访问内存中的程序。
+内存中最基本的单位是字，一个地址占据的空间大小称为字长；这个参数决定了地址在内存中的分布。
+系统会按照字节进行编址和寻址。常见的系统是32-bit或者64-bit，指的是一个地址空间对应的比特位。
+
+一个多字节的数据，例如一个整数，占据4个字节。根据多字节数据在内存中排布的字节顺序，决定了两种存储模式。
+大端法指的是：最小的有效位置放在最大的地址，反之小端法最小的有效数字放在最小地址（地址的标示是整数）， 
+需要注意的是Internet的存储方式是使用大端法。
+
+每个字符只占据一个字节，所以字符串的存储不受到大小端法的影响，可以用字符串起到标示和检查的效果。
+
+\end{document}

@@ -1,0 +1,188 @@
+'\" t
+.\"     Title: miktex-dvicopy
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-DVICOPY" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-dvicopy \- produce modified copy of DVI file
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\-dvicopy\fR\ 'u
+\fBmiktex\-dvicopy\fR [\fIoption\fR...] \fIindvi\fR \fIoutdvi\fR
+.SH "DESCRIPTION"
+.PP
+This man page is an adaption of the corresponding
+TeX Live
+man page\&.
+.PP
+\fBmiktex\-dvicopy\fR
+reads a
+DVI
+file, expands any references to virtual fonts to base fonts, and writes the resulting
+DVI
+file\&. Thus you can use virtual fonts
+.\" virtual fonts: resolving
+even if your
+DVI
+processor does not support them, by passing the documents through
+\fBmiktex\-dvicopy\fR
+first\&.
+.SH "OPTIONS"
+.PP
+\fB\-\-alias=\fR\fB\fIname\fR\fR
+.RS 4
+Pretend to be program
+\fIname\fR, i\&.e\&., set program (and memory dump) name to
+\fIname\fR\&.
+.\" --alias=name
+This may affect the search paths and other values used\&. Using this option is equivalent to copying the program file to
+\fIname\fR
+and invoking
+\fIname\fR\&.
+.RE
+.PP
+\fB\-\-disable\-installer\fR
+.RS 4
+Disable automatic installation of packages\&.
+.\" --disable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-enable\-installer\fR
+.RS 4
+Enable automatic installation of packages\&.
+.\" --enable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+.\" --help
+Give help and exit\&.
+.RE
+.PP
+\fB\-\-hhelp\fR
+.RS 4
+.\" --hhelp
+This option is only available on
+Windows
+systems: show the manual page in an HTML Help window and exit when the window is closed\&.
+.RE
+.PP
+\fB\-\-include\-directory=\fR\fB\fIdir\fR\fR
+.RS 4
+Add the directory
+\fIdir\fR
+to the
+.\" --include-directory=dir
+head of the list of directories to be searched for input files\&.
+.RE
+.PP
+\fB\-\-mag=\fR\fB\fImag\fR\fR
+.RS 4
+.\" --mag=mag
+Override existing magnification with
+\fImag\fR\&.
+.RE
+.PP
+\fB\-\-max\-pages=\fR\fB\fIn\fR\fR
+.RS 4
+.\" --max-pages=n
+Process
+\fIn\fR
+pages; default one million\&. This option cannot be used together with
+\fB\-\-select\fR\&.
+.RE
+.PP
+\fB\-\-page\-start=\fR\fB\fIpagespec\fR\fR
+.RS 4
+.\" --page-start=pagespec
+Start at
+\fIpage\-spec\fR, for example 2 or 5\&.*\&.\-2\&. This option cannot be used together with
+\fB\-\-select\fR\&.
+.RE
+.PP
+\fB\-\-record\-package\-usages=\fR\fB\fIfile\fR\fR
+.RS 4
+Record all package usages and write
+.\" --record-package-usages=file
+them into
+\fIfile\fR\&.
+.RE
+.PP
+\fB\-\-select=\fR\fB\fIsel\fR\fR
+.RS 4
+.\" --select=sel
+Select pages to be copied\&.
+.sp
+The syntax for
+\fIsel\fR
+is:
+\fB\fIstart\fR\fR\fB [\fR\fB\fIn\fR\fR\fB]\fR, where
+\fIstart\fR
+is the starting page specification (for example
+\fB2\fR
+or
+\fB5\&.*\&.\-2\fR) and
+\fIn\fR
+(optional) is the maximum number of pages to be copied\&.
+.sp
+You can use up to
+10\fB\-\-select\fR
+options\&. This option cannot be used together with
+\fB\-\-max\-pages\fR
+or
+\fB\-\-page\-start\fR\&.
+.RE
+.PP
+\fB\-\-trace\fR\fB[=\fItracestreams\fR]\fR
+.RS 4
+Enable trace messages\&.
+.\" --trace=tracestreams
+The
+\fItracestreams\fR
+argument, if specified, is a comma\-separated list of trace stream names (Chapter\ \&9, Trace Streams)\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Show version information and exit\&.
+.RE
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE

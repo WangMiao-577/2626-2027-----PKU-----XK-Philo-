@@ -1,0 +1,168 @@
+'\" t
+.\"     Title: mthelp
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MTHELP" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+mthelp \- MiKTeX help utility
+.SH "SYNOPSIS"
+.HP \w'\fBmthelp\fR\ 'u
+\fBmthelp\fR [\fIoption\fR...] {\fIname\fR...}
+.SH "DESCRIPTION"
+.PP
+\fBmthelp\fR
+is a utility to look up
+MiKTeX
+related documentation\&.
+.PP
+\fBmthelp\fR
+creates an
+HTML
+page which contains a short description of the package together with links to all documentation files\&. An
+HTML
+viewer is started to view the page\&.
+.PP
+You can use the
+\fB\-\-view\fR
+to bypass the intermediate
+HTML
+file\&.
+.PP
+\fIname\fR
+should be the name of a package in the
+TeX
+distribution\&.
+.SH "OPTIONS"
+.PP
+\fB\-\-list\-only\fR
+.RS 4
+List documentation files, but do not start a viewer\&.
+.RE
+.PP
+\fB\-\-print\-only\fR
+.RS 4
+Print the command that would be executed to view the documentation, but do not start the command\&.
+.RE
+.PP
+\fB\-\-quiet\fR
+.RS 4
+.\" --quiet
+Suppress all output, except errors\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Show version information and exit\&.
+.RE
+.PP
+\fB\-\-view\fR
+.RS 4
+Open the main documenation file in a viewer\&.
+.RE
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE
+.PP
+\fBMIKTEX_VIEW_dvi\fR
+.RS 4
+DVI
+viewer\&.
+.RE
+.PP
+\fBMIKTEX_VIEW_pdf\fR
+.RS 4
+PDF
+viewer\&.
+.RE
+.PP
+\fBMIKTEX_VIEW_ps\fR
+.RS 4
+PostScript
+viewer\&.
+.RE
+.PP
+\fBMIKTEX_VIEW_html\fR
+.RS 4
+HTML
+viewer\&.
+.RE
+.PP
+\fBMIKTEX_VIEW_txt\fR
+.RS 4
+Text viewer\&.
+.RE
+.PP
+The environment variables should be set with a
+\(lq%f\(rq
+as a placeholder for the name of the file\&. For example:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+> \fBMIKTEX_VIEW_pdf="gv %f"\fR
+.fi
+.if n \{\
+.RE
+.\}
+.SH "FILES"
+.PP
+The intermediate
+HTML
+file (\fIpackage\fR\&.html) is stored in the directory
+miktex/mthelp
+relative to the data
+TEXMF
+data root (usually
+~/\&.miktex/texmfs/data)\&.
+.SH "SEE ALSO"
+.PP
+\m[blue]\fBMiKTeX Project Page\fR\m[]\&\s-2\u[1]\d\s+2
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE
+.SH "NOTES"
+.IP " 1." 4
+MiKTeX Project Page
+.RS 4
+\%https://miktex.org/
+.RE

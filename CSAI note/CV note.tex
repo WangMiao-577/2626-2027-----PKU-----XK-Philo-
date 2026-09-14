@@ -1,0 +1,296 @@
+\documentclass{ctexart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{soulutf8}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\pgfplotsset{compat=newest}
+\usepackage{tikz}
+\usepackage{xcolor} % 用于颜色设置
+\usepackage{listings} % 用于代码块
+\usepackage{fontspec} % 关键：用于使用系统字体 (XeLaTeX/LuaLaTeX)
+% Linux 环境中没有 Windows 宋体时，使用可用的中文衬线字体作为宋体替代
+\setCJKmainfont{Noto Serif CJK SC}
+\usepackage{authblk}
+\usepackage[
+    colorlinks=true,      % 使用颜色而非方框
+    linkcolor=blue,       % 内部链接颜色
+    citecolor=green,      % 引用链接颜色
+    urlcolor=red,         % URL 链接颜色
+    bookmarks=true,       % 生成 PDF 书签
+    bookmarksopen=true,   % 默认展开书签
+    pdfstartview=FitH     % 页面宽度适应窗口
+]{hyperref}
+
+\sethlcolor{yellow}%设置所需高亮颜色
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+% 页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% 定义草绿色
+\definecolor{grassgreen}{RGB}{124,179,66}
+% 补全缺失的浅蓝色定义（防止编译报错）
+\definecolor{lightblue}{RGB}{30,144,255} 
+
+% 清空默认
+\fancyhf{}
+\setlength{\headheight}{14pt}
+
+% 页眉
+\fancyhead[L]{\textcolor{lightblue}{\kaishu Computer Vision}}
+\fancyhead[R]{\textcolor{lightblue}{\textit{2026.9-2027.1}}}
+
+% 页脚页码居中
+\fancyfoot[C]{\textcolor{lightblue}{\thepage}}
+
+% 页眉、页脚线颜色
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\renewcommand{\footrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\newtcolorbox{fancybox}[2][blue]{ % 可选颜色参数
+  enhanced,
+  breakable,
+    colback=#1!3!white,
+    colframe=#1!18!white,
+    boxrule=0.8pt,
+    arc=6pt,
+    outer arc=6pt,
+  left=10pt,right=10pt,top=12pt,bottom=10pt,
+  title={\textbf{#2}},
+    fonttitle=\bfseries\color{#1!65!black},
+  attach boxed title to top left={yshift=-2mm,xshift=5mm},
+  boxed title style={
+        colback=#1!8!white,
+        colframe=#1!18!white,
+        boxrule=0.6pt,
+        arc=4pt,
+  },
+    shadow={1.5pt}{-1.5pt}{0pt}{black!10},
+}
+
+% 定义一套适合C++的配色方案
+\usepackage{tabularx}
+\newfontfamily{\consolasfont}{Ubuntu}
+
+\newcommand{\bluecode}[1]{{\color{blue}\consolasfont #1}}
+\lstdefinestyle{MyCppStyle}{
+    language = C++,
+    % 确保这里使用 \consolasfont
+    basicstyle = \consolasfont\small, 
+    keywordstyle = \color{blue!70!black}, 
+    commentstyle = \color{green!50!black}, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+}
+% --- lstdefinestyle HTML 风格定义 ---
+\lstdefinestyle{mhtml}{
+    language = HTML,
+    basicstyle = \consolasfont\small, 
+    tagstyle = \color{blue!70!black}\bfseries,
+    keywordstyle = \color{purple!80!black},
+    commentstyle = \color{green!50!black}\itshape, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+    morekeywords={als, doctype, html, head, title, meta, link, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, table, tr, th, td, pre, code, script, style},
+    morekeywords=[2]{class, id, href, src, rel, type, charset, lang, name, content, style},
+    keywordstyle=[2]\color{purple!80!black},
+}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    filecolor=magenta,    
+    urlcolor=cyan,        
+    pdftitle={我的文档标题}, 
+}
+
+% ==================== 正文部分 ====================
+\begin{document}
+
+% 开启无页眉页脚模式（针对封面和目录）
+\pagestyle{empty}
+
+% ------------------ 美化封面页 ------------------
+\begin{titlepage}
+    \centering
+    % 顶部 TikZ 几何几何装饰条（全宽 bleed 效果）
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[blue!50!white] (current page.north west) rectangle ([yshift=-2cm]current page.north east);
+        \fill[grassgreen] (current page.north west) ++(0,-2cm) rectangle ([yshift=-2.2cm]current page.north east);
+    \end{tikzpicture}
+    
+    \vspace*{3.5cm}
+    
+    % 大标题
+    {\fontsize{30pt}{36pt}\selectfont\bfseries\color{blue!80!black} 计算机视觉（CV）}\\[0.6em]
+    % 副标题或英文标识
+    {\fontsize{14pt}{18pt}\selectfont\color{gray}\textsf{Computer Vision}}\\[1cm]
+    
+    % 居中装饰线
+    \centering\makebox[4cm]{\color{grassgreen}\rule{5cm}{1.5pt}}
+    
+    \vfill
+    
+    % 使用 tcolorbox 包装的精致作者信息框
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.55\textwidth,
+        colback=blue!5!white,
+        colframe=blue!5!white,
+        boxrule=1.2pt,
+        arc=6pt,
+        sharp corners=downhill, % 别致的对角切角效果
+        shadow={2pt}{-2pt}{0pt}{black!20},
+        halign=center,
+        valign=center,
+        top=15pt, bottom=15pt
+    ]
+        {\large\bfseries\color{black!80} Author：} {\large\kaishu Simson} \\[0.6em]
+        {\large\bfseries\color{black!80} Date：} {\large\kaishu September 2026}
+    \end{tcolorbox}
+    
+    \vfill
+    \vspace*{2cm}
+    
+    % 底部标识
+    {\color{gray!80}\small\the\year\ \copyright\ All Rights Reserved.}
+\end{titlepage}
+
+\pagestyle{fancy}
+
+\newpage
+\tableofcontents
+\newpage
+
+% 设置从当前页（正文第一页）开始采用阿拉伯数字编码，并自动重置为第 1 页
+\pagenumbering{arabic}
+
+这是计算机视觉（CV）的课堂笔记，笔记参考PPT和课程教材，课堂PPT为英文，尽量写成中文版
+
+\section{计算机视觉简介}
+
+\subsection{计算机视觉概念}
+
+``Make computers see.''
+
+\begin{itemize}
+\item 输入：光学采样（optical sampling）得到的图像、视频或其他传感器数据。
+\item 输出：三维场景表示和重建（3D scene representation and reconstruction），以及物体和场景的语义（semantic）。
+\item 目标：将光学输入转换为语义和结构，回答“图像中有什么、在哪里、是什么，以及接下来可能发生什么”。
+\end{itemize}
+
+\subsection{计算机视觉的历史脉络（History of Computer Vision）}
+
+计算机视觉并不是一开始就等同于“识别图片中的物体”。它的发展始终围绕一个核心问题展开：如何把二维图像中的光照、颜色和几何信息，转换为对现实世界中物体、场景和行为的可计算理解。
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{萌芽阶段：从成像到图像处理（Image Formation and Image Processing）。}
+    摄影术、照相机和光学成像理论为计算机视觉提供了数据来源。计算机出现后，研究者首先关注图像的数字化、去噪、增强、边缘检测（edge detection）和分割（segmentation）等问题。这一时期的重点是回答“图像中有哪些可测量的结构”，而不是直接理解图像内容。
+
+    \item \textbf{早期人工智能阶段：把视觉看作符号推理（Symbolic Reasoning）。}
+    20世纪60年代，计算机视觉逐渐成为人工智能（Artificial Intelligence）的研究方向。早期系统尝试从线条、角点和简单几何图形中恢复物体结构，并将视觉结果交给符号系统进行推理。由于真实图像受到遮挡、噪声、光照变化和视角变化的影响，这类依赖人工规则的方法很难扩展到复杂场景。
+
+    \item \textbf{理论化阶段：视觉的多层表示（Hierarchical Representation）。}
+    David Marr 提出视觉处理可以分为多个层次：原始图像（primal sketch）、二维半描述（2.5D sketch）以及三维模型（3D model representation）。这一观点强调，视觉不是一次性完成的分类，而是从图像证据逐步构造几何和语义表示（representation）的过程，对后来的三维重建（3D reconstruction）和场景理解（scene understanding）影响深远。
+
+    \item \textbf{经典特征阶段：从人工特征到统计学习（Hand-crafted Features and Statistical Learning）。}
+    20世纪90年代至21世纪初，研究者设计了 SIFT（Scale-Invariant Feature Transform）、HOG（Histogram of Oriented Gradients）等局部或区域特征，并结合支持向量机（Support Vector Machine, SVM）等分类器完成识别任务。随后出现的 Viola--Jones 人脸检测器展示了级联分类器（cascade classifier）在实际应用中的效率。这一阶段的典型流程是“特征提取（feature extraction）+ 分类器（classifier）”。
+
+    \item \textbf{深度学习阶段：学习视觉表示（Deep Learning）。}
+    大规模数据集、图形处理器（Graphics Processing Unit, GPU）和反向传播（backpropagation）共同推动了卷积神经网络（Convolutional Neural Network, CNN）的发展。2012 年 AlexNet 在 ImageNet 图像分类任务上的成功，使端到端学习（end-to-end learning）成为主流：模型不再完全依赖人工设计特征，而是从数据中联合学习特征和任务目标。目标检测（object detection）、语义分割（semantic segmentation）和实例分割（instance segmentation）也因此获得了显著进步。
+
+    \item \textbf{当前阶段：视觉基础模型（Vision Foundation Models）。}
+    近年来，视觉 Transformer（Vision Transformer, ViT）、视觉语言模型（Vision-Language Model, VLM）和多模态大模型（multimodal large model）逐渐成为重要方向。模型可以在大规模图像、文本或视频上进行预训练（pre-training），再通过微调（fine-tuning）或提示学习（prompting）适应下游任务。研究重点也从单一分类任务扩展到图像生成（image generation）、视频理解（video understanding）、三维感知（3D perception）以及具身智能（embodied intelligence）。
+\end{enumerate}
+
+\subsection{计算机视觉概论（Overview of Computer Vision）}
+
+计算机视觉（Computer Vision, CV）研究如何使计算机从图像和视频中提取信息，并据此完成测量、识别、预测和决策。常用的概括是 ``Make computers see''，但这里的 ``see'' 并不只是把像素读入内存，而是建立从视觉观测（visual observation）到世界模型（world model）的联系。
+
+从信息处理的角度看，计算机视觉通常包含以下三个层次：
+
+\begin{itemize}
+    \item \textbf{成像与感知（Imaging and Sensing）：}通过相机（camera）、深度传感器（depth sensor）、激光雷达（LiDAR）等设备获得图像或视频。需要考虑投影模型（projection model）、光照（illumination）、噪声（noise）和相机标定（camera calibration）。
+    \item \textbf{表示与理解（Representation and Understanding）：}将像素转换为边缘、关键点（keypoint）、纹理（texture）、物体、姿态（pose）和场景结构等表示，并理解物体之间的空间关系。
+    \item \textbf{推理与行动（Inference and Action）：}根据视觉表示完成分类（classification）、检测（detection）、跟踪（tracking）、三维重建（3D reconstruction）、预测（prediction）或控制（control）。
+\end{itemize}
+
+按照任务目标，计算机视觉问题可以分为几何视觉（geometric vision）、识别视觉（recognition）、场景理解（scene understanding）和生成视觉（generative vision）等方向。几何视觉关注相机、点、线、平面和三维结构之间的关系；识别视觉关注“图像中有什么”；场景理解进一步回答“它们在哪里、如何相互作用”；生成视觉则根据图像或文本条件生成新的视觉内容。
+
+计算机视觉与图像处理（Image Processing）、计算机图形学（Computer Graphics）、模式识别（Pattern Recognition）和机器学习（Machine Learning）关系密切，但关注点并不完全相同：图像处理主要改变或恢复图像，图形学主要从模型生成图像，而计算机视觉主要从图像反推出物体、场景和行为。实际系统通常会综合使用这些领域的方法。
+
+\subsection{为什么计算机视觉很难（Why Is Computer Vision Hard?）}
+
+计算机看到的首先不是“猫”“汽车”或“街道”，而是一组离散的数字。对于一张 RGB 图像（RGB image），每个像素通常由三个颜色通道组成，数值记录的是光在成像平面上的采样结果。计算机需要从例如 $800\times600\times3$ 的数值矩阵中恢复物体、材质、空间位置和正在发生的动作，这中间存在明显的语义鸿沟（semantic gap）。
+
+此外，图像是三维世界在二维平面上的投影（2D projection of the 3D world）。同一个物体在不同视点、光照和距离下可能产生差异很大的图像；反过来，不同的三维场景也可能投影为相同或非常相似的二维图像。因此，从图像恢复真实场景本质上是一个不适定逆问题（ill-posed inverse problem），通常需要引入先验知识（prior knowledge）、物理假设（physical assumptions）或数据驱动的统计规律（data-driven statistics）。
+
+典型困难包括：
+
+\begin{itemize}
+    \item \textbf{视点变化（viewpoint variation）：}相机位置或观察方向变化会改变物体的外观、可见表面和投影形状。
+    \item \textbf{形变（deformation）：}人体、动物、布料等非刚体（non-rigid object）会改变姿态和局部结构。
+    \item \textbf{遮挡（occlusion）：}物体可能被其他物体遮住，系统只能根据不完整的观测推断整体。
+    \item \textbf{光照变化（illumination variation）：}阴影、反射、曝光和光源方向会改变像素值，但不一定改变物体本身。
+    \item \textbf{运动（motion）：}物体和相机都可能运动，导致运动模糊（motion blur）、目标位移和对应关系变化。
+    \item \textbf{局部歧义（local ambiguity）：}局部纹理或轮廓可能对应多个合理解释，例如错觉图形中的边界并不唯一。
+    \item \textbf{类内差异与类间相似（intra-class variation and inter-class similarity）：}同一类别的物体可能外观差异很大，而不同类别的物体可能具有相似形状或颜色。
+\end{itemize}
+
+因此，视觉系统不仅要完成感知（perception），还要完成测量（measurement）和推理（reasoning）。一个系统能够准确分类，并不意味着它已经恢复了可靠的几何结构；同样，能够测量深度的系统，也未必理解场景中的语义关系。
+
+\subsection{计算机视觉的发展波次（Waves of Computer Vision）}
+
+按照研究问题和主要技术路线，计算机视觉的发展可以概括为以下几个阶段：
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{启发式视觉（1960--1970，Heuristic Vision）：}研究集中于积木世界（blocks world）、边缘和符号人工智能（symbolic AI）。Larry Roberts 的 Blocks World 试图从二维线条的拓扑结构推断物体的三维结构；1966 年 MIT Summer Vision Project 则体现了早期对视觉问题复杂度的低估。
+    \item \textbf{低层视觉（1970--1981，Low-level Vision）：}研究者转向更基础的几何和物理问题，包括阴影形状（shape from shading）、本征图像（intrinsic images）、光度立体（photometric stereo）、双目立体（stereo）、光流（optical flow）和极几何（epipolar geometry）。这些方法说明，视觉理解必须先处理图像形成和空间对应关系。
+    \item \textbf{神经网络萌芽（1985--1989，Early Neural Networks）：}反向传播算法（backpropagation）使基于梯度的表示学习成为可能，早期神经网络开始用于视觉识别；但受限于数据、算力和网络规模，神经网络尚未成为主流。
+    \item \textbf{三维几何阶段（1990--2000，3D Geometry）：}稠密立体（dense stereo）、多视图立体（multi-view stereo）和结构光等方法不断发展，研究重点是从多个图像恢复场景几何。
+    \item \textbf{特征工程阶段（2000--2010，Feature Engineering）：}SIFT、HOG 等特征描述子（feature descriptor）和结构从运动（Structure from Motion, SfM）推动了目标识别、图像匹配和大规模照片建模。Kinect 等深度传感器也促进了三维姿态估计和机器人视觉的发展。
+    \item \textbf{深度学习阶段（2010 至今，Deep Learning）：}ImageNet 提供了大规模标注数据，GPU 提供了训练深层网络的计算能力，AlexNet 在 2012 年 ImageNet 竞赛中的成功由此成为转折点。随后 VGGNet、ResNet、语义分割网络和 Mask R-CNN 等方法将学习式表示扩展到分类、检测、分割和结构化预测。
+\end{enumerate}
+
+近年来，视觉研究进一步从二维识别扩展到三维和跨模态任务。三维深度学习（3D deep learning）开始处理体素（voxel）、点云（point cloud）、网格（mesh）和隐式表示（implicit representation）；NeRF（Neural Radiance Field）通过学习体渲染函数（volumetric rendering function）实现复杂场景的新视角合成（novel view synthesis）；视觉语言模型（Vision-Language Model, VLM）则把图像与文本联系起来，支持图像描述（image captioning）、视觉问答（Visual Question Answering, VQA）和文本生成图像（text-to-image generation）。
+
+\subsection{本课程的内容地图（Course Roadmap）}
+
+根据计算机视觉的主要问题，本课程可以分为三个相互联系的模块：
+
+\begin{itemize}
+    \item \textbf{图像处理与成像（Image Processing and Image Formation）：}研究图像如何产生、如何表示，以及去噪、增强、滤波、特征提取和图像拼接（image stitching）等基本操作。
+    \item \textbf{三维视觉（3D Vision）：}研究特征与匹配（features and matching）、从阴影恢复形状、结构从运动、双目和多视图立体重建（stereo reconstruction）等问题。
+    \item \textbf{计算机视觉深度学习（Deep Learning for Computer Vision）：}学习机器学习基础、卷积神经网络、Transformer、表示学习（representation learning）、目标检测和语义/实例分割。
+\end{itemize}
+
+这三个模块并不是彼此孤立的：图像形成决定了观测数据的性质，几何方法提供空间约束，深度学习则可以从大规模数据中学习更加稳定的表示。一个完整的视觉系统通常需要把成像模型、几何推理和数据驱动模型结合起来。
+
+
+
+\end{document}

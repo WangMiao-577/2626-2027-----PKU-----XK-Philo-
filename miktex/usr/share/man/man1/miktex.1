@@ -1,0 +1,214 @@
+'\" t
+.\"     Title: miktex
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex \- One MiKTeX Utility
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\fR\ 'u
+\fBmiktex\fR [\fIcommon\-option\fR...] \fItopic\fR \fIcommand\fR [\fIcommand\-option\-or\-parameter\fR...]
+.SH "DESCRIPTION"
+.PP
+\fBmiktex\fR
+is the utility to configure and maintain a
+MiKTeX
+installation\&.
+.SH "USER MODE VS. ADMINISTRATOR MODE"
+.PP
+This utility can be run in two modes:
+.PP
+User mode (default)
+.RS 4
+MiKTeX
+operates on user\-scoped configuration and data files\&.
+.RE
+.PP
+Administrator mode
+.RS 4
+Only system\-wide
+MiKTeX
+configuration and data files are modified, assuming that the
+MiKTeX
+setup is shared by all users\&. The utility must be run with administrator privileges\&.
+.RE
+.PP
+By default, the utility runs in user mode\&. You can turn on administrator mode with the
+\fB\-\-admin\fR
+option\&. For example, if you want to update the system\-wide file name database, you invoke the utility as follows:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+> \fBmiktex \-\-admin fndb refresh\fR
+.fi
+.if n \{\
+.RE
+.\}
+.SH "COMMON OPTIONS"
+.PP
+\fB\-\-admin\fR
+.RS 4
+Run in administrator mode:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Operate on the system\-wide
+MiKTeX
+configuration data store\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Install packages for all users\&.
+.RE
+.sp
+Using this option requires a shared
+MiKTeX
+setup, i\&.e\&.,
+MiKTeX
+must have been set up for all users\&. The program must be run with administrator privileges\&.
+.\" --admin
+.RE
+.PP
+\fB\-\-disable\-installer\fR
+.RS 4
+Disable automatic installation of packages\&.
+.\" --disable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-enable\-installer\fR
+.RS 4
+Enable automatic installation of packages\&.
+.\" --enable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-quiet\fR
+.RS 4
+.\" --quiet
+Suppress screen output\&.
+.RE
+.PP
+\fB\-\-verbose\fR
+.RS 4
+.\" --verbose
+Increase the verbosity level\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Print the version number and exit\&.
+.RE
+.SH "TOPICS"
+.PP
+\fBmiktex-diag\fR(1)
+.RS 4
+Commands for collecting
+MiKTeX
+diagnostic information\&.
+.RE
+.PP
+\fBmiktex-filesystem\fR(1)
+.RS 4
+Commands for watching the file system\&.
+.RE
+.PP
+\fBmiktex-filetypes\fR(1)
+.RS 4
+Commands for managing Windows file types\&.
+.RE
+.PP
+\fBmiktex-fndb\fR(1)
+.RS 4
+Commands for managing the
+MiKTeX
+file name database\&.
+.RE
+.PP
+\fBmiktex-fontmaps\fR(1)
+.RS 4
+Commands for managing
+PDF/PostScript
+font maps\&.
+.RE
+.PP
+\fBmiktex-formats\fR(1)
+.RS 4
+Commands for managing
+TeX
+formats and
+METAFONT
+bases\&.
+.RE
+.PP
+\fBmiktex-languages\fR(1)
+.RS 4
+Commands for managing
+LaTeX
+language definitions\&.
+.RE
+.PP
+\fBmiktex-links\fR(1)
+.RS 4
+Commands for managing links from scripts and formats to executables\&.
+.RE
+.PP
+\fBmiktex-packages\fR(1)
+.RS 4
+Commands for managing
+MiKTeX
+packages\&.
+.RE
+.PP
+\fBmiktex-repositories\fR(1)
+.RS 4
+Commands for managing
+MiKTeX
+package repositories\&.
+.RE
+.SH "SEE ALSO"
+\fBmiktex.ini\fR(5)

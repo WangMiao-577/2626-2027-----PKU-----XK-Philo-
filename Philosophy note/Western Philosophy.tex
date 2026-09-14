@@ -1,0 +1,266 @@
+% chktex-file 0
+\documentclass{ctexart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{soulutf8}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\pgfplotsset{compat=newest}
+\usepackage{tikz}
+\usepackage{xcolor} % 用于颜色设置
+\usepackage{listings} % 用于代码块
+\usepackage{fontspec} % 关键：用于使用系统字体 (XeLaTeX/LuaLaTeX)
+% Linux 环境中没有 Windows 宋体时，使用可用的中文衬线字体作为宋体替代
+\setCJKmainfont{Noto Serif CJK SC}
+\usepackage{authblk}
+\usepackage[
+    colorlinks=true,      % 使用颜色而非方框
+    linkcolor=blue,       % 内部链接颜色
+    citecolor=green,      % 引用链接颜色
+    urlcolor=red,         % URL 链接颜色
+    bookmarks=true,       % 生成 PDF 书签
+    bookmarksopen=true,   % 默认展开书签
+    pdfstartview=FitH     % 页面宽度适应窗口
+]{hyperref}
+
+\sethlcolor{yellow}%设置所需高亮颜色
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+% 页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% 定义草绿色
+\definecolor{grassgreen}{RGB}{124,179,66}
+% 补全缺失的浅蓝色定义（防止编译报错）
+\definecolor{lightblue}{RGB}{30,144,255} 
+
+% 清空默认
+\fancyhf{}
+
+% 页眉
+\fancyhead[L]{\textcolor{lightblue}{\kaishu Western Philosophy}}
+\fancyhead[R]{\textcolor{lightblue}{\textit{2026.9-2027.1}}}
+
+% 页脚页码居中
+\fancyfoot[C]{\textcolor{lightblue}{\thepage}}
+
+% 页眉、页脚线颜色
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\renewcommand{\footrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\newtcolorbox{fancybox}[2][blue]{ % 可选颜色参数
+  enhanced,
+  breakable,
+    colback=#1!3!white,
+    colframe=#1!18!white,
+    boxrule=0.8pt,
+    arc=6pt,
+    outer arc=6pt,
+  left=10pt,right=10pt,top=12pt,bottom=10pt,
+  title={\textbf{#2}},
+    fonttitle=\bfseries\color{#1!65!black},
+  attach boxed title to top left={yshift=-2mm,xshift=5mm},
+  boxed title style={
+        colback=#1!8!white,
+        colframe=#1!18!white,
+        boxrule=0.6pt,
+        arc=4pt,
+  },
+    shadow={1.5pt}{-1.5pt}{0pt}{black!10},
+}
+
+% 定义一套适合C++的配色方案
+\usepackage{tabularx}
+\newfontfamily{\consolasfont}{Ubuntu}
+
+\newcommand{\bluecode}[1]{{\color{blue}\consolasfont #1}}
+\lstdefinestyle{MyCppStyle}{
+    language = C++,
+    % 确保这里使用 \consolasfont
+    basicstyle = \consolasfont\small, 
+    keywordstyle = \color{blue!70!black}, 
+    commentstyle = \color{green!50!black}, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+}
+% --- lstdefinestyle HTML 风格定义 ---
+\lstdefinestyle{mhtml}{
+    language = HTML,
+    basicstyle = \consolasfont\small, 
+    tagstyle = \color{blue!70!black}\bfseries,
+    keywordstyle = \color{purple!80!black},
+    commentstyle = \color{green!50!black}\itshape, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+    morekeywords={als, doctype, html, head, title, meta, link, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, table, tr, th, td, pre, code, script, style},
+    morekeywords=[2]{class, id, href, src, rel, type, charset, lang, name, content, style},
+    keywordstyle=[2]\color{purple!80!black},
+}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    filecolor=magenta,    
+    urlcolor=cyan,        
+    pdftitle={我的文档标题}, 
+}
+
+% ==================== 正文部分 ====================
+\begin{document}
+
+% 开启无页眉页脚模式（针对封面和目录）
+\pagestyle{empty}
+
+% ------------------ 美化封面页 ------------------
+\begin{titlepage}
+    \centering
+    % 顶部 TikZ 几何几何装饰条（全宽 bleed 效果）
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[blue!50!white] (current page.north west) rectangle ([yshift=-2cm]current page.north east);
+        \fill[grassgreen] (current page.north west) ++(0,-2cm) rectangle ([yshift=-2.2cm]current page.north east);
+    \end{tikzpicture}
+    
+    \vspace*{3.5cm}
+    
+    % 大标题
+    {\fontsize{30pt}{36pt}\selectfont\bfseries\color{blue!80!black} 西方哲学(下)}\\[0.6em]
+    % 副标题或英文标识
+    {\fontsize{14pt}{18pt}\selectfont\color{gray}\textsf{Western Philosophy}}\\[1cm]
+    
+    % 居中装饰线
+    \centering\makebox[4cm]{\color{grassgreen}\rule{5cm}{1.5pt}}
+    
+    \vfill
+    
+    % 使用 tcolorbox 包装的精致作者信息框
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.55\textwidth,
+        colback=blue!5!white,
+        colframe=blue!5!white,
+        boxrule=1.2pt,
+        arc=6pt,
+        sharp corners=downhill, % 别致的对角切角效果
+        shadow={2pt}{-2pt}{0pt}{black!20},
+        halign=center,
+        valign=center,
+        top=15pt, bottom=15pt
+    ]
+        {\large\bfseries\color{black!80} Author：} {\large\kaishu Simson} \\[0.6em]
+        {\large\bfseries\color{black!80} Date：} {\large\kaishu September 2026}
+    \end{tcolorbox}
+    
+    \vfill
+    \vspace*{2cm}
+    
+    % 底部标识
+    {\color{gray!80}\small\the\year\ \copyright\ All Rights Reserved.}
+\end{titlepage}
+
+\pagestyle{fancy}
+
+\newpage
+\tableofcontents
+\newpage
+
+% 设置从当前页（正文第一页）开始采用阿拉伯数字编码，并自动重置为第 1 页
+\pagenumbering{arabic}
+
+这份是西方哲学（下）的课程笔记，内容为早期近代哲学
+（early modern philosophy）按照时间顺序梳理这一
+这一时期哲学家的主要观点和论证。基本上的顺序是从Discart到Kant
+的哲学史。
+
+\section{近代哲学的背景}
+
+\subsection{近代历史的奠基}
+Discart（1596）16世纪末期出生，一般认为他是近代哲学的开端。
+所以研究近代哲学，应当研究16世纪的历史变化。重要的变化有以下
+几个：
+
+\begin{itemize}
+    \item 大航海时代（航路开辟，征服美洲）
+    \item 文艺复兴，人文主义（文艺复兴高峰，北方文艺复兴）
+    
+    把握人文主义者的初衷和气质特征，反对中世纪发展成熟的技术化哲学
+    \item 宗教改革（马丁·路德）
+\end{itemize}
+
+\subsection{对哲学发展的影响}
+第16世纪的历史变化对哲学发展有深刻的影响：
+
+\begin{itemize}
+    \item 逻辑学的衰落
+    \begin{enumerate}
+        \item 模态逻辑研究被中断和遗忘
+        \item 讲授简化版本的Aristotle逻辑
+    \end{enumerate}
+    \item 怀疑论再度流行
+    \begin{enumerate}
+        \item 塞尔维特案和卡斯特利奥的宽容主张
+        \item 恩皮理科作品再度被发现
+        \item 蒙田的怀疑论
+    \end{enumerate}
+    \item 现代科学的兴起
+    \begin{enumerate}
+        \item 伽利略（1564-1642）诸多观察和实验发现《两大世界体系的对话》1632：Salviati\&Simplicius《关于两种新科学的对话和数学证明》1638, 动力学和材料学
+        \item Bacon（1561-1626）《新工具》：摈弃偏见；基于系统考查的归纳（种族，巢穴，市场，剧院）Induction：形成科学的视角（归纳法研究科学）；倡导广泛的科学合作
+    \end{enumerate}
+\end{itemize}
+
+\begin{fancybox}{蒙田的怀疑论}
+\begin{itemize}
+    \item 与恩皮理科类似，借用伊壁鸠鲁和斯多亚学派的两方的资源
+    \item 伊壁鸠鲁：如果感觉不可靠，那么没有知识\\斯多亚学派：知识不能来自感觉，因为感觉不可靠
+    \item 一些常见的错觉例子
+    \item 拔高人和其他物种
+\end{itemize}
+总结下来，所有感官是不可知的，因而所有知识是不可信的。
+\end{fancybox}
+
+接下来本章的思考题（本部分来源于课件）：
+
+\begin{itemize}
+    \item 影响哲学研究动态的因素有哪些？
+    \item 一个人可以成为真诚和确定的怀疑论者吗？为什么
+    \item 如果只能选取一个人作为现代科学的先驱，应该是Garleio还是Bacon？
+\end{itemize}
+
+\section{笛卡尔哲学}
+
+\subsection{笛卡尔生平简介}
+
+笛卡尔幼年体弱多病（真是毫无意思的名人开头），24-29岁周游列国。
+31岁以后转向数学物理，有正弦定律，解析几何和光学的工作
+
+3，40年代笛卡尔转向哲学，在《Of the World》出版作罢之后，出版著作
+《谈谈方法》，序文表达了基础的哲学观点。自称为体系性的哲学，体系的基础是
+形而上学（以及数学），体系依次向上，有物理学等实践科学和道德哲学等。
+
+1641年出版\textbf{《第一哲学沉思》}（形而上学），48岁出版《哲学原理》（物理），
+去世前作品《论灵魂的激情》（道德哲学）
+\end{document}

@@ -1,0 +1,7 @@
+\contentsline {section}{\numberline {1}计算机视觉简介}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}计算机视觉概念}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}计算机视觉的历史脉络（History of Computer Vision）}{1}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}计算机视觉概论（Overview of Computer Vision）}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}为什么计算机视觉很难（Why Is Computer Vision Hard?）}{2}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}计算机视觉的发展波次（Waves of Computer Vision）}{3}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}本课程的内容地图（Course Roadmap）}{4}{subsection.1.6}%

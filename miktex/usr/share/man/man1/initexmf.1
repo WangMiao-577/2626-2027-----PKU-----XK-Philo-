@@ -1,0 +1,218 @@
+'\" t
+.\"     Title: initexmf
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "INITEXMF" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+initexmf \- MiKTeX configuration utility
+.SH "SYNOPSIS"
+.HP \w'\fBinitexmf\fR\ 'u
+\fBinitexmf\fR [\fIoption\fR...]
+.SH "DESCRIPTION"
+.PP
+\fBinitexmf\fR
+can be used to configure
+MiKTeX\&.
+.SH "USER MODE VS. ADMINISTRATOR MODE"
+.PP
+This utility can be run in two modes:
+.PP
+User mode (default)
+.RS 4
+MiKTeX
+operates on user\-scoped configuration and data files\&.
+.RE
+.PP
+Administrator mode
+.RS 4
+Only system\-wide
+MiKTeX
+configuration and data files are modified, assuming that the
+MiKTeX
+setup is shared by all users\&. The utility must be run with administrator privileges\&.
+.RE
+.PP
+By default, the utility runs in user mode\&. You can turn on administrator mode with the
+\fB\-\-admin\fR
+option\&.
+.SH "OPTIONS"
+.PP
+\fB\-\-admin\fR
+.RS 4
+Run in administrator mode:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Operate on the system\-wide
+MiKTeX
+configuration data store\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Install packages for all users\&.
+.RE
+.sp
+Using this option requires a shared
+MiKTeX
+setup, i\&.e\&.,
+MiKTeX
+must have been set up for all users\&. The program must be run with administrator privileges\&.
+.\" --admin
+.RE
+.PP
+\fB\-\-default\-paper\-size=\fR\fB\fIpaper\fR\fR
+.RS 4
+.\" --default-paper-size=paper
+.\" paper size: setting default
+Set the default paper size\&.
+\fIpaper\fR
+must be
+\fBa4\fR
+or
+\fBletter\fR\&.
+.RE
+.PP
+\fB\-\-disable\-installer\fR
+.RS 4
+Disable automatic installation of packages\&.
+.\" --disable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-edit\-config\-file=\fR\fB\fIconfigfile\fR\fR
+.RS 4
+.\" --edit-config-file=file
+Open the specified config file in a text editor\&.
+.RE
+.PP
+\fB\-\-enable\-installer\fR
+.RS 4
+Enable automatic installation of packages\&.
+.\" --enable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-list\-modes\fR
+.RS 4
+.\" --list-modes
+.\" METAFONT: modes
+List all known
+METAFONT
+modes\&.
+.RE
+.PP
+\fB\-\-print\-only\fR
+.RS 4
+.\" --print-only
+Print what would be done\&. Nothing is changed\&.
+.RE
+.PP
+\fB\-\-quiet\fR
+.RS 4
+.\" --quiet
+Suppress screen output\&.
+.RE
+.PP
+\fB\-\-register\-root=\fR\fB\fIdir\fR\fR
+.RS 4
+.\" --register-root
+.\" TEXMF root: registering
+Register a
+TEXMF
+root directory\&.
+.RE
+.PP
+\fB\-\-report\fR
+.RS 4
+.\" --report
+Write a
+MiKTeX
+configuration report\&.
+.RE
+.PP
+\fB\-\-set\-config\-value=[\fR\fB\fIsection\fR\fR\fB]\fR\fB\fIvaluename\fR\fR\fB=\fR\fB\fIvalue\fR\fR
+.RS 4
+.\" --set-config-value=[section]valuename=value
+Set a value to be stored in the
+MiKTeX
+configuration data store (see
+\fBmiktex.ini\fR(5))\&.
+.RE
+.PP
+\fB\-\-show\-config\-value=[\fR\fB\fIsection\fR\fR\fB]\fR\fB\fIvaluename\fR\fR
+.RS 4
+.\" --show-config-value=[section]valuename
+Print a value from the
+MiKTeX
+configuration data store (see
+\fBmiktex.ini\fR(5))\&.
+.RE
+.PP
+\fB\-\-unregister\-root=\fR\fB\fIdir\fR\fR
+.RS 4
+.\" --unregister-root
+.\" TEXMF root: unregistering
+Unregister a
+TEXMF
+root directory\&.
+.RE
+.PP
+\fB\-\-user\-roots=\fR\fB\fIdirectories\fR\fR
+.RS 4
+Register user root directories\&.
+.RE
+.PP
+\fB\-\-verbose\fR
+.RS 4
+.\" --verbose
+Print information on what is being done\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Print the version number and exit\&.
+.RE
+.SH "SEE ALSO"
+\fBmiktex\fR(1), \fBmiktex.ini\fR(5)

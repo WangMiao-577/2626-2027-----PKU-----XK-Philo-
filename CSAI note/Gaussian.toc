@@ -1,0 +1,28 @@
+\contentsline {section}{\numberline {1}记号与约定}{2}{section.1}%
+\contentsline {section}{\numberline {2}线性代数预备知识}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}内积、二次型与对称矩阵}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}谱定理：对称矩阵可正交对角化}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}正定与半正定矩阵}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}行列式与逆的基本性质}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}分块矩阵与 Schur 补}{4}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}二次型的分块展开与矩阵配方法}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}多重积分的换元与雅可比行列式}{6}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}一元高斯积分}{6}{subsection.2.8}%
+\contentsline {section}{\numberline {3}多元高斯分布}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}从一元到多元}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}归一化常数的推导}{7}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}均值与协方差}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}仿射变换保持高斯性}{8}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}几何图像}{8}{subsection.3.5}%
+\contentsline {section}{\numberline {4}两个高维随机变量的联合高斯分布 $P(\bm {x},\bm {y})$}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}设定与联合密度}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}第一步：用 Schur 补写出精度矩阵}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}第二步：展开指数}{9}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}第三步：联合密度的乘积分解}{10}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}边缘分布}{10}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}条件分布}{11}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}独立性}{11}{subsection.4.7}%
+\contentsline {section}{\numberline {5}例子与应用}{11}{section.5}%
+\contentsline {subsection}{\numberline {5.1}二维情形：$n=m=1$}{11}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}线性高斯模型：如何"制造"一个联合高斯}{12}{subsection.5.2}%
+\contentsline {section}{\numberline {6}小结}{12}{section.6}%

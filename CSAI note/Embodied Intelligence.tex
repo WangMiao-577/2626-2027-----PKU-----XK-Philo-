@@ -1,0 +1,195 @@
+% chktex-file 0
+\documentclass{ctexart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{soulutf8}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\pgfplotsset{compat=newest}
+\usepackage{tikz}
+\usepackage{xcolor} % 用于颜色设置
+\usepackage{listings} % 用于代码块
+\usepackage{fontspec} % 关键：用于使用系统字体 (XeLaTeX/LuaLaTeX)
+% Linux 环境中没有 Windows 宋体时，使用可用的中文衬线字体作为宋体替代
+\setCJKmainfont{Noto Serif CJK SC}
+\usepackage{authblk}
+\usepackage[
+    colorlinks=true,      % 使用颜色而非方框
+    linkcolor=blue,       % 内部链接颜色
+    citecolor=green,      % 引用链接颜色
+    urlcolor=red,         % URL 链接颜色
+    bookmarks=true,       % 生成 PDF 书签
+    bookmarksopen=true,   % 默认展开书签
+    pdfstartview=FitH     % 页面宽度适应窗口
+]{hyperref}
+
+\sethlcolor{yellow}%设置所需高亮颜色
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+% 页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% 定义草绿色
+\definecolor{grassgreen}{RGB}{124,179,66}
+% 补全缺失的浅蓝色定义（防止编译报错）
+\definecolor{lightblue}{RGB}{30,144,255} 
+
+% 清空默认
+\fancyhf{}
+
+% 页眉
+\fancyhead[L]{\textcolor{lightblue}{\kaishu Western Philosophy}}
+\fancyhead[R]{\textcolor{lightblue}{\textit{2026.9-2027.1}}}
+
+% 页脚页码居中
+\fancyfoot[C]{\textcolor{lightblue}{\thepage}}
+
+% 页眉、页脚线颜色
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\renewcommand{\footrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\newtcolorbox{fancybox}[2][blue]{ % 可选颜色参数
+  enhanced,
+  breakable,
+    colback=#1!3!white,
+    colframe=#1!18!white,
+    boxrule=0.8pt,
+    arc=6pt,
+    outer arc=6pt,
+  left=10pt,right=10pt,top=12pt,bottom=10pt,
+  title={\textbf{#2}},
+    fonttitle=\bfseries\color{#1!65!black},
+  attach boxed title to top left={yshift=-2mm,xshift=5mm},
+  boxed title style={
+        colback=#1!8!white,
+        colframe=#1!18!white,
+        boxrule=0.6pt,
+        arc=4pt,
+  },
+    shadow={1.5pt}{-1.5pt}{0pt}{black!10},
+}
+
+% 定义一套适合C++的配色方案
+\usepackage{tabularx}
+\newfontfamily{\consolasfont}{Ubuntu}
+
+\newcommand{\bluecode}[1]{{\color{blue}\consolasfont #1}}
+\lstdefinestyle{MyCppStyle}{
+    language = C++,
+    % 确保这里使用 \consolasfont
+    basicstyle = \consolasfont, 
+    keywordstyle = \color{blue!70!black}, 
+    commentstyle = \color{green!50!black}, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+}
+% --- lstdefinestyle HTML 风格定义 ---
+\lstdefinestyle{mhtml}{
+    language = HTML,
+    basicstyle = \consolasfont\small, 
+    tagstyle = \color{blue!70!black}\bfseries,
+    keywordstyle = \color{purple!80!black},
+    commentstyle = \color{green!50!black}\itshape, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+    morekeywords={als, doctype, html, head, title, meta, link, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, table, tr, th, td, pre, code, script, style},
+    morekeywords=[2]{class, id, href, src, rel, type, charset, lang, name, content, style},
+    keywordstyle=[2]\color{purple!80!black},
+}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    filecolor=magenta,    
+    urlcolor=cyan,        
+    pdftitle={我的文档标题}, 
+}
+
+% ==================== 正文部分 ====================
+\begin{document}
+
+% 开启无页眉页脚模式（针对封面和目录）
+\pagestyle{empty}
+
+% ------------------ 美化封面页 ------------------
+\begin{titlepage}
+    \centering
+    % 顶部 TikZ 几何几何装饰条（全宽 bleed 效果）
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[blue!50!white] (current page.north west) rectangle ([yshift=-2cm]current page.north east);
+        \fill[grassgreen] (current page.north west) ++(0,-2cm) rectangle ([yshift=-2.2cm]current page.north east);
+    \end{tikzpicture}
+    
+    \vspace*{3.5cm}
+    
+    % 大标题
+    {\fontsize{30pt}{36pt}\selectfont\bfseries\color{blue!80!black} 具身智能与通用智能体}\\[0.6em]
+    % 副标题或英文标识
+    {\fontsize{14pt}{18pt}\selectfont\color{gray}\textsf{Embodied Intelligence and General-Purpose Agent}}\\[1cm]
+    
+    % 居中装饰线
+    \centering\makebox[4cm]{\color{grassgreen}\rule{5cm}{1.5pt}}
+    
+    \vfill
+    
+    % 使用 tcolorbox 包装的精致作者信息框
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.55\textwidth,
+        colback=blue!5!white,
+        colframe=blue!5!white,
+        boxrule=1.2pt,
+        arc=6pt,
+        sharp corners=downhill, % 别致的对角切角效果
+        shadow={2pt}{-2pt}{0pt}{black!20},
+        halign=center,
+        valign=center,
+        top=15pt, bottom=15pt
+    ]
+        {\large\bfseries\color{black!80} Author：} {\large\kaishu Simson} \\[0.6em]
+        {\large\bfseries\color{black!80} Date：} {\large\kaishu September 2026}
+    \end{tcolorbox}
+    
+    \vfill
+    \vspace*{2cm}
+    
+    % 底部标识
+    {\color{gray!80}\small\the\year\ \copyright\ All Rights Reserved.}
+\end{titlepage}
+
+\pagestyle{fancy}
+
+\newpage
+\tableofcontents
+\newpage
+
+% 设置从当前页（正文第一页）开始采用阿拉伯数字编码，并自动重置为第 1 页
+\pagenumbering{arabic}
+
+\section{简介}
+
+\end{document}

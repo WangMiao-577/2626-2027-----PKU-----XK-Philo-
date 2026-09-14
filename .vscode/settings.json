@@ -1,0 +1,69 @@
+{
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "XeLaTeX",
+      "tools": ["xelatex"]
+    },
+    {
+      "name": "latexmk (xelatex)",
+      "tools": ["latexmk-xelatex"]
+    },
+    {
+      "name": "XeLaTeX -> BibTeX -> XeLaTeX × 2",
+      "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "xelatex",
+      "command": "xelatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {
+        "PATH": "/home/simson/bin:/home/simson/latex/miktex/usr/bin:${env:PATH}",
+        "LD_LIBRARY_PATH": "/home/simson/latex/miktex/usr/lib"
+      }
+    },
+    {
+      "name": "latexmk-xelatex",
+      "command": "latexmk",
+      "args": [
+        "-xelatex",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {
+        "PATH": "/home/simson/bin:/home/simson/latex/miktex/usr/bin:${env:PATH}",
+        "LD_LIBRARY_PATH": "/home/simson/latex/miktex/usr/lib"
+      }
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"],
+      "env": {
+        "PATH": "/home/simson/bin:/home/simson/latex/miktex/usr/bin:${env:PATH}",
+        "LD_LIBRARY_PATH": "/home/simson/latex/miktex/usr/lib"
+      }
+    }
+  ],
+  "latex-workshop.latex.path": [
+    "/home/simson/bin",
+    "/home/simson/latex/miktex/usr/bin"
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.autoClean.run": "onFailed",
+  "latex-workshop.linting.chktex.enabled": false,
+  "latex-workshop.linting.latex.enabled": false,
+  "terminal.integrated.env.linux": {
+    "PATH": "/home/simson/bin:/home/simson/latex/miktex/usr/bin:${env:PATH}",
+    "LD_LIBRARY_PATH": "/home/simson/latex/miktex/usr/lib"
+  }
+}

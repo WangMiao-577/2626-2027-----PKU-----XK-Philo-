@@ -1,0 +1,289 @@
+'\" t
+.\"     Title: miktex-mpost
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-MPOST" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-mpost \- MetaPost, a system for creating graphics
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\-mpost\fR\ 'u
+\fBmiktex\-mpost\fR [\fIoption\fR...] [[\fIcommand\fR...] | [\fIfile\fR]]
+.SH "DESCRIPTION"
+.PP
+This man page is an adaption of the corresponding
+TeX Live
+man page\&.
+.PP
+MetaPost
+interprets the
+MetaPost
+language and produces
+PostScript
+(EPS) or Scalable Vector Graphics (SVG) pictures\&. The
+MetaPost
+language is similar to Knuth\*(Aqs
+METAFONT
+with additional features for including
+TeX
+commands and accessing features of
+PostScript
+not found in
+METAFONT\&.
+.PP
+MetaPost
+is normally used with some preloaded macros, and it will use its executable name as the name of the preload file to use\&. For example, when called as
+\fBmiktex\-mpost\fR
+the
+mpost\&.mp
+file is used, which is identical to
+plain\&.mp\&. When the
+\fB\-\-initialize\fR
+option is given, preloading does not happen\&.
+.PP
+The
+\fIcommands\fR
+given on the command line to the
+MetaPost
+program are passed to it as the first input line\&. (But it is often easier to type extended arguments as the first input line, since shells tend to gobble up or misinterpret
+MetaPost\*(Aqs favorite symbols, like semicolons, unless you quote them\&.) The normal usage is to say
+\fBmiktex\-mpost figs\fR
+to process the file
+figs\&.mp\&. The basename of
+\fIfigs\fR
+becomes the
+\(lqjobname\(rq, and is used in forming output file names\&. If no file is named, the jobname becomes
+mpout\&. The default extension,
+\&.mp, can be overridden by specifying an extension explicitly\&.
+.PP
+When the
+\fB\-\-dvitomp\fR
+option is given,
+MetaPost
+acts as DVI\-to\-MPX converter only\&. Run
+\fBmiktex\-mpost \-\-dvitomp \-\-help\fR
+for option explanation\&.
+.SH "OPTIONS"
+.PP
+\fB\-\-alias=\fR\fB\fIname\fR\fR
+.RS 4
+Pretend to be program
+\fIname\fR, i\&.e\&., set program (and memory dump) name to
+\fIname\fR\&.
+.\" --alias=name
+This may affect the search paths and other values used\&. Using this option is equivalent to copying the program file to
+\fIname\fR
+and invoking
+\fIname\fR\&.
+.RE
+.PP
+\fB\-\-c\-style\-errors\fR
+.RS 4
+Change the way, error messages are printed\&. The alternate style looks like error messages from many compilers and is easier to parse for some editors\&.
+.\" --c-style-errors.\" --file-line-error.\" --file-line-error-style.\" error messages: C/C++ style
+.RE
+.PP
+\fB\-\-debug\fR
+.RS 4
+Print debugging info and leave temporary files in place\&.
+.\" --debug
+.RE
+.PP
+\fB\-\-halt\-on\-error\fR
+.RS 4
+Quit after the
+.\" --halt-on-error
+first error\&.
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+.\" --help
+Give help and exit\&.
+.RE
+.PP
+\fB\-\-initialize\fR
+.RS 4
+Become the
+\fIINI\fR
+variant
+.\" --initialize
+of the program\&.
+.RE
+.PP
+\fB\-\-interaction=\fR\fB\fImode\fR\fR
+.RS 4
+Set the interaction mode\&. Must be one of
+\fBbatchmode\fR,
+.\" --interaction=mode\fBnonstopmode\fR,
+\fBscrollmode\fR
+and
+\fBerrorstopmode\fR\&. The meaning of these modes is the same as the corresponding commands\&.
+.RE
+.PP
+\fB\-\-job\-name=\fR\fB\fIname\fR\fR
+.RS 4
+Set the name of the job (\fB\ejobname\fR)\&.
+.\" --job-name=name
+This has an affect on the output file names\&.
+.RE
+.PP
+\fB\-\-no\-c\-style\-errors\fR
+.RS 4
+Don\*(Aqt change the way, error messages are printed\&.
+.\" --no-c-style-errors.\" --no-file-line-error.\" --no-file-line-error-style
+.RE
+.PP
+\fB\-\-numbersystem=\fR\fB\fIstring\fR\fR
+.RS 4
+Set number system mode
+.\" --numbersystem=string
+(\fIstring\fR
+one of:
+\fBscaled\fR,
+\fBdouble\fR,
+\fBbinary\fR,
+\fBdecimal\fR)\&.
+.RE
+.PP
+\fB\-\-output\-directory=\fR\fB\fIdir\fR\fR
+.RS 4
+Write output files in
+\fIdir\fR\&.
+.\" --output-directory=dir
+instead of the current directory\&. Look up input files in
+\fIdir\fR
+first, then along the normal search path\&.
+.RE
+.PP
+\fB\-\-recorder\fR
+.RS 4
+Enable the file name recorder\&. This leaves a trace of the files opened for input and output in a file
+.\" --recorder
+with the extension
+\&.fls\&.
+.RE
+.PP
+\fB\-\-restricted\fR
+.RS 4
+Be secure: disable
+\fBtex\fR,
+.\" --restricted\fBmakempx\fR
+and editor commands\&.
+.RE
+.PP
+\fB\-s \fR\fB\fIinternal\fR\fR\fB="\fR\fB\fIstring\fR\fR\fB"\fR
+.RS 4
+Set
+\fIinternal\fR
+to the
+.\" -s internal=STRING\fIstring\fR
+value\&.
+.RE
+.PP
+\fB\-s \fR\fB\fIinternal\fR\fR\fB=\fR\fB\fInumber\fR\fR
+.RS 4
+Set
+\fIinternal\fR
+to the
+.\" -s internal=NUMBER\fInumber\fR
+value\&.
+.RE
+.PP
+\fB\-\-tex=\fR\fB\fItexprogram\fR\fR
+.RS 4
+.\" --tex=texprogram
+Use
+\fItexprogram\fR
+instead of
+\fBmiktex\-tex\fR
+when compiling text labels\&.
+.sp
+This flag overrides the environment variable
+\fBTEX\fR\&.
+.RE
+.PP
+\fB\-\-troff\fR
+.RS 4
+.\" --troff
+Set
+\fBprologues:=1\fR
+and assume
+\fB\-\-tex=troff\fR\&.
+.RE
+.PP
+\fB\-\-undump=\fR\fB\fIname\fR\fR
+.RS 4
+Use
+\fIname\fR
+as the name of the format to
+.\" --undump=name
+be used, instead of the name by which the program was called or a
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+%&
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+line\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Show version information and exit\&.
+.RE
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE
+.PP
+\fBMPINPUTS\fR
+.RS 4
+.\" MPINPUTS
+Extra paths to locate
+MetaPost\fBinput\fR
+files\&.
+.RE
+.PP
+\fBMPINPUTS\fR
+.RS 4
+.\" MPINPUTS
+Extra paths to locate
+MetaPost\fBinput\fR
+files\&.
+.RE

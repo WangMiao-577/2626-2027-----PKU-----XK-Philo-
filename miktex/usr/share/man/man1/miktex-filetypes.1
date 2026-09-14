@@ -1,0 +1,60 @@
+'\" t
+.\"     Title: miktex-filetypes
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-FILETYPES" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-filetypes \- manage Windows filetypes
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\fR\ 'u
+\fBmiktex\fR [\fIcommon\-option\fR...] filetypes \fIcommand\fR [\fIcommand\-option\-or\-parameter\fR...]
+.SH "DESCRIPTION"
+.PP
+Commands for managing Windows file types\&.
+.SH "COMMANDS"
+.PP
+\fBlist\fR [\fB\-\-template \fR\fB\fItemplate\fR\fR]
+.RS 4
+List Windows file types\&.
+.sp
+\fItemplate\fR
+controls the output of each record\&. It can contain the following placeholders:
+.sp
+{commandArgs}, {ddeArgs}, {displayName}, {executable}, {extension}, {iconIndex}, {progID}, {takeOwnership}, {verb}
+.RE
+.PP
+\fBregister\fR
+.RS 4
+Register Windows file types\&.
+.RE
+.PP
+\fBunregister\fR
+.RS 4
+Unregister Windows file types\&.
+.RE
+.SH "SEE ALSO"
+\fBmiktex\fR(1)

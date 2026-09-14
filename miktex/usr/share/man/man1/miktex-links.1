@@ -1,0 +1,62 @@
+'\" t
+.\"     Title: miktex-links
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-LINKS" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-links \- manage links from scripts and formats to executables
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\fR\ 'u
+\fBmiktex\fR [\fIcommon\-option\fR...] links \fIcommand\fR [\fIcommand\-option\-or\-parameter\fR...]
+.SH "DESCRIPTION"
+.PP
+Commands for managing links from scripts and formats to executables\&.
+.SH "COMMANDS"
+.PP
+\fBinstall\fR [\fB\-\-force\fR]
+.RS 4
+Install all links\&. Existing links will be overwritten, if
+\fB\-\-force\fR
+is specified\&.
+.RE
+.PP
+\fBlist\fR [\fB\-\-template \fR\fB\fItemplate\fR\fR]
+.RS 4
+List all links\&.
+.sp
+\fItemplate\fR
+controls the output of each record\&. It can contain the following placeholders:
+.sp
+{linkName}, {linkType}, {target}
+.RE
+.PP
+\fBuninstall\fR
+.RS 4
+Uninstall all links\&.
+.RE
+.SH "SEE ALSO"
+\fBmiktex\fR(1)

@@ -1,0 +1,275 @@
+\documentclass{ctexart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{soulutf8}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\pgfplotsset{compat=newest}
+\usepackage{tikz}
+\usepackage{xcolor} % 用于颜色设置
+\usepackage{listings} % 用于代码块
+\usepackage{fontspec} % 关键：用于使用系统字体 (XeLaTeX/LuaLaTeX)
+% Linux 环境中没有 Windows 宋体时，使用可用的中文衬线字体作为宋体替代
+\setCJKmainfont{Noto Serif CJK SC}
+\usepackage{authblk}
+\usepackage{amsthm}
+\usepackage[
+    colorlinks=true,      % 使用颜色而非方框
+    linkcolor=blue,       % 内部链接颜色
+    citecolor=green,      % 引用链接颜色
+    urlcolor=red,         % URL 链接颜色
+    bookmarks=true,       % 生成 PDF 书签
+    bookmarksopen=true,   % 默认展开书签
+    pdfstartview=FitH     % 页面宽度适应窗口
+]{hyperref}
+
+\sethlcolor{yellow}%设置所需高亮颜色
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+% 页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% 定义草绿色
+\definecolor{grassgreen}{RGB}{124,179,66}
+% 补全缺失的浅蓝色定义（防止编译报错）
+\definecolor{lightblue}{RGB}{30,144,255} 
+
+% 清空默认
+\fancyhf{}
+\setlength{\headheight}{14pt}
+
+% 页眉
+\fancyhead[L]{\textcolor{lightblue}{\kaishu VCL}}
+\fancyhead[R]{\textcolor{lightblue}{\textit{2026.9-2027.1}}}
+
+% 页脚页码居中
+\fancyfoot[C]{\textcolor{lightblue}{\thepage}}
+
+% 页眉、页脚线颜色
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\renewcommand{\footrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\newtcolorbox{fancybox}[2][blue]{ % 可选颜色参数
+  enhanced,
+  breakable,
+  colback=#1!5!white,
+  colframe=#1!70!black,
+  boxrule=1pt,
+  arc=8pt,
+  outer arc=8pt,
+  left=10pt,right=10pt,top=12pt,bottom=10pt,
+  title={\textbf{#2}},
+  fonttitle=\bfseries\color{white},
+  attach boxed title to top left={yshift=-2mm,xshift=5mm},
+  boxed title style={
+    colback=#1!85!black,
+    colframe=#1!70!black,
+    boxrule=0.8pt,
+    sharp corners,
+    before upper={\textcolor{red}{\faFlag}\hspace{4pt}}, % 红色旗帜图标
+  },
+  drop shadow={shadow xshift=2pt, shadow yshift=-2pt, opacity=0.3},
+}
+
+% 定义一套适合C++的配色方案
+\usepackage{tabularx}
+\newfontfamily{\consolasfont}{Ubuntu}
+
+\newcommand{\bluecode}[1]{{\color{blue}\consolasfont #1}}
+\lstdefinestyle{MyCppStyle}{
+    language = C++,
+    % 确保这里使用 \consolasfont
+    basicstyle = \consolasfont\small, 
+    keywordstyle = \color{blue!70!black}, 
+    commentstyle = \color{green!50!black}, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+}
+% --- lstdefinestyle HTML 风格定义 ---
+\lstdefinestyle{mhtml}{
+    language = HTML,
+    basicstyle = \consolasfont, 
+    tagstyle = \color{blue!70!black}\bfseries,
+    keywordstyle = \color{purple!80!black},
+    commentstyle = \color{green!50!black}\itshape, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+    morekeywords={als, doctype, html, head, title, meta, link, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, table, tr, th, td, pre, code, script, style},
+    morekeywords=[2]{class, id, href, src, rel, type, charset, lang, name, content, style},
+    keywordstyle=[2]\color{purple!80!black},
+}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    filecolor=magenta,    
+    urlcolor=cyan,        
+    pdftitle={我的文档标题}, 
+}
+
+% ---------- 定理环境 ----------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Eg}
+\newtheorem{remark}[definition]{App}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Prop}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corllary}
+
+% ---------- 记号 ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\mathsf{T}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\vx}{\bm{x}}
+\newcommand{\vy}{\bm{y}}
+\newcommand{\vz}{\bm{z}}
+\newcommand{\vu}{\bm{u}}
+\newcommand{\vv}{\bm{v}}
+\newcommand{\vw}{\bm{w}}
+\newcommand{\vb}{\bm{b}}
+\newcommand{\vt}{\bm{t}}
+\newcommand{\veps}{\bm{\varepsilon}}
+\newcommand{\vmu}{\bm{\mu}}
+\newcommand{\vzero}{\bm{0}}
+\newcommand{\mSigma}{\bm{\Sigma}}
+\newcommand{\mLambda}{\bm{\Lambda}}
+\newcommand{\mA}{\bm{A}}
+\newcommand{\mB}{\bm{B}}
+\newcommand{\mC}{\bm{C}}
+\newcommand{\mD}{\bm{D}}
+\newcommand{\mI}{\bm{I}}
+\newcommand{\mL}{\bm{L}}
+\newcommand{\mM}{\bm{M}}
+\newcommand{\mQ}{\bm{Q}}
+\newcommand{\mS}{\bm{S}}
+\newcommand{\Normal}{\mathcal{N}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\diag}{diag}
+
+% ==================== 正文部分 ====================
+\begin{document}
+
+% 开启无页眉页脚模式（针对封面和目录）
+\pagestyle{empty}
+
+% ------------------ 美化封面页 ------------------
+\begin{titlepage}
+    \centering
+    % 顶部 TikZ 几何几何装饰条（全宽 bleed 效果）
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[blue!50!white] (current page.north west) rectangle ([yshift=-2cm]current page.north east);
+        \fill[grassgreen] (current page.north west) ++(0,-2cm) rectangle ([yshift=-2.2cm]current page.north east);
+    \end{tikzpicture}
+    
+    \vspace*{3.5cm}
+    
+    % 大标题
+    {\fontsize{30pt}{36pt}\selectfont\bfseries\color{blue!80!black} 机器学习笔记}\\[0.6em]
+    % 副标题或英文标识
+    {\fontsize{14pt}{18pt}\selectfont\color{gray}\textsf{Machine Learning}}\\[1cm]
+    
+    % 居中装饰线
+    \centering\makebox[4cm]{\color{grassgreen}\rule{5cm}{1.5pt}}
+    
+    \vfill
+    
+    % 使用 tcolorbox 包装的精致作者信息框
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.55\textwidth,
+        colback=blue!5!white,
+        colframe=blue!5!white,
+        boxrule=1.2pt,
+        arc=6pt,
+        sharp corners=downhill, % 别致的对角切角效果
+        shadow={2pt}{-2pt}{0pt}{black!20},
+        halign=center,
+        valign=center,
+        top=15pt, bottom=15pt
+    ]
+        {\large\bfseries\color{black!80} Author：} {\large\kaishu Simson} \\[0.6em]
+        {\large\bfseries\color{black!80} Date：} {\large\kaishu September 2026}
+    \end{tcolorbox}
+    
+    \vfill
+    \vspace*{2cm}
+    
+    % 底部标识
+    {\color{gray!80}\small\the\year\ \copyright\ All Rights Reserved.}
+\end{titlepage}
+
+\pagestyle{fancy}
+
+\newpage
+\tableofcontents
+\newpage
+
+% 设置从当前页（正文第一页）开始采用阿拉伯数字编码，并自动重置为第 1 页
+\pagenumbering{arabic}
+
+这份讲义是王立威老师的《机器学习》课程笔记，老师讲课水平很高但是不使用PPT，笔记内容也不复刻板书，更多是知识点的总结。既然上了AI的贼船，总得给后人和自己留下点什么，所以创作了这份笔记。
+
+\section{机器学习概述}
+
+机器学习的定义很多，本课程采用这种表述：机器从过往的经历和数据中学习知识（learning from experience and data）
+
+\subsection{机器学习的领域（Areas of Machine Learning）}
+
+\begin{itemize}
+    \item 监督学习（Supervised Learning）：通过标注数据进行训练，预测输出。
+    \item 无监督学习（Unsupervised Learning）：从未标注数据中发现模式和结构。
+    \item 强化学习（Reinforcement Learning）：通过与环境交互学习策略以最大化奖励。
+\end{itemize}
+
+\subsection{机器学习的基本范式（Formulation of machine learning）}
+
+\section{机器学习数学}
+
+这一部分是考虑到大家在上这门课的时候大概已经忘记了大一上学的线性代数和微积分）所以本部分会补充所有在后面会用到的数学知识。
+
+\subsection{一般线性代数}
+
+这一部分默认会的都会，从比较重要的上课不强调的开始。
+
+\begin{theorem}[LDU分解]
+
+    $\forall A , |A| \neq 0 $，存在单位下三角矩阵L，单位上三角矩阵U，对角矩阵D，令
+    
+    \[
+        A = LDU
+    \]
+\end{theorem}
+
+\begin{proof}
+    
+\end{proof}
+\end{document}

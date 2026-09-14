@@ -1,0 +1,672 @@
+'\" t
+.\"     Title: miktex-tex
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-TEX" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-tex \- text formatting and typesetting
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\-tex\fR\ 'u
+\fBmiktex\-tex\fR [\fIoption\fR...] [[\fIfile\fR] | [\e\fIcommand\fR...]]
+.SH "DESCRIPTION"
+.PP
+This man page is an adaption of the corresponding
+TeX Live
+man page\&.
+.PP
+Run the
+TeX
+typesetter on
+\fIfile\fR, usually creating
+\fIfile\fR\&.dvi\&. If the file argument has no extension,
+\&.tex
+will be appended to it\&. Instead of a filename, a set of
+TeX
+commands can be given, the first of which must start with a backslash\&. With a
+\fB&format\fR
+argument
+TeX
+uses a different set of precompiled commands, contained in
+\fIformat\fR\&.fmt; it is usually better to use the
+\fB\-undump=\fR\fB\fIformat\fR\fR
+option instead\&.
+.PP
+TeX
+formats the interspersed text and commands contained in the named files and outputs a typesetter independent file (called
+DVI, which is short for DeVice Independent)\&.
+TeX\*(Aqs capabilities and language are described in
+The TeXbook\&.
+TeX
+is normally used with a large body of precompiled macros, and there are several specific formatting systems, such as
+LaTeX, which require the support of several macro files\&.
+.PP
+This version of
+TeX
+looks at its command\-line to see what name it was called under\&. Both
+\fBinitex\fR
+and
+\fBvirtex\fR
+are links to the
+\fBmiktex\-tex\fR
+executable\&. When called as
+\fBinitex\fR
+(or when the
+\fB\-initialize\fR
+option is given) it can be used to precompile macros into a
+\&.fmt
+file\&. When called as
+\fBvirtex\fR
+it will use the plain format\&. When called under any other name,
+TeX
+will use that name as the name of the format to use\&. For example, when called as
+\fBmiktex\-tex\fR
+the
+\fItex\fR
+format is used, which is identical to the plain format\&. The commands defined by the plain format are documented in
+The TeXbook\&. Other formats that are often available include
+\fIlatex\fR
+and
+\fIamstex\fR\&.
+.PP
+The non\-option command line argiments to the
+TeX
+program are passed to it as the first input line\&. (But it is often easier to type extended arguments as the first input line, since shells tend to gobble up or misinterpret
+TeX\*(Aqs favorite symbols, like backslashes, unless you quote them\&.) As described in
+The TeXbook, that first line should begin with a file name, a
+\fB\econtrolsequence\fR, or a &\fIformatname\fR\&.
+.PP
+The normal usage is to say
+\fB\fBmiktex\-tex\fR\fR\fB paper\fR
+to start processing
+paper\&.tex\&. The name
+\fIpaper\fR
+will be the
+\(lqjobname\(rq, and is used in forming output file names\&. If
+TeX
+doesn\*(Aqt get a file name in the first line, the job name is
+texput\&. When looking for a file,
+TeX
+looks for the name with and without the default extension (\&.tex) appended, unless the name already contains that extension\&. If paper is the
+\(lqjobname\(rq, a log of error messages, with rather more detail than normally appears on the screen, will appear in
+paper\&.log, and the output file will be in
+paper\&.dvi\&.
+.PP
+This version of
+TeX
+will look in the first line of the file
+paper\&.tex
+to see if it begins with the magic sequence
+\fB%&\fR\&. If the first line begins with
+\fB%&format \-\-translate\-file tcxname\fR, then
+TeX
+will use the named format and transation table
+\fItcxname\fR
+to process the source file\&. Either the format name or the
+\fB\-\-translate\-file\fR
+specification may be omitted, but not both\&. This overrides the format selection based on the name by which the program is invoked\&. The
+\fB\-parse\-first\-line\fR
+option or the
+\fIparse_first_line\fR
+configuration value controls whether this behaviour is enabled\&.
+.PP
+The
+\fBe\fR
+response to
+TeX\*(Aqs error\-recovery prompt causes the default editor to start up at the current line of the current file\&. The configuration value
+\fI[Core]Editor\fR
+can be used to change the editor used\&. It may contain a string with
+%f
+indicating where the file name goes and
+%l
+indicating where the decimal line number (if any) goes\&. For example, an
+\fI[Core]Editor\fR
+string for
+\fBemacs\fR
+can be set with the command
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+> \fBinitexmf \-\-set\-config\-value="[Core]Editor=emacs +%l %f"\fR
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+A convenient file is
+null\&.tex, containing nothing\&. When
+TeX
+can\*(Aqt find a file it thinks you want to input, it keeps asking you for another file name; responding
+\fBnull\fR
+gets you out of the loop if you don\*(Aqt want to input anything\&. You can also type your
+EOF
+character (usually
+Control+Z)\&.
+.SH "OPTIONS"
+.PP
+\fB\-\-alias=\fR\fB\fIname\fR\fR
+.RS 4
+Pretend to be program
+\fIname\fR, i\&.e\&., set program (and memory dump) name to
+\fIname\fR\&.
+.\" --alias=name
+This may affect the search paths and other values used\&. Using this option is equivalent to copying the program file to
+\fIname\fR
+and invoking
+\fIname\fR\&.
+.RE
+.PP
+\fB\-\-aux\-directory=\fR\fB\fIdir\fR\fR
+.RS 4
+Set
+\fIdir\fR
+as the directory to which
+.\" --aux-directory=dir
+auxiliary files are written\&. Also look for input files in
+\fIdir\fR
+first, before along the normal search path\&.
+.RE
+.PP
+\fB\-\-buf\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --buf-size=n
+the maximum number of characters simultaneously present in current lines of open files and in control sequences between
+\fB\ecsname\fR
+and
+\fB\eendcsname\fR\&.
+TeX
+uses the buffer to contain input lines, but macro expansion works by writing material into the buffer and reparsing the line\&. As a consequence, certain constructs require the buffer to be very large, even though most documents can be handled with a small value\&.
+.RE
+.PP
+\fB\-\-c\-style\-errors\fR
+.RS 4
+Change the way, error messages are printed\&. The alternate style looks like error messages from many compilers and is easier to parse for some editors\&.
+.\" --c-style-errors.\" --file-line-error.\" --file-line-error-style.\" error messages: C/C++ style
+.RE
+.PP
+\fB\-\-disable\-8bit\-chars\fR
+.RS 4
+.\" --disable-8bit-chars
+Make only 7\-bit characters printable\&.
+.RE
+.PP
+\fB\-\-disable\-installer\fR
+.RS 4
+Disable automatic installation of packages\&.
+.\" --disable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-disable\-write18\fR
+.RS 4
+.\" --disable-write18
+.\" --no-shell-escape
+.\" \write18 (run a program from within TeX)
+Disable the
+\fB\ewrite18{\fR\fB\fIcommand\fR\fR\fB}\fR
+construct\&.
+.RE
+.PP
+\fB\-\-dont\-parse\-first\-line\fR
+.RS 4
+Disable checking whether the first line of the main input file
+.\" --dont-parse-first-line
+starts with
+\fB%&\fR\&.
+.RE
+.PP
+\fB\-\-enable\-8bit\-chars\fR
+.RS 4
+.\" --enable-8bit-chars
+Make all characters printable\&.
+.RE
+.PP
+\fB\-\-enable\-enctex\fR
+.RS 4
+.\" --enable-enctex
+Enable
+encTeX
+extensions such as
+\fB\emubyte\fR\&.
+.RE
+.PP
+\fB\-\-enable\-installer\fR
+.RS 4
+Enable automatic installation of packages\&.
+.\" --enable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-enable\-mltex\fR
+.RS 4
+.\" --enable-mltex
+Enable
+MLTeX
+extensions such as
+\fB\echarsubdef\fR\&.
+.RE
+.PP
+\fB\-\-enable\-write18\fR
+.RS 4
+.\" --enable-write18
+.\" --shell-escape
+.\" \write18 (run a program from within TeX)
+Fully enable the
+\fB\ewrite18{\fR\fB\fIcommand\fR\fR\fB}\fR
+construct\&. It is only partially enabled by default to avoid security problems\&. When fully enabled, the command (which undergoes the usual
+TeX
+expansions) is passed to the command interpreter\&. The output of the command is not diverted anywhere, so it will not appear in the log file\&. The command execution either happens at
+\fB\eoutput\fR
+time or right away, according to the absence or presence of the
+\fB\eimmediate\fR
+prefix\&.
+.RE
+.PP
+\fB\-\-error\-line=\fR\fB\fIn\fR\fR
+.RS 4
+Set the width of context lines on
+.\" --error-line=n.\" error messages: line width
+terminal error messages\&.
+.RE
+.PP
+\fB\-\-extra\-mem\-bot=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --extra-mem-bot=n
+extra size (in memory words) for large data structures like boxes, glue, breakpoints, et al\&. Relevant only after the memory dump file has been read\&.
+.RE
+.PP
+\fB\-\-extra\-mem\-top=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --extra-mem-top=n
+extra size (in memory words) for chars, tokens, et al\&. Relevant only after the memory dump file has been read\&.
+.RE
+.PP
+\fB\-\-font\-max=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --font-max=n
+maximum internal font number\&.
+.RE
+.PP
+\fB\-\-font\-mem\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --font-mem-size=n
+size, in
+TeX
+memory words, of the font memory\&.
+.RE
+.PP
+\fB\-\-half\-error\-line=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --half-error=n
+width of first lines of contexts in terminal error messages\&.
+.RE
+.PP
+\fB\-\-halt\-on\-error\fR
+.RS 4
+Quit after the
+.\" --halt-on-error
+first error\&.
+.RE
+.PP
+\fB\-\-hash\-extra=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --hash-extra=n
+extra space for the hash table of control sequences (which allows 10K names as distributed)\&.
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+.\" --help
+Give help and exit\&.
+.RE
+.PP
+\fB\-\-hhelp\fR
+.RS 4
+.\" --hhelp
+This option is only available on
+Windows
+systems: show the manual page in an HTML Help window and exit when the window is closed\&.
+.RE
+.PP
+\fB\-\-include\-directory=\fR\fB\fIdir\fR\fR
+.RS 4
+Add the directory
+\fIdir\fR
+to the
+.\" --include-directory=dir
+head of the list of directories to be searched for input files\&.
+.RE
+.PP
+\fB\-\-initialize\fR
+.RS 4
+Become the
+\fIINI\fR
+variant
+.\" --initialize
+of the program\&.
+.RE
+.PP
+\fB\-\-interaction=\fR\fB\fImode\fR\fR
+.RS 4
+Set the interaction mode\&. Must be one of
+\fBbatchmode\fR,
+.\" --interaction=mode\fBnonstopmode\fR,
+\fBscrollmode\fR
+and
+\fBerrorstopmode\fR\&. The meaning of these modes is the same as the corresponding commands\&.
+.RE
+.PP
+\fB\-\-job\-name=\fR\fB\fIname\fR\fR
+.RS 4
+Set the name of the job (\fB\ejobname\fR)\&.
+.\" --job-name=name
+This has an affect on the output file names\&.
+.RE
+.PP
+\fB\-\-job\-time=\fR\fB\fIfile\fR\fR
+.RS 4
+Set the time\-stamp of all output files equal to
+.\" --job-time=file\fIfile\fR\*(Aqs time\-stamp\&.
+.RE
+.PP
+\fB\-\-main\-memory=\fR\fB\fIn\fR\fR
+.RS 4
+Change the
+.\" --main-memory=n
+total size (in memory words) of the main memory array\&. Relevant only while creating memory dump files\&.
+.RE
+.PP
+\fB\-\-max\-in\-open=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --max-in-open=n
+maximum number of input files and error insertions that can be going on simultaneously\&.
+.RE
+.PP
+\fB\-\-max\-print\-line=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --max-print-line=n
+width of longest text lines output; should be at least
+60\&.
+.RE
+.PP
+\fB\-\-max\-strings=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --max-strings=n
+maximum number of strings\&.
+.RE
+.PP
+\fB\-\-nest\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --nest-size=n
+maximum number of semantic levels simultaneously active\&.
+.RE
+.PP
+\fB\-\-no\-c\-style\-errors\fR
+.RS 4
+Don\*(Aqt change the way, error messages are printed\&.
+.\" --no-c-style-errors.\" --no-file-line-error.\" --no-file-line-error-style
+.RE
+.PP
+\fB\-\-output\-directory=\fR\fB\fIdir\fR\fR
+.RS 4
+Write output files in
+\fIdir\fR\&.
+.\" --output-directory=dir
+instead of the current directory\&. Look up input files in
+\fIdir\fR
+first, then along the normal search path\&.
+.RE
+.PP
+\fB\-\-param\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --param-size=n
+the maximum number of simultaneous macro parameters\&.
+.RE
+.PP
+\fB\-\-parse\-first\-line\fR
+.RS 4
+Check whether the first line of the main input file starts with
+\fB%&\fR, and parse if it does\&.
+.\" --parse-first-line
+This can be used to specify extra command\-line options\&.
+.RE
+.PP
+\fB\-\-pool\-free=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --pool-free=n
+minimum pool space left after loading the format\&.
+.RE
+.PP
+\fB\-\-pool\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --pool-size=n
+maximum number of characters in strings, including all error messages and help texts, and the names of all fonts and control sequences\&.
+.RE
+.PP
+\fB\-\-quiet\fR
+.RS 4
+.\" --quiet
+Suppress all output, except errors\&.
+.RE
+.PP
+\fB\-\-record\-package\-usages=\fR\fB\fIfile\fR\fR
+.RS 4
+Record all package usages and write
+.\" --record-package-usages=file
+them into
+\fIfile\fR\&.
+.RE
+.PP
+\fB\-\-recorder\fR
+.RS 4
+Enable the file name recorder\&. This leaves a trace of the files opened for input and output in a file
+.\" --recorder
+with the extension
+\&.fls\&.
+.RE
+.PP
+\fB\-\-restrict\-write18\fR
+.RS 4
+.\" --restrict-write18
+.\" --shell-restricted
+.\" \write18 (run a program from within TeX)
+Partially enable the
+\fB\ewrite18{\fR\fB\fIcommand\fR\fR\fB}\fR
+construct\&.
+.RE
+.PP
+\fB\-\-save\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the
+.\" --save-size=n
+the amount of space for saving values outside of current group\&.
+.RE
+.PP
+\fB\-\-src\-specials\fR
+.RS 4
+Embed source file information (source specials) in the
+.\" --src-specials.\" -srcDVI
+file\&.
+.RE
+.PP
+\fB\-\-stack\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the maximum number of
+.\" --stack-size=n
+simultaneous input sources\&.
+.RE
+.PP
+\fB\-\-string\-vacancies=\fR\fB\fIn\fR\fR
+.RS 4
+Set the minimum
+.\" --string-vacancies=n
+number of characters that should be available for the user\*(Aqs control sequences and font names, after the compiler\*(Aqs own error messages are stored\&. Must be at least 25000 less than
+\fIpool_size\fR, but doesn\*(Aqt need to be nearly that large\&.
+.RE
+.PP
+\fB\-\-tcx=\fR\fB\fItcxname\fR\fR
+.RS 4
+.\" --tcx=tcxname
+.\" --translate-file=tcxname
+Use the
+\fItcxname\fR
+translation table to set the mapping of input characters and re\-mapping of output characters\&.
+.RE
+.PP
+\fB\-\-time\-statistics\fR
+.RS 4
+Show processing
+.\" --time-statistics
+time statistics\&.
+.RE
+.PP
+\fB\-\-trace\fR\fB[=\fItracestreams\fR]\fR
+.RS 4
+Enable trace messages\&.
+.\" --trace=tracestreams
+The
+\fItracestreams\fR
+argument, if specified, is a comma\-separated list of trace stream names (Chapter\ \&9, Trace Streams)\&.
+.RE
+.PP
+\fB\-\-trie\-size=\fR\fB\fIn\fR\fR
+.RS 4
+Set the amount of space for
+.\" --trie-size=n
+hyphenation patterns\&.
+.RE
+.PP
+\fB\-\-undump=\fR\fB\fIname\fR\fR
+.RS 4
+Use
+\fIname\fR
+as the name of the format to
+.\" --undump=name
+be used, instead of the name by which the program was called or a
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+%&
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+line\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Show version information and exit\&.
+.RE
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_EDITOR\fR
+.RS 4
+.\" MIKTEX_EDITOR
+The editor to use when selecting
+\fBe\fR
+in the error prompt menu\&.
+.sp
+The value can contain these placesholder:
+.PP
+\fB%f\fR
+.RS 4
+The name of the file, which contains the erroneous line of
+TeX
+code\&.
+.RE
+.PP
+\fB%l\fR
+.RS 4
+The line number\&.
+.RE
+.RE
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE
+.PP
+\fBTEXINPUTS\fR
+.RS 4
+.\" TEXINPUTS
+Extra paths to locate
+TeX\fB\einput\fR
+and
+\fB\eopenin\fR
+files\&.
+.RE
+.PP
+\fBTFMFONTS\fR
+.RS 4
+.\" TFMFONTS
+Extra paths to locate
+TeX
+font metric files
+.RE
+.SH "BUGS"
+.PP
+This version of
+TeX
+implements a number of optional extensions\&. In fact, many of these extensions conflict to a greater or lesser extent with the definition of
+TeX\&. This version of
+TeX
+fails to trap arithmetic overflow when dimensions are added or subtracted\&. Cases where this occurs are rare, but when it does the generated
+DVI
+file will be invalid\&.
+.SH "SEE ALSO"
+\fBtexify\fR(1)
+
+978-0201134476. The TeXbook. Donald E\&. Knuth. Addison-Wesley. 1986. 
+

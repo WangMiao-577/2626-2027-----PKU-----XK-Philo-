@@ -1,0 +1,158 @@
+'\" t
+.\"     Title: findtexmf
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "FINDTEXMF" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+findtexmf \- search files in MiKTeX directories
+.SH "SYNOPSIS"
+.HP \w'\fBfindtexmf\fR\ 'u
+\fBfindtexmf\fR [\fIoption\fR...] \fIfile\fR...
+.SH "DESCRIPTION"
+.PP
+\fBfindtexmf\fR
+can be used to find files in the
+MiKTeX
+directories\&. When the
+\fB\-file\-type\fR
+option is not given, the search path used when looking for a file is inferred from the name given, by looking for a known extension\&. If no known extension is found, the search path for
+TeX
+source files is used\&.
+.SH "OPTIONS"
+.PP
+\fB\-\-alias=\fR\fB\fIname\fR\fR
+.RS 4
+.\" --alias=name
+Pretend to be
+\fIname\fR
+when finding files\&.
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+.\" --help
+Give help and exit\&.
+.RE
+.PP
+\fB\-\-file\-type=\fR\fB\fIfiletype\fR\fR
+.RS 4
+.\" --file-type=filetype
+Use the specified file type (see below)\&.
+.RE
+.PP
+\fB\-\-list\-file\-types\fR
+.RS 4
+.\" --list-file-types
+Print known file types\&.
+.RE
+.PP
+\fB\-\-must\-exist\fR
+.RS 4
+.\" --must-exist
+Allow installation of a packacke, if a file should exist because it is a part of the package\&.
+.RE
+.PP
+\fB\-\-show\-path=\fR\fB\fIfiletype\fR\fR
+.RS 4
+.\" --show-path=filetype
+Print the search path for the specified file type (see below)\&.
+.RE
+.PP
+\fB\-\-start\fR
+.RS 4
+.\" --start
+Start the associated program, if the file was found\&.
+.RE
+.PP
+\fB\-\-the\-name\-of\-the\-game=\fR\fB\fIname\fR\fR
+.RS 4
+.\" --the-name-of-the-game=engine
+Set the name of the engine\&. Relevant when searching for format files\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Show version information and exit\&.
+.RE
+.SH "FILE TYPES"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  afm (\&.afm)
+  base (\&.base)
+  bib (\&.bib)
+  bst (\&.bst)
+  cid maps (\&.cid:\&.cidmap)
+  clua (\&.dll:\&.so)
+  cweb (\&.w)
+  dvi (\&.dvi)
+  enc (\&.enc)
+  executables ()
+  font feature files (\&.fea)
+  fmt (\&.fmt)
+  hbf (\&.hbf)
+  graphic/figure (\&.eps:\&.epsi:\&.png)
+  gf (\&.gf)
+  ist (\&.ist)
+  lig files (\&.lig)
+  lua (\&.lua:\&.luatex:\&.luc:\&.luctex:\&.texlua:\&.texluc:\&.tlu)
+  map (\&.map)
+  mem (\&.mem)
+  mf (\&.mf)
+  mfpool (\&.pool)
+  mft (\&.mft)
+  mlbib (\&.mlbib:\&.bib)
+  mlbst (\&.bst)
+  mp (\&.mp)
+  mppool (\&.pool)
+  ocp (\&.ocp)
+  ofm (\&.ofm:\&.tfm)
+  opl (\&.opl)
+  opentype fonts (\&.otf)
+  otp (\&.otp)
+  ovf (\&.ovf)
+  ovp (\&.ovp)
+  pk (\&.pk)
+  PostScript header (\&.pro:\&.enc)
+  subfont definition files (\&.sfd)
+  tcx (\&.tcx)
+  tex (\&.tex)
+  texpool (\&.pool)
+  TeX system documentation (\&.pdf:\&.html:\&.md:\&.txt:\&.ps:\&.dvi)
+  tfm (\&.tfm)
+  truetype fonts (\&.ttf:\&.ttc)
+  type1 fonts (\&.pfb:\&.pfa)
+  type42 fonts (\&.t42:\&.T42)
+  vf (\&.vf)
+  web (\&.web)
+.fi
+.if n \{\
+.RE
+.\}

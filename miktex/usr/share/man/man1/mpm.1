@@ -1,0 +1,246 @@
+'\" t
+.\"     Title: mpm
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MPM" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+mpm \- MiKTeX package manager
+.SH "SYNOPSIS"
+.HP \w'\fBmpm\fR\ 'u
+\fBmpm\fR [\fIoption\fR...]
+.SH "DESCRIPTION"
+.PP
+MPM
+starts in windowed mode, if you do not specify any command\-line options\&.
+.SH "USER MODE VS. ADMINISTRATOR MODE"
+.PP
+This utility can be run in two modes:
+.PP
+User mode (default)
+.RS 4
+MPM
+operates on the user installation directory (usually
+~/\&.miktex/texmfs/install)\&.
+.RE
+.PP
+Administrator mode
+.RS 4
+MPM
+operates on the system\-wide installation directory (usually
+/usr/local/share/miktex\-texmf), assuming that the
+MiKTeX
+setup is shared by all users\&.
+MPM
+must be run with administrator privileges\&.
+.RE
+.PP
+By default,
+MPM
+runs in user mode\&. You can turn on administrator mode with the
+\fB\-\-admin\fR
+option\&. For example, if you want to install a package for all users, you invoke
+MPM
+as follows:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+> \fBmpm \-\-admin \-\-install=a0poster\fR
+.fi
+.if n \{\
+.RE
+.\}
+.SH "OPTIONS"
+.PP
+\fB\-\-admin\fR
+.RS 4
+Run in administrator mode:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Operate on the system\-wide
+MiKTeX
+configuration data store\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Install packages for all users\&.
+.RE
+.sp
+Using this option requires a shared
+MiKTeX
+setup, i\&.e\&.,
+MiKTeX
+must have been set up for all users\&. The program must be run with administrator privileges\&.
+.\" --admin
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+.\" --help
+Give help and exit\&.
+.RE
+.PP
+\fB\-\-hhelp\fR
+.RS 4
+.\" --hhelp
+This option is only available on
+Windows
+systems: show the manual page in an HTML Help window and exit when the window is closed\&.
+.RE
+.PP
+\fB\-\-import=\fR\fB\fIpackage\fR\fR
+.RS 4
+.\" --import=package
+Import the specified package from another
+MiKTeX
+installation\&. The root directory must be specified via
+\fB\-\-repository=\fR\fB\fIdir\fR\fR\&.
+.RE
+.PP
+\fB\-\-import\-all\fR
+.RS 4
+.\" --import-all
+Import all packages from another
+MiKTeX
+installation\&. The root directory must be specified via
+\fB\-\-repository=\fR\fB\fIdir\fR\fR\&.
+.RE
+.PP
+\fB\-\-pick\-repository\-url\fR
+.RS 4
+Pick up a suitable
+URL
+from the package repository list and print it\&.
+.RE
+.PP
+\fB\-\-quiet\fR
+.RS 4
+.\" --quiet
+Suppress all output, except errors\&.
+.RE
+.PP
+\fB\-\-repository=\fR\fB\fIlocation\fR\fR
+.RS 4
+Use the specified location as the package repository\&. The location can be either a fully qualified path name (a local package repository) or an
+URL
+(a remote package repository)\&.
+.RE
+.PP
+\fB\-\-repository\-release\-state=\fR\fB\fIstate\fR\fR
+.RS 4
+Select the release state of the remote package repository\&. The release state is relevant for finding appropriate package repositories\&. The release state must be one of
+\fBstable\fR
+or
+\fBnext\fR\&.
+.RE
+.PP
+\fB\-\-set\-repository=\fR\fB\fIlocation\fR\fR
+.RS 4
+.\" --set-repository=location
+Store the location of the default package repository in the
+MiKTeX
+configuration data store\&. The location can be either a fully qualified path name (a local package repository) or an
+URL
+(a remote package repository)\&.
+.RE
+.PP
+\fB\-\-trace\fR\fB[=\fItracestreams\fR]\fR
+.RS 4
+Enable trace messages\&.
+.\" --trace=tracestreams
+The
+\fItracestreams\fR
+argument, if specified, is a comma\-separated list of trace stream names (Chapter\ \&9, Trace Streams)\&.
+.RE
+.PP
+\fB\-\-verbose\fR
+.RS 4
+.\" --verbose
+Turn on verbose output mode\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Show version information and exit\&.
+.RE
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_REPOSITORY\fR
+.RS 4
+.\" MIKTEX_REPOSITORY
+Location of the default package repository\&. This can be either a fully qualified path name (a local package repository) or an
+URL
+(a remote package repository)\&.
+.RE
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE
+.PP
+\fBhttp_proxy\fR
+.RS 4
+The proxy server to be used for
+HTTP\&.
+.RE
+.PP
+\fBFTP_PROXY\fR
+.RS 4
+The proxy server to be used for \&.
+.RE
+.PP
+\fBALL_PROXY\fR
+.RS 4
+The proxy server to be used, if no protocol\-specific proxy is set\&.
+.RE
+.PP
+\fBNO_PROXY\fR
+.RS 4
+Comma\-separated list of host names that should not go through any proxy\&.
+.RE
+.SH "SEE ALSO"
+\fBmiktex\fR(1)

@@ -1,0 +1,213 @@
+'\" t
+.\"     Title: texify
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "TEXIFY" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+texify \- MiKTeX compiler driver
+.SH "SYNOPSIS"
+.HP \w'\fBtexify\fR\ 'u
+\fBtexify\fR [\fIoption\fR...] \fIfile\fR...
+.SH "DESCRIPTION"
+.PP
+\fBtexify\fR
+runs
+Texinfo
+or
+LaTeX
+input files through
+\fBmiktex\-tex\fR
+(\fBmiktex\-pdftex\fR) in turn until all cross\-references are resolved, building all indices\&.
+.PP
+The directory containing each
+\fIfile\fR
+is searched for included files\&. The suffix of
+\fIfile\fR
+is used to determine its language (LaTeX
+or
+Texinfo)\&.
+.PP
+\fBmakeinfo\fR
+is used to perform
+Texinfo
+macro expansion before running
+\fBmiktex\-tex\fR
+when needed\&.
+.SH "OPTIONS"
+.PP
+\fB\-@\fR
+.RS 4
+Use
+\fB@input\fR
+(instead of
+\fB\einput\fR); for preloaded
+Texinfo\&.
+.RE
+.PP
+\fB\-\-batch\fR, \fB\-b\fR
+.RS 4
+.\" --batch
+No interaction\&.
+.RE
+.PP
+\fB\-\-clean\fR, \fB\-c\fR
+.RS 4
+.\" --clean
+Remove all auxiliary files\&.
+.RE
+.PP
+\fB\-\-expand\fR, \fB\-e\fR
+.RS 4
+.\" --expand
+Force macro expansion using
+\fBmakeinfo\fR\&.
+.RE
+.PP
+\fB\-I \fR\fB\fIdir\fR\fR
+.RS 4
+Search
+\fIdir\fR
+for input files\&.
+.RE
+.PP
+\fB\-\-help\fR, \fB\-h\fR
+.RS 4
+.\" --help
+Display help and exit successfully\&.
+.RE
+.PP
+\fB\-\-language=\fR\fB\fIlang\fR\fR, \fB\-l \fR\fB\fIlang\fR\fR
+.RS 4
+.\" --language=lang
+Specify the language of input files: either
+\fIlatex\fR
+or
+\fItexinfo\fR\&.
+.RE
+.PP
+\fB\-\-max\-iterations=\fR\fB\fIn\fR\fR
+.RS 4
+.\" -max-iterations=n
+Limits the number of iterations to prevent endless processing\&. The default for
+\fIn\fR
+is
+5\&.
+.RE
+.PP
+\fB\-\-mkidx\-option=\fR\fB\fIoption\fR\fR
+.RS 4
+.\" --mkidx-option=option
+Pass
+\fIoption\fR
+to the index generator\&.
+.RE
+.PP
+\fB\-\-pdf\fR, \fB\-p\fR
+.RS 4
+.\" --pdf
+Use
+\fBmiktex\-pdftex\fR
+(or
+\fBmiktex\-pdflatex\fR) for processing\&.
+.RE
+.PP
+\fB\-\-quiet\fR, \fB\-q\fR, \fB\-\-silent\fR, \fB\-s\fR
+.RS 4
+.\" --quiet
+No screen output unless errors plies
+\fB\-\-batch\fR)\&.
+.RE
+.PP
+\fB\-\-run\-viewer\fR
+.RS 4
+.\" --run-viewer
+Run a viewer on the resulting
+DVI
+(PDF) file\&.
+.RE
+.PP
+\fB\-\-src\fR
+.RS 4
+.\" --src
+Pass
+\fB\-\-src\-specials\fR
+to the
+TeX
+compiler\&.
+.RE
+.PP
+\fB\-\-texinfo=\fR\fB\fIcmd\fR\fR, \fB\-t=\fR\fB\fIcmd\fR\fR
+.RS 4
+.\" --texinfo=cmd
+Insert
+\fIcmd\fR
+after
+\fI@setfilename\fR
+in copy of input file\&. Multiple values accumulate\&.
+.RE
+.PP
+\fB\-\-tex\-option=\fR\fB\fIoption\fR\fR
+.RS 4
+.\" --tex-option=option
+Pass
+\fIoption\fR
+to the compiler\&.
+.RE
+.PP
+\fB\-\-verbose\fR, \fB\-V\fR
+.RS 4
+.\" --verbose
+Print information on what is being done\&.
+.RE
+.PP
+\fB\-\-version\fR, \fB\-v\fR
+.RS 4
+.\" --version
+Display version information and exit successfully\&.
+.RE
+.PP
+\fB\-\-viewer\-option=\fR\fB\fIoption\fR\fR
+.RS 4
+.\" --viewer-option=option
+Pass
+\fIoption\fR
+to the viewer\&.
+.RE
+.SH "ENVIRONMENT VARIABLES"
+.PP
+The values of the
+\fBBIBTEX\fR,
+\fBLATEX\fR
+(or
+\fBPDFLATEX\fR),
+\fBMAKEINDEX\fR,
+\fBMAKEINFO\fR,
+\fBTEX\fR
+(or
+\fBPDFTEX\fR), and
+\fBTEXINDEX\fR
+environment variables are used to run those commands, if they are set\&.

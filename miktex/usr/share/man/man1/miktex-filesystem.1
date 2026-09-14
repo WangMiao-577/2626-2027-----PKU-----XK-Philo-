@@ -1,0 +1,50 @@
+'\" t
+.\"     Title: miktex-filesystem
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-FILESYSTEM" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-filesystem \- watch the file system
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\fR\ 'u
+\fBmiktex\fR [\fIcommon\-option\fR...] filesystem \fIcommand\fR [\fIcommand\-option\-or\-parameter\fR...]
+.SH "DESCRIPTION"
+.PP
+Commands for watching the file system\&.
+.SH "COMMANDS"
+.PP
+\fBwatch\fR [\fB\-\-template \fR\fB\fItemplate\fR\fR] \fIdirectory\fR
+.RS 4
+Watch for changes in a directory\&.
+.sp
+\fItemplate\fR
+controls the output of each directory event\&. It can contain the following placeholders:
+.sp
+{action}, {fileName}
+.RE
+.SH "SEE ALSO"
+\fBmiktex\fR(1)

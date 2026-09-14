@@ -1,0 +1,700 @@
+'\" t
+.\"     Title: miktex-dvips
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-DVIPS" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-dvips \- convert a DVI file to PostScript
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\-dvips\fR\ 'u
+\fBmiktex\-dvips\fR [\fIoption\fR...] \fIdvifile\fR
+.SH "DESCRIPTION"
+.PP
+This man page is an adaption of the corresponding
+TeX Live
+man page\&.
+.PP
+This man page is obsolete! See the Texinfo documentation instead\&.
+.PP
+Dvips
+takes a
+DVI
+file produced by
+TeX
+(or by some other processor such as
+\fBmiktex\-gftodvi\fR) and
+.\" gftodvi
+converts it to
+PostScript\&.
+.\" PostScript: converting TeX output into
+The
+DVI
+file may be specified without the
+\&.dvi.\" .dvi (DVI file)
+extension\&.
+.SH "OPTIONS"
+.PP
+Many of the parameterless options listed here can be turned off by suffixing the option with a zero (0); for instance, to turn off page reversal, use
+\fB\-r0\fR\&. Such options are marked with a trailing
+*\&.
+.PP
+\fB\-\fR
+.RS 4
+Read additional options from standard input after processing the command line\&.
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+Print a usage message and exit\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Print the version number and exit\&.
+.RE
+.PP
+\fB\-a*\fR
+.RS 4
+Conserve memory by making three passes over the
+DVI
+file instead of two and only loading those characters actually used\&. Generally only useful on machines with a very limited amount of memory\&.
+.RE
+.PP
+\fB\-A\fR
+.RS 4
+Print only the odd pages\&. This option uses
+TeX
+page numbers, not physical page numbers\&.
+.RE
+.PP
+\fB\-b \fR\fB\fInum\fR\fR
+.RS 4
+Generate
+\fInum\fR
+copies of each page, but duplicating the page body rather than using the
+\fB/#copies\fRPostScript
+variable\&. This can be useful in conjunction with a header file setting
+\fBbop\-hook\fR
+to do color separations or other neat tricks\&.
+.RE
+.PP
+\fB\-B\fR
+.RS 4
+Print only the even pages\&. This option uses
+TeX
+page numbers, not physical page numbers\&.
+.RE
+.PP
+\fB\-c \fR\fB\fInum\fR\fR
+.RS 4
+Generate
+\fInum\fR
+consecutive copies of every page, i\&.e\&., the output is uncollated\&. This merely sets the builtin
+PostScript
+variable
+\fB/#copies\fR\&.
+.RE
+.PP
+\fB\-C \fR\fB\fInum\fR\fR
+.RS 4
+Generate
+\fInum\fR
+copies, but collated (by replicating the data in the
+PostScript
+file)\&. Slower than the
+\fB\-c\fR
+option, but easier on the hands, and faster than resubmitting the same
+PostScript
+file multiple times\&.
+.RE
+.PP
+\fB\-d \fR\fB\fInum\fR\fR
+.RS 4
+Set the debug flags, showing what
+Dvips
+(thinks it) is doing\&. See the
+Dvips
+manual, for the possible values of
+\fInum\fR\&. Use
+\fB\-d \-1\fR
+as the first option for maximum output\&.
+.RE
+.PP
+\fB\-D \fR\fB\fInum\fR\fR
+.RS 4
+Set both the horizontal and vertical resolution to
+\fInum\fR, given in
+dpi
+(dots per inch)\&. This affects the choice of bitmap fonts that are loaded and also the positioning of letters in resident
+PostScript
+fonts\&. Must be between 10 and 10000\&. This affects both the horizontal and vertical resolution\&. If a high resolution (something greater than 400
+dpi, say) is selected, the
+\fB\-Z\fR
+flag should probably also be used\&. If you are using fonts made with
+METAFONT, such as
+Computer Modern,
+\fBmakepk\fR
+needs to know about the value for
+\fInum\fR
+that you use or
+METAFONT
+will fail\&. See the file
+modes\&.mf
+for a list of resolutions and mode names for most devices\&.
+.RE
+.PP
+\fB\-e \fR\fB\fInum\fR\fR
+.RS 4
+Maximum drift in pixels of each character from its
+\(lqtrue\(rq
+resolution\-independent position on the page\&. The default value of this parameter is resolution dependent (it is the number of entries in the list [100, 200, 300, 400, 500, 600, 800, 1000, 1200, 1600, 2000, 2400, 2800, 3200,
+\&...] that are less than or equal to the resolution in dots per inch)\&. Allowing individual characters to
+\(lqdrift\(rq
+from their correctly rounded positions by a few pixels, while regaining the true position at the beginning of each new word, improves the spacing of letters in words\&.
+.RE
+.PP
+\fB\-E*\fR
+.RS 4
+Generate an
+EPSF
+file with a tight bounding box\&. This only looks at marks made by characters and rules, not by any included graphics\&. In addition, it gets the glyph metrics from the
+TFM
+file, so characters that print outside their enclosing
+TFM
+box may confuse it\&. In addition, the bounding box might be a bit too loose if the character glyph has significant left or right side bearings\&. Nonetheless, this option works well enough for creating small
+EPSF
+files for equations or tables or the like\&. (Of course,
+Dvips
+output, especially when using bitmap fonts, is resolution\-dependent and thus does not make very good
+EPSF
+files, especially if the images are to be scaled; use these
+EPSF
+files with care\&.) For multiple page input files, also specify
+\fB\-i\fR
+to get each page as a separate
+EPSF
+file; otherwise, all the pages are overlaid in the single output file\&.
+.RE
+.PP
+\fB\-f*\fR
+.RS 4
+Read the
+DVI
+file from standard input and write the
+PostScript
+to standard output\&. The standard input must be seekable, so it cannot be a pipe\&. If your input must be a pipe, write a shell script that copies the pipe output to a temporary file and then points
+Dvips
+at this file\&. It turns off the automatic sending of control\-D if it was turned on with the
+\fB\-F\fR
+option or in the configuration file; use
+\fB\-F\fR
+after the
+\fB\-f\fR
+to send it anyway\&.
+.RE
+.PP
+\fB\-F*\fR
+.RS 4
+Write control\-D (ASCII
+code 4) as the very last character of the
+PostScript
+file\&. This is useful when
+Dvips
+is driving the printer directly instead of working through a spooler, as is common on personal systems\&. On systems shared by more than one person, this is not recommended\&.
+.RE
+.PP
+\fB\-G\fR
+.RS 4
+Shift non\-printing characters (ASCII
+0\-32, 127) to higher\-numbered positions\&. This was useful to work around bugs in old versions of Adobe\*(Aqs
+PDF
+reader\&. It\*(Aqs more likely to cause problems nowadays\&.
+.RE
+.PP
+\fB\-h \fR\fB\fIname\fR\fR
+.RS 4
+Prepend
+\fIname\fR
+as an additional header file, or, if
+\fIname\fR
+is
+\-, suppress all header files\&. Any definitions in the header file get added to the
+PostScript\fBuserdict\fR\&.
+.RE
+.PP
+\fB\-i*\fR
+.RS 4
+Make each section be a separate file; a
+section
+is a part of the document processed independently, most often created to avoid memory overflow\&. The filenames are created replacing the suffix of the supplied output file name by a three\-digit sequence number\&. This option is most often used in conjunction with the
+\fB\-S\fR
+option which sets the maximum section length in pages; if
+\fB\-i\fR
+is specified and
+\fB\-S\fR
+is not, each page is output as a separate file\&. For instance, some phototypesetters cannot print more than ten or so consecutive pages before running out of steam; these options can be used to automatically split a book into ten\-page sections, each to its own file\&.
+.sp
+On the other hand, if your document uses very large fonts or very large included figures,
+Dvips
+might take it upon itself to split the output into unwanted sections, to try to avoid overflowing printer memory\&.
+.RE
+.PP
+\fB\-j*\fR
+.RS 4
+Download only needed characters from Type\ \&1 fonts\&. This is the default\&. Some debugging flags trace this operation\&. You can also control partial downloading on a per\-font basis\&.
+.RE
+.PP
+\fB\-k*\fR
+.RS 4
+Print crop marks\&. This option increases the paper size (which should be specified, either with a paper size special or with the
+\fB\-T\fR
+option) by a half inch in each dimension\&. It translates each page by a quarter inch and draws cross\-style crop marks\&. It is mostly useful with typesetters that can set the page size automatically\&. This works by downloading
+crop\&.pro\&.
+.RE
+.PP
+\fB\-K*\fR
+.RS 4
+Remove comments in included
+PostScript
+graphics, font files, and headers; only necessary to get around bugs in spoolers or
+PostScript
+post\-processing programs\&. Specifically, the
+\fB%%Page\fR
+comments, when left in, often cause difficulties\&. Use of this flag can cause other graphics to fail, however, since the
+PostScript
+header macros from some software packages read portion the input stream line by line, searching for a particular comment\&.
+.RE
+.PP
+\fB\-l [=]\fR\fB\fInum\fR\fR
+.RS 4
+The last page printed will be the first one numbered
+\fInum\fR\&. Default is the last page in the document\&. If
+\fInum\fR
+is prefixed by an equals sign, then it (and the argument to the
+\fB\-p\fR
+option, if specified) is treated as a physical (absolute) page number, rather than a value to compare with the
+TeX\fB\ecount0\fR
+values stored in the
+DVI
+file\&. Thus, using
+\fB\-l =9\fR
+will end with the ninth page of the document, no matter what the pages are actually numbered\&.
+.RE
+.PP
+\fB\-m*\fR
+.RS 4
+Specify manual feed, if supported by the output device\&.
+.RE
+.PP
+\fB\-mode \fR\fB\fImode\fR\fR
+.RS 4
+Use
+\fImode\fR
+as the
+METAFONT
+device name for path searching and font generation\&. This overrides any value from configuration files\&. With the default paths, explicitly specifying the mode also makes the program assume the fonts are in a subdirectory named mode\&.
+.RE
+.PP
+\fB\-M*\fR
+.RS 4
+Turns off automatic font generation\&.
+.RE
+.PP
+\fB\-n \fR\fB\fInum\fR\fR
+.RS 4
+Print at most
+\fInum\fR
+pages\&. Default is 100000\&.
+.RE
+.PP
+\fB\-n \fR\fB\fInum\fR\fR
+.RS 4
+Print at most
+\fInum\fR
+pages\&. Default is 100000\&.
+.RE
+.PP
+\fB\-N*\fR
+.RS 4
+Turns off generation of structured comments such as
+\fB%%Page\fR; this may be necessary on some systems that try to interpret
+PostScript
+comments in weird ways, or on some
+PostScript
+printers\&. Beware: This also disables page movement, etc\&., in
+PostScript
+viewers such as
+GSview\&.
+.RE
+.PP
+\fB\-noomega\fR
+.RS 4
+Disable the use of
+Omega
+extensions when interpreting
+DVI
+files\&. By default, the additional opcodes 129 and 134 are recognized by
+Dvips
+as
+Omega
+or
+pTeX
+extensions and interpreted as requests to set 2\-byte characters\&.
+.RE
+.PP
+\fB\-noptex\fR
+.RS 4
+Disable the use of
+pTeX
+extensions when interpreting
+DVI
+files\&. By default, the additional opcodes 130 and 135 are recognized by
+Dvips
+as
+Omega
+extensions and interpreted as requests to set 3\-byte characters, and 255 as request to change the typesetting direction\&.
+.sp
+The only drawback is that the virtual font array will (at least temporarily) require 65536 or more positions instead of the default 256 positions, i\&.e\&., the memory requirements of
+Dvips
+will be somewhat larger\&. If you find this unacceptable or encounter another problem with the
+Omega
+or
+pTeX
+extensions, you can switch off the
+pTeX
+extension by
+\fB\-noptex\fR, or both by
+\fB\-noomega\fR\&.
+.RE
+.PP
+\fB\-o \fR\fB\fIname\fR\fR
+.RS 4
+Send output to the file
+\fIname\fR\&. If
+\fB\-o\fR
+is specified without
+\fIname\fR, the default is
+\fIfile\fR\&.ps
+where the input
+DVI
+file was
+\fIfile\fR\&.dvi\&. If
+\fB\-o\fR
+isn\*(Aqt given at all, the configuration file default is used\&.
+.sp
+If
+\fIname\fR
+is
+\-, output goes to standard output\&. If the first character of
+\fIname\fR
+is
+\fB!\fR
+or
+\fB|\fR, then the remainder will be used as an argument to
+\fBpopen\fR; thus, specifying
+\fB|lpr\fR
+as the output file will automatically queue the file for printing as usual\&.
+Dvips
+will print to the local printer device
+\fBPRN\fR
+when
+\fIname\fR
+is
+\fB|lpr\fR
+and a program by that name cannot be found\&.
+.sp
+\fB\-o\fR
+turns off the automatic sending of control\-D\&. See the
+\fB\-f\fR
+option for how to override this\&.
+.RE
+.PP
+\fB\-O \fR\fB\fIx\-offset\fR\fR\fB,\fR\fB\fIy\-offset\fR\fR
+.RS 4
+Move the origin by
+\fIx\-offset\fR,\fIy\-offset\fR, a comma\-separated pair of dimensions such as
+\fB\&.1in,\-\&.3cm\fR\&. The origin of the page is shifted from the default position (of one inch down, one inch to the right from the upper left corner of the paper) by this amount\&. This is usually best specified in the printer\-specific configuration file\&.
+.sp
+This is useful for a printer that consistently offsets output pages by a certain amount\&. You can use the file
+testpage\&.tex
+to determine the correct value for your printer\&. Be sure to do several runs with the same
+\fBO\fR
+value\-some printers vary widely from run to run\&.
+.sp
+If your printer offsets every other page consistently, instead of every page, your best recourse is to use
+\fBbop\-hook\fR
+(see the
+Dvips
+manual for more information)\&.
+.RE
+.PP
+\fB\-p [=]\fR\fB\fInum\fR\fR
+.RS 4
+The first page printed will be the first one numbered
+\fInum\fR\&. Default is the first page in the document\&. If
+\fInum\fR
+is prefixed by an equals sign, then it (and the argument to the
+\fB\-l\fR
+option, if specified) is treated as a physical (absolute) page number, rather than a value to compare with the
+TeX\fB\ecount0\fR
+values stored in the
+DVI
+file\&. Thus, using
+\fB\-p =3\fR
+will start with the third page of the document, no matter what the pages are actually numbered\&.
+.RE
+.PP
+\fB\-pp \fR\fB\fIfirst\fR\fR\fB\-\fR\fB\fIlast\fR\fR
+.RS 4
+Print pages
+\fIfirst\fR
+through
+\fIlast\fR; equivalent to
+\fB\-p \fR\fB\fIfirst\fR\fR\fB \-l \fR\fB\fIlast\fR\fR, except that multiple
+\fB\-pp\fR
+options accumulate, unlike
+\fB\-p\fR
+and
+\fB\-l\fR\&. The
+\fB\-\fR
+separator can also be
+\fB:\fR\&.
+.RE
+.PP
+\fB\-P \fR\fB\fIprinter\fR\fR
+.RS 4
+Read the configuration file
+config\&.\fIprinter\fR, which can set the output name (most likely
+\fBo |lpr \-P\fR\fB\fIprinter\fR\fR), resolution,
+METAFONT
+mode, and perhaps font paths and other printer\-specific defaults\&. It works best to put sitewide defaults in the one master
+config\&.ps
+file and only things that vary printer to printer in the
+config\&.\fIprinter\fR
+files;
+config\&.ps
+is read before
+config\&.\fIprinter\fR\&.
+.sp
+A configuration file for eventual creation of Adobe
+PDF
+files is provided in
+config\&.pdf
+and thus can be loaded with
+\fB\-Ppdf\fR\&. It will try to include Type\ \&1 outline fonts into the
+PostScript
+file\&.
+.RE
+.PP
+\fB\-q*\fR
+.RS 4
+Run quietly\&. Don\*(Aqt chatter about pages converted, etc\&. to standard output; report no warnings (only errors) to standard error\&.
+.RE
+.PP
+\fB\-r*\fR
+.RS 4
+Output pages in reverse order\&. By default, page 1 is output first\&.
+.RE
+.PP
+\fB\-R\fR
+.RS 4
+Run securely\&.
+\fB\-R2\fR
+disables both shell command execution
+.\" security
+in
+\fB\especial\fR
+(via
+\fB`\fR) and config files (via the
+\fBE\fR), pipes as output files, and opening of any absolute or
+\&.\&.\-relative filenames\&.
+\fB\-R1\fR, the default, forbids shell escapes but allows absolute filenames\&.
+\fB\-R0\fR
+allows both\&.
+.RE
+.PP
+\fB\-s*\fR
+.RS 4
+Enclose the output in a global save/restore pair\&. This causes the file to not be truly conformant, and is thus not recommended, but is useful if you are driving a deficient printer directly and thus don\*(Aqt care too much about the portability of the output to other environments\&.
+.RE
+.PP
+\fB\-S \fR\fB\fInum\fR\fR
+.RS 4
+Set the maximum number of pages in each
+\(lqsection\(rq\&. This option is most commonly used with the
+\fB\-i\fR
+option; see its description above for more information\&.
+.RE
+.PP
+\fB\-t \fR\fB\fIpapertype\fR\fR
+.RS 4
+Set the paper type to
+\fIpapertype\fR, usually defined in one of the configuration files, along with the appropriate
+PostScript
+code to select it\&. You can also specify a
+\fIpapertype\fR
+of
+\fBlandscape\fR, which rotates a document by 90 degrees\&. To rotate a document whose paper type is not the default, you can use the
+\fB\-t\fR
+option twice, once for the paper type, and once for
+\fBlandscape\fR\&.
+.sp
+In general, you should not use any
+\fB\-t\fR
+option when using a
+\fBpapaersize\fR
+special, which some
+LaTeX
+packages (e\&.g\&.,
+hyperref) insert
+.sp
+One exception is when using a nonstandard paper size that is not already defined in
+config\&.ps; in this case, you need to specify
+\fB\-t unknown\fR\&.
+.sp
+Another exception is when producing multi\-page files for further processing; use
+\fB\-t nopaper\fR
+to omit any paper size information in the output\&. (If you just have a single page document, you can use
+\fB\-E\fR
+to get pure
+EPSF
+output\&.)
+.RE
+.PP
+\fB\-T \fR\fB\fIhsize,vsize\fR\fR
+.RS 4
+Set the paper size to (\fIhsize\fR,\fIvsize\fR), a comma\-separated pair of dimensions such as
+\fB\&.1in,\-\&.3cm\fR\&. It overrides any paper size special in the
+DVI
+file\&. Be careful, as the paper size will stick to a predefined size if there is one close enough\&. To disable this behavior, use
+\fB\-tunknown\fR
+.RE
+.PP
+\fB\-u \fR\fB\fIpsmapfile\fR\fR
+.RS 4
+Set
+\fIpsmapfile\fR
+to be the file that
+Dvips
+uses for looking up
+PostScript
+font aliases\&.
+.\" psfonts.map
+If
+\fIpsmapfile\fR
+starts with a
++
+character, then the rest of the name is used as the name of the map file, and the map file is appended to the list of map files (instead of replacing the list)\&. In either case, if the name has no extension,
+\&.map
+is added at the end\&.
+.RE
+.PP
+\fB\-U*\fR
+.RS 4
+Disable a
+PostScript
+virtual memory\-saving optimization that stores the character metric information in the same string that is used to store the bitmap information\&. This is only necessary when driving the Xerox 4045
+PostScript
+interpreter, which has a bug that puts garbage on the bottom of each character\&. Not recommended unless you must drive this printer\&.
+.RE
+.PP
+\fB\-v\fR
+.RS 4
+Print the
+Dvips
+version number and exit\&.
+.RE
+.PP
+\fB\-V*\fR
+.RS 4
+Download non\-resident
+PostScript
+fonts as bitmaps\&. This requires use of
+\fBmakepk\fR
+to generate the required bitmap fonts\&. The bitmap must be put into
+\fBpsfonts\&.map\fR
+as the downloadable file for that font\&. This is useful only for those fonts for which you do not have real outlines, being downloaded to printers that have no resident fonts, i\&.e\&., very rarely\&.
+.RE
+.PP
+\fB\-x \fR\fB\fInum\fR\fR
+.RS 4
+Set the x magnification ratio to
+\fInum\fR/1000\&. Overrides the magnification specified in the
+DVI
+file\&. Must be between 10 and 100000\&. It is recommended that you use standard magstep values (1095, 1200, 1440, 1728, 2074, 2488, 2986, and so on) to help reduce the total number of
+PK
+files generated\&.
+\fInum\fR
+may be a real number, not an integer, for increased precision\&.
+.RE
+.PP
+\fB\-X \fR\fB\fInum\fR\fR
+.RS 4
+Set the horizontal resolution in dots per inch to
+\fInum\fR\&.
+.RE
+.PP
+\fB\-y \fR\fB\fInum\fR\fR
+.RS 4
+Set the y magnification ratio to
+\fInum\fR/1000\&. See
+\fB\-x\fR
+above\&.
+.RE
+.PP
+\fB\-Y \fR\fB\fInum\fR\fR
+.RS 4
+Set the vertical resolution in dots per inch to
+\fInum\fR\&.
+.RE
+.PP
+\fB\-z*\fR
+.RS 4
+Pass
+\fBhtml\fR
+hyperdvi specials through to the output for eventual distillation into
+PDF\&. This is not enabled by default to
+.\" PDF: distilling into
+avoid including the header files unnecessarily, and use of temporary files in creating the output\&.
+.RE
+.PP
+\fB\-Z*\fR
+.RS 4
+Compress bitmap fonts in the output file, thereby reducing the size of what gets downloaded\&. Especially useful at high resolutions or when very large fonts are used\&. May slow down printing, especially on early 68000\-based
+PostScript
+printers\&. Generally recommend today, and can be enabled in the configuration file\&.
+.RE
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE

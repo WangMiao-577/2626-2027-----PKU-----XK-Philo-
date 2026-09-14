@@ -1,0 +1,651 @@
+% !TEX program = xelatex
+\documentclass[UTF8,fontset=none,11pt]{ctexart}
+
+% ---------- 字体（Linux，使用系统 Noto CJK） ----------
+\setCJKmainfont{Noto Serif CJK SC}[
+  BoldFont=Noto Serif CJK SC Bold,
+  ItalicFont=Noto Serif CJK SC,
+  ItalicFeatures={FakeSlant=0.2}
+]
+\setCJKsansfont{Noto Sans CJK SC}[BoldFont=Noto Sans CJK SC Bold]
+\setCJKmonofont{Noto Sans Mono CJK SC}
+
+% ---------- 宏包 ----------
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
+
+% ---------- 定理环境 ----------
+\theoremstyle{definition}
+\newtheorem{definition}{定义}[section]
+\newtheorem{example}[definition]{例}
+\newtheorem{remark}[definition]{注}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{proposition}[definition]{命题}
+\newtheorem{lemma}[definition]{引理}
+\newtheorem{corollary}[definition]{推论}
+
+% ---------- 记号 ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\mathsf{T}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\vx}{\bm{x}}
+\newcommand{\vy}{\bm{y}}
+\newcommand{\vz}{\bm{z}}
+\newcommand{\vu}{\bm{u}}
+\newcommand{\vv}{\bm{v}}
+\newcommand{\vw}{\bm{w}}
+\newcommand{\vb}{\bm{b}}
+\newcommand{\vt}{\bm{t}}
+\newcommand{\veps}{\bm{\varepsilon}}
+\newcommand{\vmu}{\bm{\mu}}
+\newcommand{\vzero}{\bm{0}}
+\newcommand{\mSigma}{\bm{\Sigma}}
+\newcommand{\mLambda}{\bm{\Lambda}}
+\newcommand{\mA}{\bm{A}}
+\newcommand{\mB}{\bm{B}}
+\newcommand{\mC}{\bm{C}}
+\newcommand{\mD}{\bm{D}}
+\newcommand{\mI}{\bm{I}}
+\newcommand{\mL}{\bm{L}}
+\newcommand{\mM}{\bm{M}}
+\newcommand{\mQ}{\bm{Q}}
+\newcommand{\mS}{\bm{S}}
+\newcommand{\Normal}{\mathcal{N}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\diag}{diag}
+
+\title{\textbf{两个高维随机变量的联合高斯分布}\\[0.4em]
+  {\large 表达式、推导与所需的线性代数}}
+\author{讲义}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本讲义的目标是把下面这个问题讲透：设 $\vx\in\R^n$、$\vy\in\R^m$ 是两个高维随机向量，它们服从联合高斯分布，那么联合密度 $P(\vx,\vy)$ 长什么样？由它如何推出边缘分布 $P(\vx)$ 与条件分布 $P(\vy\mid\vx)$？推导中用到的核心工具是对称正定矩阵、分块矩阵与 Schur 补、矩阵形式的配方法，以及多重积分的换元公式。第~\ref{sec:la} 节系统地准备这些线性代数知识；第~\ref{sec:gauss} 节建立多元高斯分布；第~\ref{sec:joint} 节给出 $P(\vx,\vy)$ 的完整推导；第~\ref{sec:example} 节以二维情形和线性高斯模型为例说明结果。
+\end{abstract}
+
+\tableofcontents
+\bigskip
+
+\section{记号与约定}
+
+全文中，粗体小写字母（如 $\vx,\vmu$）表示列向量，粗体大写字母（如 $\mSigma,\mA$）表示矩阵，普通斜体字母表示标量。$\mA^\T$ 表示转置，$\mA^{-1}$ 表示逆，$\det\mA$（或 $|\mA|$）表示行列式，$\mI_n$ 表示 $n$ 阶单位矩阵。向量 $\vx\in\R^n$ 的分量记为 $x_1,\dots,x_n$。
+
+对随机向量 $\vx$，其均值向量与协方差矩阵定义为
+\[
+\E[\vx]=\begin{pmatrix}\E[x_1]\\ \vdots\\ \E[x_n]\end{pmatrix},\qquad
+\Cov[\vx]=\E\big[(\vx-\E\vx)(\vx-\E\vx)^\T\big]\in\R^{n\times n},
+\]
+即 $\Cov[\vx]$ 的 $(i,j)$ 元是 $\Cov(x_i,x_j)$。两个随机向量之间的互协方差为 $\Cov[\vx,\vy]=\E[(\vx-\E\vx)(\vy-\E\vy)^\T]\in\R^{n\times m}$，显然 $\Cov[\vy,\vx]=\Cov[\vx,\vy]^\T$。
+
+\section{线性代数预备知识}\label{sec:la}
+
+本节内容是后面所有推导的"零件"。读者若已熟悉，可以直接跳到第~\ref{sec:gauss} 节，需要时再回来查阅。
+
+\subsection{内积、二次型与对称矩阵}
+
+\begin{definition}[内积与范数]
+$\vx,\vy\in\R^n$ 的内积为 $\vx^\T\vy=\sum_{i}x_iy_i$，范数为 $\|\vx\|=\sqrt{\vx^\T\vx}$。
+\end{definition}
+
+\begin{definition}[二次型]
+给定 $\mA\in\R^{n\times n}$，函数 $q(\vx)=\vx^\T\mA\vx=\sum_{i,j}A_{ij}x_ix_j$ 称为由 $\mA$ 确定的二次型。
+\end{definition}
+
+由于 $\vx^\T\mA\vx$ 是一个标量，它等于自身的转置：$\vx^\T\mA\vx=(\vx^\T\mA\vx)^\T=\vx^\T\mA^\T\vx$。因此
+\[
+\vx^\T\mA\vx=\vx^\T\Big(\tfrac{\mA+\mA^\T}{2}\Big)\vx ,
+\]
+也就是说，二次型只"看得见"矩阵的对称部分。所以在讨论二次型时，总可以不失一般性地假定 $\mA$ 对称（$\mA=\mA^\T$）。高斯分布指数中的二次型正是由对称矩阵（协方差的逆）确定的。
+
+\subsection{谱定理：对称矩阵可正交对角化}
+
+\begin{theorem}[谱定理]\label{thm:spectral}
+设 $\mA\in\R^{n\times n}$ 对称，则存在正交矩阵 $\mQ$（即 $\mQ^\T\mQ=\mQ\mQ^\T=\mI$）与实对角矩阵 $\mLambda=\diag(\lambda_1,\dots,\lambda_n)$，使得
+\[
+\mA=\mQ\mLambda\mQ^\T=\sum_{i=1}^n \lambda_i\,\bm{q}_i\bm{q}_i^\T ,
+\]
+其中 $\lambda_i$ 是 $\mA$ 的特征值，$\bm{q}_i$（$\mQ$ 的第 $i$ 列）是对应的单位特征向量。
+\end{theorem}
+
+这个定理给出了理解对称矩阵的"坐标系"：在由特征向量 $\bm{q}_1,\dots,\bm{q}_n$ 张成的正交坐标系下，$\mA$ 就是纯粹的逐坐标伸缩。令 $\vw=\mQ^\T\vx$（即把 $\vx$ 在新坐标系下展开），则
+\begin{equation}\label{eq:quad-diag}
+\vx^\T\mA\vx=\vx^\T\mQ\mLambda\mQ^\T\vx=\vw^\T\mLambda\vw=\sum_{i=1}^n\lambda_i w_i^2 .
+\end{equation}
+二次型在新坐标下没有交叉项，这是后面计算高斯积分的关键。
+
+\subsection{正定与半正定矩阵}
+
+\begin{definition}[正定、半正定]
+对称矩阵 $\mA$ 称为\textbf{半正定}（记 $\mA\succeq 0$），若对一切 $\vx$ 有 $\vx^\T\mA\vx\ge 0$；称为\textbf{正定}（记 $\mA\succ 0$），若对一切 $\vx\ne\vzero$ 有 $\vx^\T\mA\vx>0$。
+\end{definition}
+
+\begin{proposition}\label{prop:pd}
+设 $\mA$ 对称，则
+\begin{enumerate}[label=(\arabic*),nosep]
+  \item $\mA\succeq 0$ 当且仅当所有特征值 $\lambda_i\ge 0$；$\mA\succ 0$ 当且仅当所有 $\lambda_i>0$。
+  \item 若 $\mA\succ 0$，则 $\mA$ 可逆，$\mA^{-1}\succ 0$，且 $\det\mA=\prod_i\lambda_i>0$。
+  \item 若 $\mA\succ 0$，则存在唯一的对称正定矩阵 $\mA^{1/2}$ 使 $\mA^{1/2}\mA^{1/2}=\mA$，具体为 $\mA^{1/2}=\mQ\mLambda^{1/2}\mQ^\T$，其中 $\mLambda^{1/2}=\diag(\sqrt{\lambda_i})$。类似地记 $\mA^{-1/2}=(\mA^{1/2})^{-1}=\mQ\mLambda^{-1/2}\mQ^\T$。
+  \item 对任意矩阵 $\mB\in\R^{n\times k}$，$\mB\mB^\T\succeq 0$；若 $\mB$ 的行满秩（秩为 $n$），则 $\mB\mB^\T\succ 0$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) 由~\eqref{eq:quad-diag}，$\vx^\T\mA\vx=\sum_i\lambda_iw_i^2$，而 $\vw=\mQ^\T\vx$ 取遍 $\R^n$ 且 $\vw=\vzero\iff\vx=\vzero$，结论显然。
+(2) 特征值全正故行列式为正，从而可逆；$\mA^{-1}=\mQ\mLambda^{-1}\mQ^\T$ 的特征值为 $1/\lambda_i>0$。
+(3) 直接验证 $(\mQ\mLambda^{1/2}\mQ^\T)^2=\mQ\mLambda\mQ^\T=\mA$；唯一性略。
+(4) $\vx^\T\mB\mB^\T\vx=\|\mB^\T\vx\|^2\ge 0$，且当 $\mB^\T$ 是单射（即 $\mB$ 行满秩）时，$\vx\ne\vzero\Rightarrow\mB^\T\vx\ne\vzero$。
+\end{proof}
+
+\begin{remark}
+协方差矩阵总是半正定的：对任意 $\bm{a}\in\R^n$，$\bm{a}^\T\Cov[\vx]\bm{a}=\Var(\bm{a}^\T\vx)\ge 0$。本讲义只讨论协方差矩阵正定（即"非退化"）的高斯分布，此时密度函数存在。
+\end{remark}
+
+\subsection{行列式与逆的基本性质}
+
+后面反复使用的性质有：
+\begin{align*}
+\det(\mA\mB)&=\det\mA\,\det\mB, &\det(\mA^\T)&=\det\mA, &\det(\mA^{-1})&=(\det\mA)^{-1},\\
+(\mA\mB)^{-1}&=\mB^{-1}\mA^{-1}, &(\mA^\T)^{-1}&=(\mA^{-1})^\T, &\det(c\mA)&=c^n\det\mA\ (\mA\in\R^{n\times n}).
+\end{align*}
+特别地，若 $\mA$ 对称正定，则 $\det(\mA^{1/2})=\sqrt{\det\mA}$，$\det(\mA^{-1/2})=(\det\mA)^{-1/2}$。
+
+对角块矩阵与三角块矩阵的行列式也很简单：
+\[
+\det\begin{pmatrix}\mA&\vzero\\ \vzero&\mD\end{pmatrix}=\det\mA\det\mD,\qquad
+\det\begin{pmatrix}\mI&\mB\\ \vzero&\mI\end{pmatrix}=\det\begin{pmatrix}\mI&\vzero\\ \mC&\mI\end{pmatrix}=1 .
+\]
+
+\subsection{分块矩阵与 Schur 补}\label{sec:schur}
+
+这是本讲义最核心的线性代数工具。设
+\[
+\mM=\begin{pmatrix}\mA&\mB\\ \mC&\mD\end{pmatrix},\qquad
+\mA\in\R^{n\times n},\ \mD\in\R^{m\times m},\ \mA\text{ 可逆}.
+\]
+
+\begin{definition}[Schur 补]
+$\mA$ 在 $\mM$ 中的 Schur 补定义为 $\mM/\mA:=\mD-\mC\mA^{-1}\mB\in\R^{m\times m}$。
+\end{definition}
+
+Schur 补的来源是"分块高斯消元"：用第一块行消去第二块行中的 $\mC$。写成矩阵语言就是下面的分块 LDU 分解。
+
+\begin{lemma}[分块 LDU 分解]\label{lem:ldu}
+若 $\mA$ 可逆，记 $\mS=\mD-\mC\mA^{-1}\mB$，则
+\begin{equation}\label{eq:ldu}
+\begin{pmatrix}\mA&\mB\\ \mC&\mD\end{pmatrix}
+=\begin{pmatrix}\mI&\vzero\\ \mC\mA^{-1}&\mI\end{pmatrix}
+\begin{pmatrix}\mA&\vzero\\ \vzero&\mS\end{pmatrix}
+\begin{pmatrix}\mI&\mA^{-1}\mB\\ \vzero&\mI\end{pmatrix}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+直接把右边乘开：中间两项之积为 $\begin{pmatrix}\mA&\mB\\ \vzero&\mS\end{pmatrix}$，再左乘第一项得
+\[
+\begin{pmatrix}\mA&\mB\\ \mC&\mC\mA^{-1}\mB+\mS\end{pmatrix}=\begin{pmatrix}\mA&\mB\\ \mC&\mD\end{pmatrix}.
+\]
+\end{proof}
+
+由此立刻得到两个重要推论。
+
+\begin{theorem}[分块行列式]\label{thm:blockdet}
+若 $\mA$ 可逆，则 $\det\mM=\det\mA\cdot\det(\mD-\mC\mA^{-1}\mB)$。
+\end{theorem}
+
+\begin{proof}
+对~\eqref{eq:ldu} 两边取行列式，两个三角块矩阵的行列式为 $1$，对角块矩阵的行列式为 $\det\mA\det\mS$。
+\end{proof}
+
+\begin{theorem}[分块求逆]\label{thm:blockinv}
+若 $\mA$ 与 $\mS=\mD-\mC\mA^{-1}\mB$ 都可逆，则 $\mM$ 可逆，且
+\begin{equation}\label{eq:blockinv}
+\mM^{-1}=
+\begin{pmatrix}
+\mA^{-1}+\mA^{-1}\mB\mS^{-1}\mC\mA^{-1} & -\mA^{-1}\mB\mS^{-1}\\
+-\mS^{-1}\mC\mA^{-1} & \mS^{-1}
+\end{pmatrix}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+对~\eqref{eq:ldu} 逐项求逆并反序相乘（注意 $\begin{pmatrix}\mI&\mB'\\ \vzero&\mI\end{pmatrix}^{-1}=\begin{pmatrix}\mI&-\mB'\\ \vzero&\mI\end{pmatrix}$）：
+\[
+\mM^{-1}
+=\begin{pmatrix}\mI&-\mA^{-1}\mB\\ \vzero&\mI\end{pmatrix}
+\begin{pmatrix}\mA^{-1}&\vzero\\ \vzero&\mS^{-1}\end{pmatrix}
+\begin{pmatrix}\mI&\vzero\\ -\mC\mA^{-1}&\mI\end{pmatrix},
+\]
+乘开即得~\eqref{eq:blockinv}。
+\end{proof}
+
+对称的情形（对应协方差矩阵）值得单独记住：若 $\mM$ 对称，即 $\mC=\mB^\T$、$\mA=\mA^\T$、$\mD=\mD^\T$，则 $\mS=\mD-\mB^\T\mA^{-1}\mB$ 也对称，且
+\[
+\mM^{-1}=
+\begin{pmatrix}
+\mA^{-1}+\mA^{-1}\mB\mS^{-1}\mB^\T\mA^{-1} & -\mA^{-1}\mB\mS^{-1}\\
+-\mS^{-1}\mB^\T\mA^{-1} & \mS^{-1}
+\end{pmatrix}.
+\]
+
+\begin{proposition}\label{prop:schur-pd}
+若对称矩阵 $\mM=\begin{pmatrix}\mA&\mB\\ \mB^\T&\mD\end{pmatrix}\succ 0$，则 $\mA\succ 0$，$\mD\succ 0$，且 Schur 补 $\mS=\mD-\mB^\T\mA^{-1}\mB\succ 0$。
+\end{proposition}
+
+\begin{proof}
+取 $\vz=(\vx^\T,\vzero^\T)^\T$ 得 $\vx^\T\mA\vx=\vz^\T\mM\vz>0$（$\vx\ne\vzero$），故 $\mA\succ 0$；同理 $\mD\succ 0$。对 $\mS$：由~\eqref{eq:ldu}，令 $\mL=\begin{pmatrix}\mI&\vzero\\ \mB^\T\mA^{-1}&\mI\end{pmatrix}$，则 $\mM=\mL\begin{pmatrix}\mA&\vzero\\ \vzero&\mS\end{pmatrix}\mL^\T$，于是 $\begin{pmatrix}\mA&\vzero\\ \vzero&\mS\end{pmatrix}=\mL^{-1}\mM\mL^{-\T}\succ 0$，其右下块 $\mS\succ 0$。
+\end{proof}
+
+\subsection{二次型的分块展开与矩阵配方法}
+
+设 $\mM$ 如上对称正定，$\vz=(\vu^\T,\vv^\T)^\T$，$\vu\in\R^n$，$\vv\in\R^m$。把 $\vz^\T\mM\vz$ 按块展开：
+\[
+\vz^\T\mM\vz=\vu^\T\mA\vu+2\vu^\T\mB\vv+\vv^\T\mD\vv .
+\]
+把它看成 $\vv$ 的二次函数并"配方"。一元情形 $dv^2+2bv+a$ 配方得 $d(v+b/d)^2+a-b^2/d$；矩阵情形完全平行：
+
+\begin{lemma}[矩阵配方法]\label{lem:complete-square}
+设 $\mD\succ 0$，则对任意 $\vv$、$\bm{b}$，
+\[
+\vv^\T\mD\vv+2\bm{b}^\T\vv=(\vv+\mD^{-1}\bm{b})^\T\mD(\vv+\mD^{-1}\bm{b})-\bm{b}^\T\mD^{-1}\bm{b}.
+\]
+\end{lemma}
+
+\begin{proof}
+右边展开：$\vv^\T\mD\vv+2\bm{b}^\T\mD^{-1}\mD\vv+\bm{b}^\T\mD^{-1}\mD\mD^{-1}\bm{b}-\bm{b}^\T\mD^{-1}\bm{b}$，利用 $\mD$ 对称及 $\mD^{-1}\mD=\mI$ 化简即得。
+\end{proof}
+
+不过在高斯分布的推导中，更方便的是直接用 LDU 分解~\eqref{eq:ldu} 得到下面的恒等式，它一步就把二次型拆成"只含 $\vu$ 的部分"与"含 $\vv$ 的完全平方"。
+
+\begin{proposition}[二次型的 Schur 分解]\label{prop:quad-schur}
+设 $\mM=\begin{pmatrix}\mA&\mB\\ \mB^\T&\mD\end{pmatrix}\succ 0$，$\mS=\mD-\mB^\T\mA^{-1}\mB$，则
+\begin{equation}\label{eq:quad-schur}
+\begin{pmatrix}\vu\\ \vv\end{pmatrix}^{\!\T}\mM^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}
+=\vu^\T\mA^{-1}\vu+\big(\vv-\mB^\T\mA^{-1}\vu\big)^\T\mS^{-1}\big(\vv-\mB^\T\mA^{-1}\vu\big).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+由定理~\ref{thm:blockinv} 证明中的分解式，
+\[
+\mM^{-1}=\mL^{-\T}\begin{pmatrix}\mA^{-1}&\vzero\\ \vzero&\mS^{-1}\end{pmatrix}\mL^{-1},\qquad
+\mL^{-1}=\begin{pmatrix}\mI&\vzero\\ -\mB^\T\mA^{-1}&\mI\end{pmatrix}.
+\]
+计算 $\mL^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}=\begin{pmatrix}\vu\\ \vv-\mB^\T\mA^{-1}\vu\end{pmatrix}$，代入即得。
+\end{proof}
+
+注意~\eqref{eq:quad-schur} 右边第一项与 $\vv$ 无关，第二项是关于 $\vv$ 的、以 $\mB^\T\mA^{-1}\vu$ 为中心、以 $\mS^{-1}$ 为"精度"的二次型。这正是"边缘 $\times$ 条件"结构的代数根源。
+
+\subsection{多重积分的换元与雅可比行列式}
+
+\begin{theorem}[线性换元]\label{thm:change-var}
+设 $\mA\in\R^{n\times n}$ 可逆，$\vb\in\R^n$，$g:\R^n\to\R$ 可积。作换元 $\vx=\mA\vw+\vb$，则
+\[
+\int_{\R^n} g(\vx)\dd\vx=|\det\mA|\int_{\R^n} g(\mA\vw+\vb)\dd\vw .
+\]
+\end{theorem}
+
+直观理解：线性映射 $\vw\mapsto\mA\vw$ 把单位体积放大为 $|\det\mA|$ 倍，所以体积元 $\dd\vx=|\det\mA|\dd\vw$。
+
+相应地，若随机向量 $\vw$ 有密度 $p_{\vw}$，而 $\vx=\mA\vw+\vb$（$\mA$ 可逆），则 $\vx$ 的密度为
+\begin{equation}\label{eq:density-transform}
+p_{\vx}(\vx)=\frac{1}{|\det\mA|}\,p_{\vw}\big(\mA^{-1}(\vx-\vb)\big).
+\end{equation}
+
+\subsection{一元高斯积分}
+
+\begin{lemma}\label{lem:gauss-int}
+$\displaystyle\int_{-\infty}^{\infty}e^{-t^2/2}\dd t=\sqrt{2\pi}$，更一般地对 $\lambda>0$，$\displaystyle\int_{-\infty}^{\infty}e^{-\lambda t^2/2}\dd t=\sqrt{2\pi/\lambda}$。
+\end{lemma}
+
+\begin{proof}
+记 $I=\int e^{-t^2/2}\dd t$。则 $I^2=\iint e^{-(s^2+t^2)/2}\dd s\dd t$，换极坐标 $s=r\cos\theta$，$t=r\sin\theta$，$\dd s\dd t=r\dd r\dd\theta$，得 $I^2=\int_0^{2\pi}\!\int_0^\infty e^{-r^2/2}r\dd r\dd\theta=2\pi$。第二式令 $t=s/\sqrt{\lambda}$ 即得。
+\end{proof}
+
+\section{多元高斯分布}\label{sec:gauss}
+
+\subsection{从一元到多元}
+
+一元高斯分布 $\Normal(\mu,\sigma^2)$ 的密度为
+\[
+p(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big).
+\]
+指数中的 $(x-\mu)^2/\sigma^2$ 可写作 $(x-\mu)\,(\sigma^2)^{-1}(x-\mu)$，归一化常数中的 $\sigma^2$ 是"协方差"。把这两处的 $\sigma^2$ 换成协方差矩阵 $\mSigma$，就得到多元情形。
+
+\begin{definition}[多元高斯分布]\label{def:mvn}
+设 $\vmu\in\R^n$，$\mSigma\in\R^{n\times n}$ 对称正定。若随机向量 $\vx\in\R^n$ 的密度为
+\begin{equation}\label{eq:mvn}
+\Normal(\vx;\vmu,\mSigma)=\frac{1}{(2\pi)^{n/2}(\det\mSigma)^{1/2}}
+\exp\Big(-\frac12(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)\Big),
+\end{equation}
+则称 $\vx$ 服从均值为 $\vmu$、协方差为 $\mSigma$ 的多元高斯分布，记 $\vx\sim\Normal(\vmu,\mSigma)$。矩阵 $\mLambda:=\mSigma^{-1}$ 称为\textbf{精度矩阵}。
+\end{definition}
+
+要说明这个定义是合理的，需要验证三件事：它确实是一个概率密度（积分为 $1$）；它的均值确实是 $\vmu$；它的协方差确实是 $\mSigma$。
+
+\subsection{归一化常数的推导}
+
+\begin{proposition}\label{prop:normalize}
+$\displaystyle\int_{\R^n}\exp\Big(-\frac12(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)\Big)\dd\vx=(2\pi)^{n/2}(\det\mSigma)^{1/2}$。
+\end{proposition}
+
+\begin{proof}
+思路是用谱定理把二次型对角化，把 $n$ 重积分化为 $n$ 个一元高斯积分之积。
+
+由谱定理，$\mSigma=\mQ\mLambda\mQ^\T$，$\mLambda=\diag(\lambda_1,\dots,\lambda_n)$，$\lambda_i>0$。作换元
+\[
+\vx-\vmu=\mQ\mLambda^{1/2}\vw,\qquad\text{即}\quad \vx=\mSigma^{1/2}\mQ\,\vw+\vmu\ \ (\text{也可直接取 }\vx=\mQ\mLambda^{1/2}\vw+\vmu).
+\]
+按定理~\ref{thm:change-var}，$\dd\vx=|\det(\mQ\mLambda^{1/2})|\dd\vw=\prod_i\sqrt{\lambda_i}\dd\vw=(\det\mSigma)^{1/2}\dd\vw$（用到 $|\det\mQ|=1$）。而
+\[
+(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)
+=\vw^\T\mLambda^{1/2}\mQ^\T\,\mQ\mLambda^{-1}\mQ^\T\,\mQ\mLambda^{1/2}\vw
+=\vw^\T\vw=\sum_{i=1}^n w_i^2 .
+\]
+于是
+\begin{align*}
+\int_{\R^n}e^{-\frac12(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)}\dd\vx
+&=(\det\mSigma)^{1/2}\int_{\R^n}e^{-\frac12\sum_iw_i^2}\dd\vw\\
+&=(\det\mSigma)^{1/2}\prod_{i=1}^n\int_{\R}e^{-w_i^2/2}\dd w_i
+=(\det\mSigma)^{1/2}(2\pi)^{n/2}.
+\end{align*}
+\end{proof}
+
+上面证明中的换元 $\vw=\mLambda^{-1/2}\mQ^\T(\vx-\vmu)$ 称为\textbf{白化}：它把一般的高斯变量变成各分量独立的标准正态变量。反过来说，任何多元高斯变量都可以写成 $\vx=\vmu+\mSigma^{1/2}\vw$，其中 $\vw\sim\Normal(\vzero,\mI)$。这一观点使得均值与协方差的计算变得非常简单。
+
+\subsection{均值与协方差}
+
+\begin{proposition}
+若 $\vx\sim\Normal(\vmu,\mSigma)$，则 $\E[\vx]=\vmu$，$\Cov[\vx]=\mSigma$。
+\end{proposition}
+
+\begin{proof}
+先处理标准情形 $\vw\sim\Normal(\vzero,\mI)$：其密度 $\prod_i(2\pi)^{-1/2}e^{-w_i^2/2}$ 是各分量密度之积，故各 $w_i$ 独立同分布于 $\Normal(0,1)$，于是 $\E[\vw]=\vzero$，$\Cov[\vw]=\E[\vw\vw^\T]=\mI$（对角元 $\E[w_i^2]=1$，非对角元 $\E[w_iw_j]=\E[w_i]\E[w_j]=0$）。
+
+一般情形，由~\eqref{eq:density-transform} 反推：$\vx=\mSigma^{1/2}\vw+\vmu$ 的密度恰为~\eqref{eq:mvn}（读者可代入验证，注意 $|\det\mSigma^{1/2}|=(\det\mSigma)^{1/2}$）。因此
+\[
+\E[\vx]=\mSigma^{1/2}\E[\vw]+\vmu=\vmu,\qquad
+\Cov[\vx]=\E\big[\mSigma^{1/2}\vw\vw^\T\mSigma^{1/2}\big]=\mSigma^{1/2}\,\mI\,\mSigma^{1/2}=\mSigma .
+\]
+\end{proof}
+
+\subsection{仿射变换保持高斯性}
+
+\begin{theorem}[仿射变换]\label{thm:affine}
+设 $\vx\sim\Normal(\vmu,\mSigma)$，$\vx\in\R^n$，$\mA\in\R^{k\times n}$ 行满秩（$k\le n$），$\vb\in\R^k$。则
+\[
+\mA\vx+\vb\sim\Normal(\mA\vmu+\vb,\ \mA\mSigma\mA^\T).
+\]
+\end{theorem}
+
+\begin{proof}
+均值与协方差直接由线性性得到：$\E[\mA\vx+\vb]=\mA\vmu+\vb$，$\Cov[\mA\vx+\vb]=\mA\,\Cov[\vx]\,\mA^\T=\mA\mSigma\mA^\T$，且由命题~\ref{prop:pd}(4)，$\mA\mSigma\mA^\T=(\mA\mSigma^{1/2})(\mA\mSigma^{1/2})^\T\succ 0$。
+
+剩下要证的是分布仍为高斯。若 $k=n$（$\mA$ 可逆），由~\eqref{eq:density-transform}，$\vy=\mA\vx+\vb$ 的密度为
+\begin{align*}
+&\frac{1}{|\det\mA|}\Normal\big(\mA^{-1}(\vy-\vb);\vmu,\mSigma\big)\\
+&\qquad=\frac{1}{(2\pi)^{n/2}|\det\mA|(\det\mSigma)^{1/2}}
+\exp\Big(-\frac12(\vy-\mA\vmu-\vb)^\T\mA^{-\T}\mSigma^{-1}\mA^{-1}(\vy-\mA\vmu-\vb)\Big),
+\end{align*}
+其中我们用了 $\mA^{-1}(\vy-\vb)-\vmu=\mA^{-1}(\vy-\mA\vmu-\vb)$。注意 $\mA^{-\T}\mSigma^{-1}\mA^{-1}=(\mA\mSigma\mA^\T)^{-1}$，且 $|\det\mA|\,(\det\mSigma)^{1/2}=\big(\det(\mA\mSigma\mA^\T)\big)^{1/2}$，这正是 $\Normal(\vy;\mA\vmu+\vb,\mA\mSigma\mA^\T)$。
+
+若 $k<n$，把 $\mA$ 补成可逆方阵 $\widetilde{\mA}=\begin{pmatrix}\mA\\ \mA'\end{pmatrix}$（在 $\mA$ 的行空间的正交补中任选 $n-k$ 个线性无关的行），则 $\widetilde{\mA}\vx+\widetilde{\vb}$ 是 $n$ 维高斯，而 $\mA\vx+\vb$ 是它的前 $k$ 个分量，即它的一个边缘分布。边缘分布仍是高斯这一事实将在定理~\ref{thm:marginal} 中证明（那里的证明不依赖本定理）。
+\end{proof}
+
+\begin{remark}
+定理~\ref{thm:affine} 说明：高斯族在仿射变换下封闭，且只需追踪均值与协方差这两个量。这是高斯分布在概率论、统计和机器学习中如此好用的根本原因。
+\end{remark}
+
+\subsection{几何图像}
+
+密度~\eqref{eq:mvn} 的等高线由 $(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)=c$ 给出。由~\eqref{eq:quad-diag}，在以 $\vmu$ 为原点、以特征向量 $\bm{q}_i$ 为坐标轴的坐标系下，这个方程是 $\sum_i w_i^2/\lambda_i=c$，即一个椭球：主轴方向是 $\mSigma$ 的特征向量，半轴长与 $\sqrt{\lambda_i}$ 成比例。协方差越大的方向，分布越"扁长"。
+
+\section{两个高维随机变量的联合高斯分布 \texorpdfstring{$P(\vx,\vy)$}{P(x,y)}}\label{sec:joint}
+
+\subsection{设定与联合密度}
+
+现在设 $\vx\in\R^n$、$\vy\in\R^m$，并把它们拼成一个 $(n+m)$ 维向量
+\[
+\vz=\begin{pmatrix}\vx\\ \vy\end{pmatrix}\in\R^{n+m}.
+\]
+所谓"$\vx$ 与 $\vy$ 联合高斯"，就是指 $\vz\sim\Normal(\vmu,\mSigma)$。把均值与协方差按同样方式分块：
+\begin{equation}\label{eq:partition}
+\vmu=\begin{pmatrix}\vmu_x\\ \vmu_y\end{pmatrix},\qquad
+\mSigma=\begin{pmatrix}\mSigma_{xx}&\mSigma_{xy}\\ \mSigma_{yx}&\mSigma_{yy}\end{pmatrix},\qquad
+\mSigma_{xx}\in\R^{n\times n},\ \mSigma_{yy}\in\R^{m\times m},\ \mSigma_{yx}=\mSigma_{xy}^\T .
+\end{equation}
+这里 $\vmu_x=\E[\vx]$，$\vmu_y=\E[\vy]$，$\mSigma_{xx}=\Cov[\vx]$，$\mSigma_{yy}=\Cov[\vy]$，$\mSigma_{xy}=\Cov[\vx,\vy]$。
+
+于是联合密度的\textbf{表达式}就是把~\eqref{eq:mvn} 写在 $\vz$ 上：
+\begin{equation}\label{eq:joint}
+\boxed{\;
+P(\vx,\vy)=\frac{1}{(2\pi)^{(n+m)/2}\,(\det\mSigma)^{1/2}}
+\exp\!\left(-\frac12
+\begin{pmatrix}\vx-\vmu_x\\ \vy-\vmu_y\end{pmatrix}^{\!\T}
+\begin{pmatrix}\mSigma_{xx}&\mSigma_{xy}\\ \mSigma_{yx}&\mSigma_{yy}\end{pmatrix}^{\!-1}
+\begin{pmatrix}\vx-\vmu_x\\ \vy-\vmu_y\end{pmatrix}
+\right).\;}
+\end{equation}
+写下它并不困难，真正有内容的问题是：\emph{这个分块矩阵的逆是什么？指数如何展开？由此能读出什么？} 以下逐步回答。
+
+\subsection{第一步：用 Schur 补写出精度矩阵}
+
+记精度矩阵 $\mLambda=\mSigma^{-1}$ 并同样分块为 $\begin{pmatrix}\mLambda_{xx}&\mLambda_{xy}\\ \mLambda_{yx}&\mLambda_{yy}\end{pmatrix}$。由命题~\ref{prop:schur-pd}，$\mSigma_{xx}\succ 0$，且 Schur 补
+\begin{equation}\label{eq:schur-S}
+\mS:=\mSigma_{yy}-\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}\ \succ 0 .
+\end{equation}
+把定理~\ref{thm:blockinv} 用于 $\mSigma$（取 $\mA=\mSigma_{xx}$，$\mB=\mSigma_{xy}$，$\mC=\mSigma_{yx}$，$\mD=\mSigma_{yy}$）得到
+\begin{equation}\label{eq:precision-blocks}
+\begin{aligned}
+\mLambda_{xx}&=\mSigma_{xx}^{-1}+\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1},
+&\mLambda_{xy}&=-\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1},\\
+\mLambda_{yx}&=-\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1},
+&\mLambda_{yy}&=\mS^{-1}.
+\end{aligned}
+\end{equation}
+同时由定理~\ref{thm:blockdet}，
+\begin{equation}\label{eq:det-split}
+\det\mSigma=\det\mSigma_{xx}\cdot\det\mS .
+\end{equation}
+
+\begin{remark}
+\eqref{eq:precision-blocks} 中最值得注意的是 $\mLambda_{yy}=\mS^{-1}$：精度矩阵的一个对角块，等于协方差矩阵中对应块的 Schur 补的逆，而\emph{不}等于 $\mSigma_{yy}^{-1}$。这一点在后面解释"条件协方差"时会再出现。
+\end{remark}
+
+\subsection{第二步：展开指数}
+
+令 $\vu=\vx-\vmu_x$，$\vv=\vy-\vmu_y$。指数中的二次型是
+\[
+\Delta^2:=\begin{pmatrix}\vu\\ \vv\end{pmatrix}^{\!\T}\mSigma^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}.
+\]
+把命题~\ref{prop:quad-schur} 直接套用于 $\mM=\mSigma$，得到
+\begin{equation}\label{eq:exp-split}
+\Delta^2=\underbrace{\vu^\T\mSigma_{xx}^{-1}\vu}_{\text{只含 }\vx}
++\underbrace{\big(\vv-\mSigma_{yx}\mSigma_{xx}^{-1}\vu\big)^\T\mS^{-1}\big(\vv-\mSigma_{yx}\mSigma_{xx}^{-1}\vu\big)}_{\text{关于 }\vy\text{ 的完全平方}} .
+\end{equation}
+
+为了让读者看到"配方"是如何发生的，这里再给出一个不借助命题~\ref{prop:quad-schur}、而是直接用精度矩阵分块~\eqref{eq:precision-blocks} 和引理~\ref{lem:complete-square} 的推导。按块展开：
+\[
+\Delta^2=\vu^\T\mLambda_{xx}\vu+2\vu^\T\mLambda_{xy}\vv+\vv^\T\mLambda_{yy}\vv .
+\]
+把它看作 $\vv$ 的二次函数：$\vv^\T\mLambda_{yy}\vv+2(\mLambda_{yx}\vu)^\T\vv$，由引理~\ref{lem:complete-square}（$\mD=\mLambda_{yy}$，$\bm{b}=\mLambda_{yx}\vu$）：
+\[
+\vv^\T\mLambda_{yy}\vv+2(\mLambda_{yx}\vu)^\T\vv
+=(\vv+\mLambda_{yy}^{-1}\mLambda_{yx}\vu)^\T\mLambda_{yy}(\vv+\mLambda_{yy}^{-1}\mLambda_{yx}\vu)
+-\vu^\T\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}\vu .
+\]
+代入~\eqref{eq:precision-blocks}：$\mLambda_{yy}^{-1}\mLambda_{yx}=-\mS\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1}=-\mSigma_{yx}\mSigma_{xx}^{-1}$，所以完全平方项的中心是 $\vv-\mSigma_{yx}\mSigma_{xx}^{-1}\vu$，精度是 $\mLambda_{yy}=\mS^{-1}$。剩余部分为
+\begin{align*}
+\vu^\T\big(\mLambda_{xx}-\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}\big)\vu
+&=\vu^\T\Big(\mSigma_{xx}^{-1}+\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1}
+-\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1}\,\mS\,\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1}\Big)\vu\\
+&=\vu^\T\mSigma_{xx}^{-1}\vu ,
+\end{align*}
+与~\eqref{eq:exp-split} 一致。顺便注意到一个对偶的事实：$\mLambda_{xx}-\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}=\mSigma_{xx}^{-1}$，即\emph{精度矩阵的 Schur 补等于协方差矩阵对应块的逆}。
+
+\subsection{第三步：联合密度的乘积分解}
+
+把~\eqref{eq:exp-split} 与~\eqref{eq:det-split} 代回~\eqref{eq:joint}，并把常数按 $(2\pi)^{(n+m)/2}=(2\pi)^{n/2}(2\pi)^{m/2}$ 拆开：
+\begin{align}
+P(\vx,\vy)
+&=\frac{1}{(2\pi)^{n/2}(\det\mSigma_{xx})^{1/2}}\exp\Big(-\tfrac12(\vx-\vmu_x)^\T\mSigma_{xx}^{-1}(\vx-\vmu_x)\Big)\notag\\
+&\quad\times\frac{1}{(2\pi)^{m/2}(\det\mS)^{1/2}}\exp\Big(-\tfrac12\big(\vy-\vmu_{y|x}\big)^\T\mS^{-1}\big(\vy-\vmu_{y|x}\big)\Big),
+\label{eq:product}
+\end{align}
+其中
+\begin{equation}\label{eq:cond-mean}
+\vmu_{y|x}:=\vmu_y+\mSigma_{yx}\mSigma_{xx}^{-1}(\vx-\vmu_x).
+\end{equation}
+也就是说，
+\begin{equation}\label{eq:factor}
+\boxed{\;P(\vx,\vy)=\Normal(\vx;\vmu_x,\mSigma_{xx})\cdot\Normal\big(\vy;\ \vmu_y+\mSigma_{yx}\mSigma_{xx}^{-1}(\vx-\vmu_x),\ \mSigma_{yy}-\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}\big).\;}
+\end{equation}
+这个式子是本讲义的中心结论，下面两个定理只是对它的解读。
+
+\subsection{边缘分布}
+
+\begin{theorem}[边缘分布]\label{thm:marginal}
+若 $\begin{pmatrix}\vx\\ \vy\end{pmatrix}\sim\Normal\Big(\begin{pmatrix}\vmu_x\\ \vmu_y\end{pmatrix},\begin{pmatrix}\mSigma_{xx}&\mSigma_{xy}\\ \mSigma_{yx}&\mSigma_{yy}\end{pmatrix}\Big)$，则
+\[
+P(\vx)=\int_{\R^m}P(\vx,\vy)\dd\vy=\Normal(\vx;\vmu_x,\mSigma_{xx}),\qquad
+P(\vy)=\Normal(\vy;\vmu_y,\mSigma_{yy}).
+\]
+\end{theorem}
+
+\begin{proof}
+对~\eqref{eq:factor} 关于 $\vy$ 积分。第一个因子与 $\vy$ 无关；第二个因子是关于 $\vy$ 的高斯密度 $\Normal(\vy;\vmu_{y|x},\mS)$（$\mS\succ 0$ 已由~\eqref{eq:schur-S} 保证，而 $\vmu_{y|x}$ 只是一个依赖于 $\vx$ 的常向量），由命题~\ref{prop:normalize} 其积分为 $1$。故 $P(\vx)=\Normal(\vx;\vmu_x,\mSigma_{xx})$。对 $P(\vy)$，交换 $\vx,\vy$ 的角色（即对 $\mSigma_{yy}$ 取 Schur 补）即可。
+\end{proof}
+
+结论非常直观：\emph{高斯向量的一部分分量仍是高斯的，其均值与协方差就是原均值、协方差中对应的块}——直接"读"出来即可，不需要任何计算。
+
+\subsection{条件分布}
+
+\begin{theorem}[条件分布]\label{thm:conditional}
+在定理~\ref{thm:marginal} 的设定下，
+\begin{equation}\label{eq:conditional}
+P(\vy\mid\vx)=\Normal\big(\vy;\ \vmu_{y|x},\ \mSigma_{y|x}\big),\qquad
+\begin{cases}
+\vmu_{y|x}=\vmu_y+\mSigma_{yx}\mSigma_{xx}^{-1}(\vx-\vmu_x),\\[2pt]
+\mSigma_{y|x}=\mSigma_{yy}-\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}=\mLambda_{yy}^{-1}.
+\end{cases}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+由定义 $P(\vy\mid\vx)=P(\vx,\vy)/P(\vx)$，用~\eqref{eq:factor} 与定理~\ref{thm:marginal} 相除，第一个因子恰好约去。
+\end{proof}
+
+对~\eqref{eq:conditional} 的几点解读：
+\begin{enumerate}[nosep]
+  \item \textbf{条件均值是 $\vx$ 的仿射函数。} 系数矩阵 $\mSigma_{yx}\mSigma_{xx}^{-1}$ 正是"用 $\vx$ 线性回归 $\vy$"的最优系数；$\vx$ 偏离其均值多少，就按这个矩阵成比例地修正对 $\vy$ 的预期。
+  \item \textbf{条件协方差不依赖于 $\vx$ 的取值}，且 $\mSigma_{y|x}\preceq\mSigma_{yy}$（因为 $\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}\succeq 0$）：观测到 $\vx$ 之后，关于 $\vy$ 的不确定性只会减少或不变。
+  \item \textbf{用精度矩阵表述更简洁：} $\mSigma_{y|x}=\mLambda_{yy}^{-1}$，$\vmu_{y|x}=\vmu_y-\mLambda_{yy}^{-1}\mLambda_{yx}(\vx-\vmu_x)$。这说明精度矩阵"天然适合"描述条件分布，而协方差矩阵"天然适合"描述边缘分布。
+\end{enumerate}
+
+\subsection{独立性}
+
+\begin{corollary}
+联合高斯的 $\vx$ 与 $\vy$ 相互独立，当且仅当 $\mSigma_{xy}=\vzero$（不相关）。
+\end{corollary}
+
+\begin{proof}
+若 $\mSigma_{xy}=\vzero$，则~\eqref{eq:factor} 中 $\vmu_{y|x}=\vmu_y$、$\mS=\mSigma_{yy}$，联合密度化为 $\Normal(\vx;\vmu_x,\mSigma_{xx})\Normal(\vy;\vmu_y,\mSigma_{yy})=P(\vx)P(\vy)$。反之独立蕴含不相关对任何分布都成立。
+\end{proof}
+
+\begin{remark}
+"不相关 $\Rightarrow$ 独立"对一般分布不成立，它是高斯分布的特殊性质。此外，"$\vx$、$\vy$ 各自高斯"并不能推出"$(\vx,\vy)$ 联合高斯"，联合高斯是一个更强的假设。
+\end{remark}
+
+\section{例子与应用}\label{sec:example}
+
+\subsection{二维情形：\texorpdfstring{$n=m=1$}{n=m=1}}
+
+取 $x,y$ 为标量，$\Var(x)=\sigma_1^2$，$\Var(y)=\sigma_2^2$，相关系数 $\rho\in(-1,1)$，即
+\[
+\vmu=\begin{pmatrix}\mu_1\\ \mu_2\end{pmatrix},\qquad
+\mSigma=\begin{pmatrix}\sigma_1^2&\rho\sigma_1\sigma_2\\ \rho\sigma_1\sigma_2&\sigma_2^2\end{pmatrix}.
+\]
+则 $\det\mSigma=\sigma_1^2\sigma_2^2(1-\rho^2)$，
+\[
+\mSigma^{-1}=\frac{1}{1-\rho^2}
+\begin{pmatrix}1/\sigma_1^2&-\rho/(\sigma_1\sigma_2)\\ -\rho/(\sigma_1\sigma_2)&1/\sigma_2^2\end{pmatrix},
+\]
+代入~\eqref{eq:joint} 得到熟悉的二元正态密度
+\[
+P(x,y)=\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+\exp\!\left\{-\frac{1}{2(1-\rho^2)}\left[\frac{(x-\mu_1)^2}{\sigma_1^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}+\frac{(y-\mu_2)^2}{\sigma_2^2}\right]\right\}.
+\]
+用定理~\ref{thm:conditional}：Schur 补 $\mS=\sigma_2^2-\rho^2\sigma_1^2\sigma_2^2/\sigma_1^2=\sigma_2^2(1-\rho^2)$，回归系数 $\mSigma_{yx}\mSigma_{xx}^{-1}=\rho\sigma_2/\sigma_1$，故
+\[
+y\mid x\ \sim\ \Normal\Big(\mu_2+\rho\frac{\sigma_2}{\sigma_1}(x-\mu_1),\ \sigma_2^2(1-\rho^2)\Big).
+\]
+$|\rho|$ 越接近 $1$，知道 $x$ 后对 $y$ 的不确定性 $\sigma_2^2(1-\rho^2)$ 越小，这与直觉一致。
+
+\subsection{线性高斯模型：如何"制造"一个联合高斯}
+
+实际问题中，联合分布往往不是直接给出的，而是通过"先验 + 观测模型"构造出来的。设
+\[
+\vx\sim\Normal(\vmu,\mSigma),\qquad \vy=\mA\vx+\vb+\veps,\quad \veps\sim\Normal(\vzero,\mL^{-1}),\ \veps\text{ 与 }\vx\text{ 独立},
+\]
+其中 $\mA\in\R^{m\times n}$，$\mL\succ 0$ 是噪声精度。这等价于说 $P(\vy\mid\vx)=\Normal(\vy;\mA\vx+\vb,\mL^{-1})$。
+
+\begin{proposition}
+在上述模型下，$(\vx,\vy)$ 联合高斯，且
+\[
+\begin{pmatrix}\vx\\ \vy\end{pmatrix}\sim\Normal\!\left(
+\begin{pmatrix}\vmu\\ \mA\vmu+\vb\end{pmatrix},\ 
+\begin{pmatrix}\mSigma&\mSigma\mA^\T\\ \mA\mSigma&\mL^{-1}+\mA\mSigma\mA^\T\end{pmatrix}\right).
+\]
+\end{proposition}
+
+\begin{proof}
+$\vx$ 与 $\veps$ 独立且各自高斯，故 $\begin{pmatrix}\vx\\ \veps\end{pmatrix}\sim\Normal\Big(\begin{pmatrix}\vmu\\ \vzero\end{pmatrix},\begin{pmatrix}\mSigma&\vzero\\ \vzero&\mL^{-1}\end{pmatrix}\Big)$（两个独立高斯密度之积正是分块对角协方差的联合高斯密度）。而
+\[
+\begin{pmatrix}\vx\\ \vy\end{pmatrix}
+=\begin{pmatrix}\mI&\vzero\\ \mA&\mI\end{pmatrix}\begin{pmatrix}\vx\\ \veps\end{pmatrix}+\begin{pmatrix}\vzero\\ \vb\end{pmatrix}
+\]
+是一个可逆仿射变换，由定理~\ref{thm:affine} 结果仍为高斯，其均值与协方差按 $\mA\vmu+\vb$、$\mA\mSigma\mA^\T$ 的规则计算：
+\[
+\begin{pmatrix}\mI&\vzero\\ \mA&\mI\end{pmatrix}
+\begin{pmatrix}\mSigma&\vzero\\ \vzero&\mL^{-1}\end{pmatrix}
+\begin{pmatrix}\mI&\mA^\T\\ \vzero&\mI\end{pmatrix}
+=\begin{pmatrix}\mSigma&\mSigma\mA^\T\\ \mA\mSigma&\mA\mSigma\mA^\T+\mL^{-1}\end{pmatrix}.
+\]
+\end{proof}
+
+有了联合分布，就可以反过来用定理~\ref{thm:conditional} 求"看到 $\vy$ 之后 $\vx$ 是什么"，即贝叶斯后验：
+\[
+P(\vx\mid\vy)=\Normal\big(\vx;\ \vmu+\bm{K}(\vy-\mA\vmu-\vb),\ \mSigma-\bm{K}\mA\mSigma\big),\qquad
+\bm{K}:=\mSigma\mA^\T\big(\mL^{-1}+\mA\mSigma\mA^\T\big)^{-1}.
+\]
+这正是卡尔曼滤波更新步、高斯过程回归、贝叶斯线性回归等算法的公共核心。矩阵 $\bm{K}$ 通常称为增益矩阵。
+
+\section{小结}
+
+\begin{itemize}[nosep]
+  \item 联合高斯 $P(\vx,\vy)$ 的表达式只是把多元高斯密度写在拼接向量 $\vz=(\vx,\vy)$ 上，并把均值与协方差分块。
+  \item 一切推导归结为分块对称正定矩阵的两个事实：$\det\mSigma=\det\mSigma_{xx}\det\mS$，以及二次型的 Schur 分解~\eqref{eq:quad-schur}。两者都来自分块 LDU 分解~\eqref{eq:ldu}。
+  \item 由此得到乘积分解 $P(\vx,\vy)=P(\vx)P(\vy\mid\vx)$，其中边缘分布"直接读块"，条件分布"均值线性修正、协方差取 Schur 补"。
+  \item 协方差矩阵方便描述边缘，精度矩阵方便描述条件：$\mSigma_{y|x}=\mLambda_{yy}^{-1}$，$P(\vy)$ 的协方差是 $\mSigma_{yy}$。
+\end{itemize}
+
+\section*{练习}
+
+\begin{enumerate}[nosep]
+  \item 验证命题~\ref{prop:quad-schur} 中 $\mL^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}$ 的计算，并说明为什么它对应"用 $\vx$ 的信息消去 $\vy$ 中与 $\vx$ 相关的部分"。
+  \item 对 $\mSigma_{yy}$ 取 Schur 补，写出 $P(\vx\mid\vy)$ 的均值与协方差，并与~\eqref{eq:conditional} 对照。
+  \item 设 $\vx\sim\Normal(\vzero,\mI_n)$，$y=\bm{a}^\T\vx$（$\bm{a}\ne\vzero$）。求 $P(\vx\mid y)$，并解释条件协方差 $\mI-\bm{a}\bm{a}^\T/\|\bm{a}\|^2$ 的几何意义。
+  \item 证明 $\mLambda_{xx}-\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}=\mSigma_{xx}^{-1}$，即对精度矩阵取 Schur 补得到协方差块的逆。
+  \item 在线性高斯模型中，利用分块求逆公式~\eqref{eq:blockinv} 证明后验协方差也可写为 $(\mSigma^{-1}+\mA^\T\mL\mA)^{-1}$，后验均值可写为 $(\mSigma^{-1}+\mA^\T\mL\mA)^{-1}\big(\mA^\T\mL(\vy-\vb)+\mSigma^{-1}\vmu\big)$。（提示：这就是 Woodbury 恒等式。）
+\end{enumerate}
+
+\end{document}

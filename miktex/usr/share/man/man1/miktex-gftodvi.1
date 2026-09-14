@@ -1,0 +1,219 @@
+'\" t
+.\"     Title: miktex-gftodvi
+.\"    Author: Christian Schenk
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: May 13, 2026
+.\"    Manual: User Commands
+.\"    Source: MiKTeX 26.5
+.\"  Language: English
+.\"
+.TH "MIKTEX\-GFTODVI" "1" "May 13, 2026" "MiKTeX 26\&.5" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+miktex-gftodvi \- make proof sheets from generic font files
+.SH "SYNOPSIS"
+.HP \w'\fBmiktex\-gftodvi\fR\ 'u
+\fBmiktex\-gftodvi\fR [\fIoption\fR...] [\fIgffile\fR]
+.SH "DESCRIPTION"
+.PP
+This man page is an adaption of the corresponding
+TeX Live
+man page\&.
+.PP
+The
+\fBmiktex\-gftodvi\fR
+program converts a generic font (GF) file output by, for example,
+METAFONT, to a device independent (DVI) file (that can then be typeset using the same software that has already been written for)\&. The characters in the
+GF
+file will appear one per page, with labels, titles, and annotations as specified in Appendix\ \&H (Hardcopy Proofs) of
+The METAFONTbook\&.
+.PP
+\fBmiktex\-gftodvi\fR
+uses other fonts in addition to the main
+GF
+file\&. A
+\(lqgray\(rq
+font is used to typeset the pixels that actually make up the character\&. (We wouldn\*(Aqt want all the pixels to be simply black, since then labels, key points, and other information would be lost\&.) A
+\(lqtitle\(rq
+font is used for the information at the top of the page\&. A
+\(lqlabel\(rq
+font is used for the labels on key points of the figure\&. A
+\(lqslant\(rq
+font is used to typeset diagonal lines, which otherwise have to be simulated using horizontal and vertical rules\&. The default gray, title, and label fonts are
+gray,
+cmr8, and
+cmtt10, respectively; there is no default slant font\&.
+.PP
+To change the default fonts, you can give special commands in your source file, or you can change the fonts on the command\-line\&.
+.PP
+The
+GF
+file name on the command\-line must be complete\&. Because the resolution is part of the extension, it would not make sense to append a default extension as is done with other
+DVI\-reading software\&. The output file name defaults to the same root as the
+GF
+file, with the
+\&.dvi
+extension added\&. For example, the input file
+cmr10\&.2602gf
+would become
+cmr10\&.dvi\&.
+.SH "OPTIONS"
+.PP
+\fB\-\-alias=\fR\fB\fIname\fR\fR
+.RS 4
+Pretend to be program
+\fIname\fR, i\&.e\&., set program (and memory dump) name to
+\fIname\fR\&.
+.\" --alias=name
+This may affect the search paths and other values used\&. Using this option is equivalent to copying the program file to
+\fIname\fR
+and invoking
+\fIname\fR\&.
+.RE
+.PP
+\fB\-\-disable\-installer\fR
+.RS 4
+Disable automatic installation of packages\&.
+.\" --disable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-enable\-installer\fR
+.RS 4
+Enable automatic installation of packages\&.
+.\" --enable-installer
+Specifying this option overrules settings in the
+MiKTeX
+configuration data store\&.
+.RE
+.PP
+\fB\-\-gray\-font=\fR\fB\fIfont\fR\fR
+.RS 4
+.\" --gray-font=font
+Sets the
+\(lqgray\(rq
+font\&. Default is
+gray\&.
+.RE
+.PP
+\fB\-\-help\fR
+.RS 4
+.\" --help
+Give help and exit\&.
+.RE
+.PP
+\fB\-\-hhelp\fR
+.RS 4
+.\" --hhelp
+This option is only available on
+Windows
+systems: show the manual page in an HTML Help window and exit when the window is closed\&.
+.RE
+.PP
+\fB\-\-include\-directory=\fR\fB\fIdir\fR\fR
+.RS 4
+Add the directory
+\fIdir\fR
+to the
+.\" --include-directory=dir
+head of the list of directories to be searched for input files\&.
+.RE
+.PP
+\fB\-\-label\-font=\fR\fB\fIfont\fR\fR
+.RS 4
+.\" --label-font=font
+Sets the
+\(lqlabel\(rq
+font\&. Default is
+cmtt10\&.
+.RE
+.PP
+\fB\-\-logo\-font=\fR\fB\fIfont\fR\fR
+.RS 4
+.\" --logo-font=font
+Sets the
+\(lqlogo\(rq
+font\&. Default is
+logo8\&.
+.RE
+.PP
+\fB\-\-overflow\-label\-offset=\fR\fB\fIreal\fR\fR
+.RS 4
+.\" --overflow-label-offset=real
+Specifies the distance from the right edge of the character bounding box at which the overflow equations (if any) are typeset\&. The value is given in points\&. The default is a little over two inches\&.
+.RE
+.PP
+\fB\-\-record\-package\-usages=\fR\fB\fIfile\fR\fR
+.RS 4
+Record all package usages and write
+.\" --record-package-usages=file
+them into
+\fIfile\fR\&.
+.RE
+.PP
+\fB\-slant\-font=\fR\fB\fIfont\fR\fR
+.RS 4
+.\" -slant-font=font
+Sets the
+\(lqslant\(rq
+font\&. There is no default\&.
+.RE
+.PP
+\fB\-title\-font=\fR\fB\fIfont\fR\fR
+.RS 4
+.\" -title-font=font
+Sets the
+\(lqtitle\(rq
+font\&. Default is
+cmr8\&.
+.RE
+.PP
+\fB\-\-trace\fR\fB[=\fItracestreams\fR]\fR
+.RS 4
+Enable trace messages\&.
+.\" --trace=tracestreams
+The
+\fItracestreams\fR
+argument, if specified, is a comma\-separated list of trace stream names (Chapter\ \&9, Trace Streams)\&.
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+.\" --version
+Show version information and exit\&.
+.RE
+.SH "ENVIRONMENT"
+.PP
+\fBMIKTEX_TRACE\fR
+.RS 4
+.\" MIKTEX_TRACE
+Comma\-separated list of trace stream names (see
+Chapter\ \&9, Trace Streams)\&. If this variable is set, then
+MiKTeX
+programs will write trace messages into the configured log sink\&.
+.RE
+.SH "SEE ALSO"
+\fBmiktex-mf\fR(1)
+
+978-0201134452. The METAFONTbook. Donald E\&. Knuth. Addison-Wesley. 1986. 
+
