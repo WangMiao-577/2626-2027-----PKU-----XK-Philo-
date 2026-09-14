@@ -224,4 +224,127 @@ B=\int_0^{\infty}I(\lambda)\bar{b}(\lambda)d\lambda
 当然这种逻辑感知也会带来相应的视觉错觉，譬如色诱导，使用补色可以让人自动脑补对应的颜色；再比如说边缘效应和移动错觉（动态立体视觉）。
 
 人眼对于不同的光敏感性不同，对不同波段的光，施加灰度和模糊处理可以得到不同的认知效果（灰度指的是介于黑白之间的明暗程度）。
+
+\section{显示（Display）}
+
+\subsection{显示器的种类和发展历史}
+
+\begin{enumerate}
+    \item 矢量显示（阴极射线管）
+    \item 二维显示（电子束）
+    \begin{itemize}
+        \item 像素：每个可以点亮的屏幕点
+        \item 分辨率：品目像素格式
+        \item 纵横比：像素列数除以行数
+        \item 帧：显示的一个画面
+        \item 隔行扫描：保证亮度均衡
+    \end{itemize}
+    \item 彩色二维显示（彩色荧光幕，不同荧光剂分区涂布）
+    \item 二维显示（LCD）：统一发光，用液晶部分控制光的偏振，调节亮度
+    \item 二维显示（OLED）：有机发光半导体显示器。独立的LED单元。
+\end{enumerate}
+
+\subsection{色域}
+
+美国国家电视标准委员会的色域标准称为NTSC。
+
+\begin{itemize}
+    \item sRGB：微软，HP（72% NSTC）
+    \item ARGB: Adobe颜色（设计软件）
+    \item Rec.2020:4K(电视的标准)
+    \item DCI-P3 : Apple标准
+\end{itemize}
+
+\subsection{像素标准}
+
+显卡的存储和刷新越厉害，达到4K8K就越容易。
+
+\subsection{立体显示}
+
+立体显示依据的原理是双目视觉。所有的立体显示技术基于人类的生理特征。最开始的显示技术是双目偏振片的3D显示。沉浸式的3D显示技术（AR,VR,XR）跟踪头显，裸眼3D+眼睛跟踪。现有的技术向MR-mix方向进行发展。
+
+裸眼3D技术：LCD屏幕的方法：微柱透镜显示技术。利用视差屏障，令OLED屏幕上不同的像素点用不同角度进入人眼。
+
+全息显示技术（Hplographic display）：用干涉记录波前的信息（数字全息摄影），用衍射记录物光波场（受限于较小的范围）。
+
+多模态显示技术：触觉显示（触觉输出），嗅觉显示（控制挥发的成分。。。？）
+
+\section{图像（Image Representation）}
+
+在二维空间中，每个点可以由四个参数表示。$E(x,y,\lambda,t)$其中$\lambda$字母的含义为光的波长。从数学上来说图像本身是一个连续的表征（真实世界），在屏幕上离散化显示。VCL的任务在于用离散方式进行还原。
+
+\subsection{图像的表示}
+
+图像显示的两个方法是矢量表示法（Vector Representation，对应SVG格式）和光栅化表示法（Raster Representation，像素级存储）。
+
+矢量表示法的精确度高，用较小的空间，不会受到分辨率影响（可以用新的矢量计算适应不同屏幕不同大小）多用于图标等规则图形。Raster存储空间较大，受限于分辨率，但是可以表达更加不规则的图形。
+
+\subsection{图形处理器（GPU）}
+
+GPU有成百上千个简单的计算单元，可以在同一时间并行运行大量程序，比如计算每个像素的颜色，而CPU一般只有个位数的可并行的计算单元。故而GPU显卡适合处理进行大量计算的图形编程任务。
+
+Pixel存储中有重要概念帧缓冲区（Frambuffers for image processing and display），指的是储存二维像素矩阵的内存大小。硬件以60Hz速度扫描帧缓冲区中的内容，这也决定了显示器的种类。
+
+同样存储彩色图片的时候，Fullcolor（RGB），决定了显示器的颜色存储位数。一般来说真彩色图像的显示屏为24-bit位存储。如果颜色粗出空间较小，色彩的丰富度就会下降。
+
+gif颜色存储的性质：Colormap映射。对于每一个像素点，存储一个8-bit常数，映射到RGB颜色表格Colormap，根据映射进行显示。在预先选好的表格中进行查找和压缩。
+
+\begin{fancybox}{几种图片的文件格式}
+
+\textbf{常见图像文件格式的全称：}
+\begin{itemize}[leftmargin=1.6em,itemsep=1pt,topsep=3pt,parsep=0pt]
+    \item \textbf{BMP}：Full color image（全彩色图像）
+    \item \textbf{JPEG}：Joint Photographic Experts Group Format
+    \item \textbf{TIFF}：Tagged-Image File Format
+    \item \textbf{GIF}：CompuServe Graphics Interchange Format
+    \item \textbf{PPM}：Portable PixMap Format（ASCII 或二进制）
+    \item \textbf{EPS}：Encapsulated PostScript Format（ASCII）
+\end{itemize}
+
+\vspace{2pt}
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+ & \textbf{BITS PER PIXEL} & \textbf{FILE SIZE} & \textbf{COMMENTS} \\
+\midrule
+JPEG & 24            & small  & lossy compression \\
+TIFF & 8, 24         & medium & good general purpose \\
+GIF  & 1, 4, 8       & medium & popular, but 8-bit \\
+PPM  & 24            & big    & easy to read/write \\
+EPS  & 1, 2, 4, 8, 24 & huge  & good for printing \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{fancybox}
+
+同时，相较于24-bit的图像，有的高级图像会膨胀到每个像素96-bit，有一些其他的通道来表示图像。
+
+\begin{enumerate}
+    \item Alpha通道（8-bit）：透明度（Transparency），存储透明度常数，存在前中后背景。
+    
+    根据参数$\alpha$计算像素点的表示：$b = (1-\alpha) a_1 + \alpha a_2$
+    \item Z-buffer（16-bit）：保存像素点所对应的3D空间点的深度。判断在叠加一层的时候应该占据多少通道和Alpha信息。
+    
+    \item 双通道表示：既要保存图像的现有数据，又要保存图像的旧信息，方便修改。
+\end{enumerate}
+
+\subsection{图像处理（Image Processing）}
+
+图像处理按操作的作用范围可以分为两类基本操作。\textbf{点处理（Point Processing）}逐像素地修改像素值，输出仅是该像素自身像素值的函数；\textbf{滤波（Filtering）}的输出则是该像素周围（通常是局部）邻域（local neighborhood）内像素的函数，因而需要用到邻域中其他像素的信息。
+我们也可以理解为一个是逐点操作，一个是区域化的操作（图像抖动，图像过滤，区域补全）。
+
+除这两类基本操作之外，图像处理还包括以下其他课题：
+
+\begin{itemize}
+    \item 图像变换（Image transformation）：缩放（resize）、形变（warp）
+    \item 图像压缩（Image compression）：无损（lossless）与有损（lossy）
+    \item 图像编解码（Image encoding and decoding）：用于高效传输（efficient transmission）
+    \item 图像分割（Image segmentation）
+    \item 图像抠图（Image matting）
+    \item 图像理解（Image understanding）：进一步走向计算机视觉（computer vision）
+    \item 视频处理（Video processing）：推广到图像序列（a sequence of images）
+    \item ……
+\end{itemize}
+
 \end{document}

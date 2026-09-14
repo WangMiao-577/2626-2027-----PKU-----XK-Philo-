@@ -1,10 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  10 SEP 2026 15:03
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  14 SEP 2026 10:34
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/home/simson/latex/Machine learning.tex"
-(/home/simson/latex/Machine learning.tex
+**"./Machine learning.tex"
+(Machine learning.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
 (/home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
@@ -1731,12 +1730,12 @@ Package rerunfilecheck Info: File `"Machine learning".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 44736 strings out of 404899
- 1124074 string characters out of 5480821
- 1669819 words of memory out of 5000000
+ 44735 strings out of 404899
+ 1124019 string characters out of 5480821
+ 1669845 words of memory out of 5000000
  72703 multiletter control sequences out of 15000+600000
  632736 words of font info for 104 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 107i,12n,118p,1219b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 107i,12n,118p,1202b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Machine learning.pdf (3 pages).
+Output written on Machine learning.xdv (3 pages, 34936 bytes).

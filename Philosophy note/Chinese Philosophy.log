@@ -1,9 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  14 SEP 2026 10:34
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  14 SEP 2026 12:01
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**"./Environment Ethic.tex"
-(Environment Ethic.tex
+**"/home/simson/latex/Philosophy note/Chinese Philosophy.tex"
+(/home/simson/latex/Philosophy note/Chinese Philosophy.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
 (/home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
@@ -1515,8 +1516,8 @@ Package fontspec Info:
 
 Package hyperref Info: Option `colorlinks' set `true' on input line 130.
 
-(Environment Ethic.aux)
-\openout1 = `"Environment Ethic.aux"'.
+(Chinese Philosophy.aux)
+\openout1 = `"Chinese Philosophy.aux"'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 133.
 LaTeX Font Info:    ... okay on input line 133.
@@ -1636,9 +1637,9 @@ s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
 \c@lstlisting=\count414
 Package hyperref Info: Link coloring ON on input line 133.
-(Environment Ethic.out) (Environment Ethic.out)
+(Chinese Philosophy.out) (Chinese Philosophy.out)
 \@outlinefile=\write4
-\openout4 = `"Environment Ethic.out"'.
+\openout4 = `"Chinese Philosophy.out"'.
 
 
 Package fontspec Info: 
@@ -1685,9 +1686,14 @@ Package fontspec Info:
 
  [1
 
-] (Environment Ethic.toc)
+] (Chinese Philosophy.toc
+
+LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
+(Font)              size <10.95> substituted on input line 2.
+
+)
 \tf@toc=\write5
-\openout5 = `"Environment Ethic.toc"'.
+\openout5 = `"Chinese Philosophy.toc"'.
 
 
 
@@ -1713,21 +1719,34 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
 
-[2] (Environment Ethic.aux)
+[2]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.64723pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.64723pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
+
+[3] (Chinese Philosophy.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/08/07>
  ***********
-Package rerunfilecheck Info: File `"Environment Ethic".out' has not changed.
+
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 0.41063pt have occurred.
+
+Package rerunfilecheck Info: File `"Chinese Philosophy".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 44523 strings out of 404899
- 1118269 string characters out of 5480821
- 1671237 words of memory out of 5000000
- 72499 multiletter control sequences out of 15000+600000
- 631126 words of font info for 96 fonts, out of 8000000 for 9000
+ 44784 strings out of 404899
+ 1135264 string characters out of 5480821
+ 1683292 words of memory out of 5000000
+ 72754 multiletter control sequences out of 15000+600000
+ 632736 words of font info for 104 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 107i,12n,118p,1203b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 107i,13n,118p,1237b,1311s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Environment Ethic.xdv (4 pages, 37580 bytes).
+Output written on Chinese Philosophy.pdf (5 pages).

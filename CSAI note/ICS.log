@@ -1,10 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  10 SEP 2026 15:03
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  14 SEP 2026 10:34
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/simson/latex/ICS.tex
-(/home/simson/latex/ICS.tex
+**./ICS.tex
+(ICS.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
 (/home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
@@ -1756,12 +1755,12 @@ Package rerunfilecheck Info: File `ICS.out' has not changed.
 (rerunfilecheck)             Checksum: 2E9CFB01FED5252563A9E408B293392A;1527.
  ) 
 Here is how much of TeX's memory you used:
- 44802 strings out of 404899
- 1125552 string characters out of 5480821
- 1849468 words of memory out of 5000000
+ 44801 strings out of 404899
+ 1125497 string characters out of 5480821
+ 1849438 words of memory out of 5000000
  72758 multiletter control sequences out of 15000+600000
  632768 words of font info for 108 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 107i,17n,118p,1204b,1311s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 107i,17n,118p,1187b,1311s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on ICS.pdf (6 pages).
+Output written on ICS.xdv (6 pages, 86784 bytes).

@@ -1,3 +1,12 @@
 \contentsline {section}{\numberline {1}导论}{1}{section.1}%
 \contentsline {section}{\numberline {2}VCL基础知识和技能}{1}{section.2}%
 \contentsline {subsection}{\numberline {2.1}颜色，颜色感知和可视化}{1}{subsection.2.1}%
+\contentsline {section}{\numberline {3}显示（Display）}{1}{section.3}%
+\contentsline {subsection}{\numberline {3.1}显示器的种类和发展历史}{1}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}色域}{2}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}像素标准}{2}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}立体显示}{2}{subsection.3.4}%
+\contentsline {section}{\numberline {4}图像（Image Representation）}{2}{section.4}%
+\contentsline {subsection}{\numberline {4.1}图像的表示}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}图形处理器（GPU）}{3}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}图像处理（Image Processing）}{4}{subsection.4.3}%

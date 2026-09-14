@@ -1,0 +1,310 @@
+% chktex-file 0
+\documentclass{ctexart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{soulutf8}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\pgfplotsset{compat=newest}
+\usepackage{tikz}
+\usepackage{xcolor} % 用于颜色设置
+\usepackage{listings} % 用于代码块
+\usepackage{fontspec} % 关键：用于使用系统字体 (XeLaTeX/LuaLaTeX)
+% Linux 环境中没有 Windows 宋体时，使用可用的中文衬线字体作为宋体替代
+\setCJKmainfont{Noto Serif CJK SC}
+\usepackage{authblk}
+\usepackage[
+    colorlinks=true,      % 使用颜色而非方框
+    linkcolor=blue,       % 内部链接颜色
+    citecolor=green,      % 引用链接颜色
+    urlcolor=red,         % URL 链接颜色
+    bookmarks=true,       % 生成 PDF 书签
+    bookmarksopen=true,   % 默认展开书签
+    pdfstartview=FitH     % 页面宽度适应窗口
+]{hyperref}
+
+\sethlcolor{yellow}%设置所需高亮颜色
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+% 页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% 定义草绿色
+\definecolor{grassgreen}{RGB}{124,179,66}
+% 补全缺失的浅蓝色定义（防止编译报错）
+\definecolor{lightblue}{RGB}{30,144,255} 
+
+% 清空默认
+\fancyhf{}
+
+% 页眉
+\fancyhead[L]{\textcolor{lightblue}{\kaishu Chinese Philosophy}}
+\fancyhead[R]{\textcolor{lightblue}{\textit{2026.9-2027.1}}}
+
+% 页脚页码居中
+\fancyfoot[C]{\textcolor{lightblue}{\thepage}}
+
+% 页眉、页脚线颜色
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\renewcommand{\footrule}{\color{blue!30!white}\hrule height 1pt width\headwidth}
+\newtcolorbox{fancybox}[2][blue]{ % 可选颜色参数
+  enhanced,
+  breakable,
+    colback=#1!3!white,
+    colframe=#1!18!white,
+    boxrule=0.8pt,
+    arc=6pt,
+    outer arc=6pt,
+  left=10pt,right=10pt,top=12pt,bottom=10pt,
+  title={\textbf{#2}},
+    fonttitle=\bfseries\color{#1!65!black},
+  attach boxed title to top left={yshift=-2mm,xshift=5mm},
+  boxed title style={
+        colback=#1!8!white,
+        colframe=#1!18!white,
+        boxrule=0.6pt,
+        arc=4pt,
+  },
+    shadow={1.5pt}{-1.5pt}{0pt}{black!10},
+}
+
+% 定义一套适合C++的配色方案
+\usepackage{tabularx}
+\newfontfamily{\consolasfont}{Ubuntu}
+
+\newcommand{\bluecode}[1]{{\color{blue}\consolasfont #1}}
+\lstdefinestyle{MyCppStyle}{
+    language = C++,
+    % 确保这里使用 \consolasfont
+    basicstyle = \consolasfont\small, 
+    keywordstyle = \color{blue!70!black}, 
+    commentstyle = \color{green!50!black}, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+}
+% --- lstdefinestyle HTML 风格定义 ---
+\lstdefinestyle{mhtml}{
+    language = HTML,
+    basicstyle = \consolasfont\small, 
+    tagstyle = \color{blue!70!black}\bfseries,
+    keywordstyle = \color{purple!80!black},
+    commentstyle = \color{green!50!black}\itshape, 
+    stringstyle = \color{red!60!black}, 
+    numberstyle = \tiny\color{gray}, 
+    numbers = left, 
+    frame = single, 
+    rulecolor = \color{lightgray}, 
+    breaklines = true, 
+    backgroundcolor = \color{white}, 
+    tabsize = 4, 
+    showstringspaces = false, 
+    xleftmargin = 2em, 
+    escapeinside=``,
+    morekeywords={als, doctype, html, head, title, meta, link, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, table, tr, th, td, pre, code, script, style},
+    morekeywords=[2]{class, id, href, src, rel, type, charset, lang, name, content, style},
+    keywordstyle=[2]\color{purple!80!black},
+}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    filecolor=magenta,    
+    urlcolor=cyan,        
+    pdftitle={我的文档标题}, 
+}
+
+% ==================== 正文部分 ====================
+\begin{document}
+
+% 开启无页眉页脚模式（针对封面和目录）
+\pagestyle{empty}
+
+% ------------------ 美化封面页 ------------------
+\begin{titlepage}
+    \centering
+    % 顶部 TikZ 几何几何装饰条（全宽 bleed 效果）
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[blue!50!white] (current page.north west) rectangle ([yshift=-2cm]current page.north east);
+        \fill[grassgreen] (current page.north west) ++(0,-2cm) rectangle ([yshift=-2.2cm]current page.north east);
+    \end{tikzpicture}
+    
+    \vspace*{3.5cm}
+    
+    % 大标题
+    {\fontsize{30pt}{36pt}\selectfont\bfseries\color{blue!80!black} 中国哲学}\\[0.6em]
+    % 副标题或英文标识
+    {\fontsize{14pt}{18pt}\selectfont\color{gray}\textsf{Chinese Philosophy}}\\[1cm]
+    
+    % 居中装饰线
+    \centering\makebox[4cm]{\color{grassgreen}\rule{5cm}{1.5pt}}
+    
+    \vfill
+    
+    % 使用 tcolorbox 包装的精致作者信息框
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.55\textwidth,
+        colback=blue!5!white,
+        colframe=blue!5!white,
+        boxrule=1.2pt,
+        arc=6pt,
+        sharp corners=downhill, % 别致的对角切角效果
+        shadow={2pt}{-2pt}{0pt}{black!20},
+        halign=center,
+        valign=center,
+        top=15pt, bottom=15pt
+    ]
+        {\large\bfseries\color{black!80} Author：} {\large\kaishu Simson} \\[0.6em]
+        {\large\bfseries\color{black!80} Date：} {\large\kaishu September 2026}
+    \end{tcolorbox}
+    
+    \vfill
+    \vspace*{2cm}
+    
+    % 底部标识
+    {\color{gray!80}\small\the\year\ \copyright\ All Rights Reserved.}
+\end{titlepage}
+
+\pagestyle{fancy}
+
+\newpage
+\tableofcontents
+\newpage
+
+% 设置从当前页（正文第一页）开始采用阿拉伯数字编码，并自动重置为第 1 页
+\pagenumbering{arabic}
+
+\section{中国哲学概述}
+
+本部分主要介绍中国哲学的研究内容和研究主题。
+
+\subsection{中国哲学}
+
+首先是现代视野下中国学者冯友兰的初步认识，分为三个部分：
+
+\begin{itemize}
+    \item 宇宙论
+    \begin{itemize}
+        \item 本体论：存在之本体和真实之要素
+        \item 宇宙论：世界发生和历史归宿
+    \end{itemize}
+    \item 人生论
+    \begin{itemize}
+        \item 人究竟是什么
+        \item 伦理学和政治社会哲学
+    \end{itemize}
+    \item 知识论
+\end{itemize}
+
+张岱年的初步认识有些许不同，但是方向是一样的。冯友兰提出：中国哲学是中国古代的所有学问中，可以被纳入西方对哲学定义中的部分的。随着现代学术的发展和中国哲学知识体系的建构和探索，冯友兰，张岱年和李存山等人发展出了新的中哲内容。
+
+\subsection{中国哲学史}
+
+中国哲学的内容离不开哲学史的积累。冯友兰提出中国哲学的“照着讲”和“接着讲”。所谓接着讲指的是中国哲学的传统接续了宋明以后道学中的理学一派，一度称之为新理学。照着讲更倾向于哲学史的研究，呈现原来的观点。
+
+中国哲学史研究的意义，借助牟宗三的表述和提示：中国思想发展历史以儒家为主干，受到原始模型的笼罩，也引申为原始模型的规范。汉代继承，魏晋道家复兴，接续佛学传入，从而实现充实和丰富。（所谓歧出）宋明归于自己，继承儒家发展进入新阶段，直至今日和西方哲学重新碰撞和丰富。
+
+中国哲学史的研究方法：\textbf{始终存在的方法问题}。冯友兰指出中哲略于方法组织，近人多诟病，然而这是中哲的精神。他认为中国哲学虽然没有形式上的系统但是有实质上的系统（中国哲学没有不成东西），与西方哲学是共有的。
+
+同时，研究中国哲学史必须加以解释和排比，在解释和整理的时候往往在表达自己的观点和对于古人的揣测。中国哲学的研究任务中就要努力找知识谱系（研究梳理中国古代哲学史，对古人要具备了解之同情），并努力排除个人的成见，经验和习惯（所谓神游冥想，处于统一境界），理解其用意（之所以不得不如是之苦心孤诣），了解并批评学说的是非。
+
+\subsection{分期和阶段}
+
+\textbf{分期：}先秦诸子学，两汉经学，魏晋玄学，南北朝隋唐佛学，宋明理学，清代和近代哲学（先秦到魏晋为中国哲学上）
+
+\section{先秦诸子}
+
+\subsection{前诸子时代和礼乐文明}
+这一部分所称的前诸子时代，指的是夏商西周的礼乐文明时代。
+
+礼乐文明的核心是制礼作乐（史料见《礼记·明堂位》）。礼的内容包括四个主要部分：\textbf{礼书}（《周礼》《礼记》《仪礼》），\textbf{名物}（衣服，饮食，车马balabala），\textbf{制度}（官，田，军，学，刑，宗法，祭祀），\textbf{礼仪}（冠，婚，丧，祭）
+
+\subsection{孔子}
+
+Mind：典型的“诸子学”这个概念是在汉代被建构起来的。
+
+\subsubsection{孔子与儒家}
+
+时代背景：礼崩乐坏，变革时代和秩序问题。
+
+\begin{fancybox}{例子}
+    孔子之时，周室微而礼乐坏，《诗》《书》缺。 （《孔子世家》）
+    
+    八佾舞于庭，是可忍也，孰不可忍也？
+\end{fancybox}
+
+在这样的时代背景之下，儒家的选择是一种突破与转化。
+
+\subsubsection{名与礼}
+
+要理解名与正名，首先要理解“名”的概念。在孔子哲学的视角下，“名”确定了人伦生活中各种关系，身份及其所构成的秩序。“名不正则言不顺，言不顺则事不成。”代表了通过名的划分，深入到人伦秩序的基础因素。
+
+同时，礼乐秩序也是由“名”构建而成的，讲求“名”与“实”的对应。从以下引用中可以看到“礼之本末”。
+
+\begin{fancybox}{例子}
+    礼云礼云，玉帛云乎哉？  （论语《阳货》）
+
+    尔爱（吝惜）其羊，我爱其礼。  （论语《八佾》）
+\end{fancybox}
+
+上面的例子中，礼的本质是礼乐秩序，礼的“末”即礼的仪式等外在表现。强调外在言行对礼的规定，同时强调人内部对礼制度体系的认同。在政治上和实践上主张道德意识的培养和道德教化。
+
+\begin{fancybox}{培养道德意识}
+    道之以政，齐之以刑，民免而无耻。道之以德，齐之以礼，有耻且格。（《论语·为政》）
+\end{fancybox}
+
+接下来谈论中庸之道：礼的规范与权宜。不追求纯粹抽象，以固化的规则为约束的系统。规则只能执行到一定程度，在规则之外需要动用其他的理性能力。
+
+\begin{fancybox}{中庸哲学}
+    中庸之为德，其至矣乎，民鲜久矣。   （《论语·雍也》）
+
+    不偏之谓中，不易之谓庸。    （宋儒解中庸）
+
+    过犹不及。     （《论语·先进》）
+\end{fancybox}
+
+\subsubsection{仁与礼}
+
+克己复礼，仁德指的是按照礼的规范和约束要求自身的行为。仁和己的关系本身影射了一体两面的仁礼关系。
+
+仁爱之始：亲亲相隐及其危险。朴素的理解：学习被爱，学习去爱别人。爱人是在家人之间首先培养的。当然这会导致大量的伦理问题。
+
+\begin{fancybox}{仁爱之开始}
+    樊迟问仁，子曰：“爱人”     （《论语·颜渊》）
+
+    孝悌也者，其为人之本与！      （《论语·学而》）
+
+    叶公语孔子曰：“吾党有直躬者，其父攘羊，而子证之。”       （《论语·子路》）
+\end{fancybox}
+
+为了解决上述伦理困境，衍生出的第一种解决方式是仁爱的推扩。
+
+\begin{fancybox}{道德的推广}
+    泛爱众，而亲仁。行有余力，则以学文。
+
+    己所不欲，勿施于人。
+\end{fancybox}
+
+当然，在仁爱的推广中同样存在问题。问题在于这里的体察和对他人的伦理学态度是从自己的角度出发思考的。问题在于我所欲不一定是人所欲。
+
+\subsubsection{教化}
+
+教化问题可以分为几个层面的教化，第一个教化为政治教化。儒家考虑物质生活的富足，在物质生活丰富之后的最高目标是道德教化。“君子之德风，小人之德草，草上之风，必偃”说明儒家的政治主张是通过示范引导教化，不主张使用暴力和强制的手段。
+
+\end{document}
