@@ -304,6 +304,126 @@ LONG_MIN
 存储大小如果变大，在高位复制填入符号位直到填满为止，操作称为扩充。
 存储大小如果缩小，直接按照所需的位数进行溢出截断，相当于对$2^n$进行取模运算
 
+\subsection{浮点数}
+
+浮点数是大模型数值表示的物理基础，大模型的很多工程技巧本质上都是与浮点数的局限性做折中权衡。训练和推理大量使用低精度浮点数，大模型训练几乎都使用混合参数。大模型部署的时候经常做量化，比如转换FP16为INT8或者INT4，虽然目标格式是整数，但是整个过程依赖于对浮点数值分布的理解。
+
+\subsubsection{二进制分数Fractional Binary Numbers}
+
+\paragraph{二进制分数数学表示}
+
+二进制分数的基本形式：$1011.11_2$，二进制分数和二进制整数的表示遵从同样的规律：
+
+\[
+x = \sum_{n = -j}^{i} 2^n 
+\]
+
+{\sloppy 分数的乘除法和整数一样，都是靠小数点移位来实现的。需要注意一个数值的特殊表示，即 $0.1111111111\ldots_2$，它总是小于 $1$，记为 $1 - \epsilon$。\par}
+
+二进制分数具有一定的范围局限性：只能精确表示小数部分可以被拆分为0.5的幂次之和的。其他的有理数会变成二进制循环小数。同时由于数据类型的大小限制，只能表示一定范围和一定精度的浮点数。
+
+\paragraph{浮点数表示的IEEE标准}
+
+浮点数标准来源于IEEE Standard754,在此之前有很多个人的独立表示。IEEE754标准适合于所有主流CPU，不同数据类型的转换过程中会存在很多错误（譬如Ariana的坠机来源于将一个64位浮点数转换为16位带符号整数时，产生了溢出异常）。下面对浮点数的表示技巧进行讲解。
+
+浮点数表示方法来源于二进制科学记数法，以一个数字为例：
+\[
+1.10110011001012_2 \times 2^13
+\]
+根据二进制科学计数法表示，可以将二进制小数拆分为三个部分表示。
+\[
+(-1)^s M 2^E
+\]
+
+s为符号表示，M为有效位，E为指数位置。编码的时候按照数据类型的具体大小分配到三部分进行编码。
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\footnotesize]
+
+  % ==================== 单精度 float：1 + 8 + 23 = 32 位 ====================
+  \def\yS{2.2}   % 单精度条的下边界
+  \def\bh{0.8}   % 条高
+
+  \filldraw[fill=red!35,   draw=red!75!black,   line width=0.6pt] (0,\yS)    rectangle (0.19,\yS+\bh);
+  \filldraw[fill=blue!25,  draw=blue!65!black,  line width=0.6pt] (0.19,\yS) rectangle (1.71,\yS+\bh);
+  \filldraw[fill=green!30, draw=green!55!black, line width=0.6pt] (1.71,\yS) rectangle (6.08,\yS+\bh);
+
+  \node at (0.95,\yS+0.4)  {阶码 8 位};
+  \node at (3.895,\yS+0.4) {尾数 23 位};
+
+  \node[anchor=south west] at (0,\yS+\bh+0.1) {\textbf{单精度浮点数 float}（共 32 位）};
+  \node[anchor=east] (sgnS) at (-0.12,\yS+0.4) {符号位 1 位};
+  \draw[->,red!75!black,line width=0.6pt] (sgnS.east) -- (0,\yS+0.4);
+
+  % ==================== 双精度 double：1 + 11 + 52 = 64 位 ====================
+  \def\yD{0}     % 双精度条的下边界
+
+  \filldraw[fill=red!35,   draw=red!75!black,   line width=0.6pt] (0,\yD)    rectangle (0.19,\yD+\bh);
+  \filldraw[fill=blue!25,  draw=blue!65!black,  line width=0.6pt] (0.19,\yD) rectangle (2.28,\yD+\bh);
+  \filldraw[fill=green!30, draw=green!55!black, line width=0.6pt] (2.28,\yD) rectangle (12.16,\yD+\bh);
+
+  \node at (1.235,\yD+0.4) {阶码 11 位};
+  \node at (7.22,\yD+0.4)  {尾数 52 位};
+
+  \node[anchor=south west] at (0,\yD+\bh+0.1) {\textbf{双精度浮点数 double}（共 64 位）};
+  \node[anchor=east] (sgnD) at (-0.12,\yD+0.4) {符号位 1 位};
+  \draw[->,red!75!black,line width=0.6pt] (sgnD.east) -- (0,\yD+0.4);
+
+\end{tikzpicture}
+\caption{单精度与双精度浮点数的存储结构（两行按同一比例绘制，条形长度正比于位数，故双精度条长为单精度的两倍）}
+\end{figure}
+
+\paragraph{三类位模式}
+
+位域划分定下来之后，三段具体取什么值，由阶码 $exp$ 决定。所有位模式分为三类：
+
+\begin{center}
+\small
+\begin{tabular}{llll}
+\toprule
+\textbf{阶码 exp} & \textbf{尾数 frac} & \textbf{类别} & \textbf{数值} \\
+\midrule
+全 0               & 全 0   & $\pm 0$                & $\pm 0$ \\
+全 0               & 非全 0 & 非规格化数（Denormalized） & $(-1)^s \times 0.f \times 2^{1-bias}$ \\
+非全 0 且非全 1    & 任意   & 规格化数（Normalized）     & $(-1)^s \times 1.f \times 2^{\,exp-bias}$ \\
+全 1               & 全 0   & $\pm\infty$            & $\pm\infty$ \\
+全 1               & 非全 0 & NaN                    & 非数（Not a Number） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{规格化（Normalized）数}是最常见的一类，三个字段这样解释：
+
+\begin{itemize}
+    \item $E = exp - bias$，其中偏置值 $bias = 2^{k-1} - 1$，$k$ 为 $exp$ 字段的位数。单精度 $k = 8$，$bias = 127$；双精度 $k = 11$，$bias = 1023$。
+    \item $M = 1 + f$，$f$ 是 $frac$ 字段的位模式所表示的小数部分。也就是说尾数最高位那个 1 是\textbf{隐含}的，不占存储空间。
+\end{itemize}
+
+偏置值取 $2^{k-1} - 1$，是为了让阶码的取值范围大致对称地跨在 0 两侧；同时这使得按无符号整数去比较 $exp$ 字段，就等价于比较两个正浮点数的大小，硬件比较电路因此可以简化。
+
+\textbf{非规格化（Denormalized）数}：$exp$ 全 0 时，规定 $E = 1 - bias$（而不是 $0 - bias$，这样才能与规格化数的边界平滑衔接），同时 $M = f$，\textbf{不再有隐含的最高位 1}。
+\begin{itemize}
+    \item $frac$ 全 0：表示数值 0，但符号位仍然有效，因此有 $+0$ 与 $-0$ 之分（见下）。
+    \item $frac$ 非全 0：表示最接近 0 的那些数。单精度最小的非规格化数是 $2^{-149}$。
+\end{itemize}
+
+\textbf{特殊值}：$exp$ 全 1 时，若 $frac$ 全 0 则表示无穷 $(\pm\infty)$，若 $frac$ 非全 0 则表示 NaN（Not a Number，非数）。
+
+\paragraph{正零与负零}
+
+$exp$ 全 0 且 $frac$ 全 0 时表示数值 0，但符号位并不因此失效，于是同一个数值 0 对应两个不同的位模式：IEEE 754 规定 $+0 = -0$，C 语言中 \texttt{0.0 == -0.0} 求值为真。所以\textbf{不能用 \texttt{==} 来区分正负零}，要判断符号得用 \texttt{signbit()}，或者去看 $1/x$ 的符号。\textbf{参与运算时二者不等价。}符号位在算术中照常起作用：
+
+\begin{itemize}
+    \item 除法：$1/(+0) = +\infty$，而 $1/(-0) = -\infty$。
+    \item 乘法：结果的符号由两个操作数的符号\textbf{异或}决定，所以 $(-3.0) \times (+0) = -0$，而 $(-0) \times (-0) = +0$。
+    \item 加法：在就近舍入模式下 $(-0) + (+0) = +0$。
+    \item 取平方根：$\sqrt{-0} = -0$。
+\end{itemize}
+
+保留-0目的是让符号信息在运算中连续传播，不至于中途丢失。在数值分析和复变函数里，$-0$ 表示"从负方向趋近于 0"这一极限方向：$x \to 0^-$ 时 $1/x \to -\infty$，$\log(-0) = -\infty$。如果只保留 $+0$，左右极限就无法区分。
+整数采用补码，不存在负零。整数因此弃用了符号-幅值表示。
+
+C 语言中注意区分两个写法：\texttt{-0.0} 是合法的浮点字面量，得到负零；而 \texttt{-0} 是整数常量，它的值就是 0，不存在负零。此外 \texttt{printf("\%f", -0.0)} 会输出 \texttt{-0.000000}，负零的符号是可以被打印出来的。
 \subsection{C语言的运算}
 
 C语言中，将数据看作二进制向量进行处理。
@@ -327,10 +447,9 @@ C语言中，将数据看作二进制向量进行处理。
 左移：右侧补0
 右移：分算术右移和逻辑右移，逻辑右移直接向右移动高位补0,算术右移右移补符号位
 
-\subsubsection{C语言的计算}
+\subsubsection{无符号数运算}
 
-\paragraph{C语言加法}
-
+\paragraph{无符号加法}
 首先是无符号数字的加法，首先是二进制加法，有可能发生溢出，相当于取模运算，最多取模一次
 
 \[
@@ -353,22 +472,88 @@ u+v-2^w, & TMax_w<u+v \quad \text{\textbf{(PosOver)}}
 }
 \]
 
-\paragraph{C语言乘法}
+\paragraph{无符号数乘法}
 
 乘法发生溢出的情况可能更多，可能需要算法包进行扩展，增大存储范围。
 
 \[
-Umult(u, v) = u \dot v mod 2^w
+Umult(u, v) = u \cdot v \bmod 2^w
 \]
 
 由于可能发生正负溢出，所以TMult有时候和UMult相比会出现不同的正负性。
 
 乘法的具体操作是使用左右移动的方法，将乘数分解为二进制。左移k位，相当乘2的k次幂。
 
-\paragraph{C语言除法}
+\paragraph{整数除法}
 
 除法相对于乘法，采用右移的方式来实现。除法涉及到向上取整的问题。
 
+\subsubsection{浮点数运算}
+基本的思路是，首先精确计算结果，然后根据格式做变换和解释。可能会根据计算情况进行溢出截断和舍入操作。
+
+\[
+x +_f y = Round(x + y)
+\]
+
+\[
+x \times_f y = Round(x + y)
+\]
+
+\paragraph{舍入规则}浮点数舍入规则为向偶数舍入。第一规则是向最近的数字靠拢，如果是中间数值距离是一样的，要向偶数舍入。其他的方法尤其是在求和的情况下有舍入的偏差，应当确认向最低的偶数位进行舍入，保证大规模运算的统计均值与真实数值一致。
+
+计算机在执行舍入的时候，会设置在最低位进行按规则舍入，对于形如BBGRXXX，G为哨兵位即最低有效位；R为Round位具体执行舍入。Sticky bit在后面是要被扔掉的数字，用Sticky bits判断应该朝哪边进位。这一过程成为Postnormalize，在浮点数解释完成之后处理。
+
+\paragraph{乘法规则}
+
+浮点数乘法规则非常简单，符号位异或，指数位相加，小数frac位相乘。
+
+如果乘法结果大于2,则指数数位+1，如果E超出了范围，报溢出错误。M应当舍入到合适的精度。
+
+\paragraph{加法规则}
+
+浮点数加法规则难于乘法，由于加法应当满足阶数对齐规则。不妨假设参与运算的浮点数满足$E_1 > E_2$。
+通过移位运算（阶数小的数字向右移），将两个数的阶对齐。对齐之后应该移位就移位，该舍入就舍入，该报错就报错。
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\footnotesize, x=0.62cm]
+  % ===== 公共位权轴 =====
+  \foreach \i/\wt in {0/{2^{3}},1/{2^{2}},2/{2^{1}},3/{2^{0}},4/{2^{-1}},5/{2^{-2}},6/{2^{-3}},7/{2^{-4}}}
+    \node[gray] at (\i+0.5,3.02) {$\wt$};
+  \draw[gray,->] (-0.05,2.80) -- (8.05,2.80);
+  \node[gray,anchor=west] at (8.15,2.80) {位权};
+
+  % ===== 条形图一：x（阶 E_1 = 3），不移位 =====
+  \foreach \i/\dig in {0/1,1/1,2/0,3/0,4/1,5/0,6/0,7/0}{%
+    \filldraw[fill=blue!22,draw=blue!65!black,line width=0.5pt] (\i,1.90) rectangle (\i+1,2.60);
+    \node at (\i+0.5,2.25) {\dig};}
+  \node[anchor=east,blue!65!black] at (-0.15,2.25) {$x = 1.1001_2 \times 2^{3}$};
+
+  % ===== 条形图二：y（阶 E_2 = -1），右移 4 位后 =====
+  \foreach \i in {0,1,2,3}{%
+    \draw[fill=white,draw=gray,dashed,line width=0.5pt] (\i,0.50) rectangle (\i+1,1.20);
+    \node[gray] at (\i+0.5,0.85) {0};}
+  \foreach \i/\dig in {4/1,5/0,6/0,7/0}{%
+    \filldraw[fill=green!28,draw=green!55!black,line width=0.5pt] (\i,0.50) rectangle (\i+1,1.20);
+    \node at (\i+0.5,0.85) {\dig};}
+  \node[anchor=east,green!45!black] at (-0.15,0.85) {$y = 1.0_2 \times 2^{-1}$};
+
+  % ===== 移位标注 =====
+  \draw[<->,gray,line width=0.5pt] (0,0.28) -- (4,0.28);
+  \node[gray,anchor=north] at (2,0.20) {右移 $\Delta E = E_1 - E_2 = 4$ 位，空位补 $0$};
+\end{tikzpicture}
+\caption{浮点数加法的对阶过程（以 $12.5 + 0.5$ 为例）。两行条形图共用同一条位权轴：$y$ 的阶小，尾数右移 $\Delta E = 4$ 位（虚线格为补入的 $0$），使两个数落在同一组位权上，再按列相加得 $1.1010_2 \times 2^{3} = 13$}
+\end{figure}
+
+\paragraph{运算性质}
+
+浮点数加法和Abel群对比，对加法封闭，但是不支持结合律。除了Nan值和无穷值，所有元素都有加法逆元，除了特殊值满足不等式的加法性质。
+
+浮点数和交换环相比，乘法满足交换性，由于溢出不满足结合率，同样不满足分配率，具有幺元1,不满足单调性，除了特殊值满足不等式的乘法性质。
+
+\paragraph{类型转换}
+
+将浮点数转换为整数：向0舍入，如果是未定义怎么转换的数值默认转换为Tmin。float有自身的转换规则，所以转换过程中会有舍入损失。
 \subsection{信息的表示和存储}
 
 内存就是一个大型的数组，以word为单位存储。程序通过地址访问内存中的程序。

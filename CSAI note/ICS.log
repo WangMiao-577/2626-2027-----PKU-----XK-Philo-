@@ -1,9 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  14 SEP 2026 10:34
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  14 SEP 2026 14:49
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**./ICS.tex
-(ICS.tex
+**"/home/simson/latex/CSAI note/ICS.tex"
+(/home/simson/latex/CSAI note/ICS.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
 (/home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
@@ -1735,13 +1736,60 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [3]
 
+Package fontspec Info: 
+(fontspec)             Script 'CJK' not explicitly supported within font
+(fontspec)             'FandolFang-Regular'. Check the typeset output, and if
+(fontspec)             it is okay then ignore this warning. Otherwise a
+(fontspec)             different font should be chosen.
+
+
+Package fontspec Info: 
+(fontspec)             Font family 'FandolFang-Regular(0)' created for font
+(fontspec)             'FandolFang-Regular' with options
+(fontspec)             [Script={CJK},Extension={.otf}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"[FandolFang-Regular.otf]/OT:script=hani;language=dfl
+t;"
+
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.53937> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 414.
+
+
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.64723pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.64723pt}.
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
 
-[4] (ICS.aux)
+[4]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.64723pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.64723pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
+
+[5]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.64723pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.64723pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
+
+[6]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.64723pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.64723pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
+
+[7] (ICS.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/08/07>
@@ -1752,15 +1800,15 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.41063pt have occurred.
 
 Package rerunfilecheck Info: File `ICS.out' has not changed.
-(rerunfilecheck)             Checksum: 2E9CFB01FED5252563A9E408B293392A;1527.
+(rerunfilecheck)             Checksum: 4D78FA246A35C97F325A15C38D87A93B;1956.
  ) 
 Here is how much of TeX's memory you used:
- 44801 strings out of 404899
- 1125497 string characters out of 5480821
- 1849438 words of memory out of 5000000
- 72758 multiletter control sequences out of 15000+600000
- 632768 words of font info for 108 fonts, out of 8000000 for 9000
+ 45064 strings out of 404899
+ 1136065 string characters out of 5480821
+ 1854441 words of memory out of 5000000
+ 72996 multiletter control sequences out of 15000+600000
+ 636282 words of font info for 132 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 107i,17n,118p,1187b,1311s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 107i,17n,118p,1216b,1311s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on ICS.xdv (6 pages, 86784 bytes).
+Output written on ICS.pdf (9 pages).

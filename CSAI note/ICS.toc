@@ -8,12 +8,24 @@
 \contentsline {subsubsection}{\numberline {2.1.3}数据的表示}{2}{subsubsection.2.1.3}%
 \contentsline {paragraph}{Unsigned 数据}{2}{paragraph*.2}%
 \contentsline {paragraph}{Signed 数据}{2}{paragraph*.3}%
-\contentsline {subsection}{\numberline {2.2}C语言的运算}{3}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}算术运算}{3}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}逻辑运算}{3}{subsubsection.2.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.3}移位运算}{3}{subsubsection.2.2.3}%
-\contentsline {subsubsection}{\numberline {2.2.4}C语言的计算}{3}{subsubsection.2.2.4}%
-\contentsline {paragraph}{C语言加法}{3}{paragraph*.4}%
-\contentsline {paragraph}{C语言乘法}{4}{paragraph*.5}%
-\contentsline {paragraph}{C语言除法}{4}{paragraph*.6}%
-\contentsline {subsection}{\numberline {2.3}信息的表示和存储}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.2}浮点数}{3}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}二进制分数Fractional Binary Numbers}{3}{subsubsection.2.2.1}%
+\contentsline {paragraph}{二进制分数数学表示}{3}{paragraph*.4}%
+\contentsline {paragraph}{浮点数表示的IEEE标准}{3}{paragraph*.5}%
+\contentsline {paragraph}{三类位模式}{4}{paragraph*.6}%
+\contentsline {paragraph}{正零与负零}{5}{paragraph*.7}%
+\contentsline {subsection}{\numberline {2.3}C语言的运算}{5}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}算术运算}{5}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}逻辑运算}{5}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}移位运算}{5}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.4}无符号数运算}{6}{subsubsection.2.3.4}%
+\contentsline {paragraph}{无符号加法}{6}{paragraph*.8}%
+\contentsline {paragraph}{无符号数乘法}{6}{paragraph*.9}%
+\contentsline {paragraph}{整数除法}{6}{paragraph*.10}%
+\contentsline {subsubsection}{\numberline {2.3.5}浮点数运算}{6}{subsubsection.2.3.5}%
+\contentsline {paragraph}{舍入规则}{6}{paragraph*.11}%
+\contentsline {paragraph}{乘法规则}{6}{paragraph*.12}%
+\contentsline {paragraph}{加法规则}{7}{paragraph*.13}%
+\contentsline {paragraph}{运算性质}{7}{paragraph*.14}%
+\contentsline {paragraph}{类型转换}{7}{paragraph*.15}%
+\contentsline {subsection}{\numberline {2.4}信息的表示和存储}{7}{subsection.2.4}%
