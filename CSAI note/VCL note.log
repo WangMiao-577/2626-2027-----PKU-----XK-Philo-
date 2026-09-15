@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  14 SEP 2026 09:48
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  15 SEP 2026 14:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1693,7 +1693,7 @@ LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
 \tf@toc=\write5
 \openout5 = `"VCL note.toc"'.
 
- [1] [1] [2] [3] [4] (VCL note.aux)
+ [1] [1] [2] [3] [4] [5] [6] [7] (VCL note.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/08/07>
@@ -1707,12 +1707,12 @@ Package rerunfilecheck Info: File `"VCL note".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 44817 strings out of 404899
- 1135957 string characters out of 5480821
- 1679654 words of memory out of 5000000
- 72776 multiletter control sequences out of 15000+600000
- 635027 words of font info for 114 fonts, out of 8000000 for 9000
+ 44850 strings out of 404899
+ 1137881 string characters out of 5480821
+ 1680054 words of memory out of 5000000
+ 72805 multiletter control sequences out of 15000+600000
+ 635051 words of font info for 117 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  107i,13n,118p,1221b,1311s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on VCL note.pdf (6 pages).
+Output written on VCL note.pdf (9 pages).

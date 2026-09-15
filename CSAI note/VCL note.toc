@@ -10,3 +10,11 @@
 \contentsline {subsection}{\numberline {4.1}图像的表示}{3}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}图形处理器（GPU）}{3}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}图像处理（Image Processing）}{4}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Dithering}{4}{subsubsection.4.3.1}%
+\contentsline {paragraph}{灰度图像频率的定义}{4}{paragraph*.2}%
+\contentsline {paragraph}{Dithering和噪声种类}{5}{paragraph*.3}%
+\contentsline {paragraph}{Dithering in Space}{5}{paragraph*.4}%
+\contentsline {paragraph}{Error Diffusion}{5}{paragraph*.5}%
+\contentsline {subsubsection}{\numberline {4.3.2}Filtering}{5}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Image inpainting}{6}{subsubsection.4.3.3}%
+\contentsline {paragraph}{Matting}{7}{paragraph*.6}%

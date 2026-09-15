@@ -347,4 +347,164 @@ EPS  & 1, 2, 4, 8, 24 & huge  & good for printing \\
     \item ……
 \end{itemize}
 
+\subsubsection{Dithering}
+
+\paragraph{灰度图像频率的定义}
+
+灰度图像频率可以理解为灰度数值变化的剧烈程度，数学表示通过对像素矩阵进行DFT（傅里叶变换）。
+
+设 $f(x,y)$ 为 $M \times N$ 的灰度图像，其二维DFT及逆变换为：
+\[
+F(u,v) = \sum_{x=0}^{M-1}\sum_{y=0}^{N-1} f(x,y)\, e^{-j 2\pi \left(\frac{ux}{M} + \frac{vy}{N}\right)}
+\]
+\[
+f(x,y) = \frac{1}{MN}\sum_{u=0}^{M-1}\sum_{v=0}^{N-1} F(u,v)\, e^{j 2\pi \left(\frac{ux}{M} + \frac{vy}{N}\right)}
+\]
+
+其中 $F(u,v)$ 为频域系数（$j$ 为虚数单位），$(u,v)$ 为频率坐标：$u,v$ 靠近原点对应低频，即灰度缓变区域；远离原点对应高频，即边缘和细节。变换本身不损失信息，逆变换可无损还原 $f(x,y)$。
+
+\paragraph{Dithering和噪声种类}
+抖动和量化研究的是有限空间下图片的表示，比如要把灰度图像表示成二值的图像。此时如果直接使用0.5为分界划分每个pixel。这时要给整体图片接一个整体的随机噪音（random dithering）。原来
+是结构化的容易被人察觉的低频误差转换成频谱较为均匀的高频误差。（所谓频率是指的是低频区间的扰动）
+
+施加噪音的方法有两种：Random Noise和Blue Noise，Blue Noise将误差的能量集中到高频的空间，低频范围内噪声较小，高频噪声能量较高，能够得到更好的表示效果。
+
+噪声的施加如果作为输入，还会用于图像的模糊处理（Gaussian blur），均匀处理掉细节的误差之后Blue Noise会有更好的效果。
+
+\paragraph{Dithering in Space}
+
+用空间换表示效果：可以用多个像素点空间表示不同灰度，这时可以将抖动的幅度变成1-10的连续序列。所有的输入像素对应一个输出的pattern。这里
+0-9的9像素显示模式是经过设计的，为了人尽量难以注意到细小的细节错误。这种方法叫作Ordered Dithering。
+
+数学上的方法就是使用存储抖动矩阵记录抖动的序列，依次按照输入的归一化数值点亮像素点。
+
+如果保持连续性不变化，不改变显示分辨率，进行有序抖动，可以用一个DIther Matrix将图片扫描一遍，像素点大于抖动阵的数值则保留，小于则纯白，可以实现同样分布的抖动。
+
+\paragraph{Error Diffusion}
+
+每一次抖动都会制造误差，可以通过这样的算法让每一次的误差逐步扩散到周边像素。Floyd算法可以决定抖动误差如何进行分配，让之前和之后的抖动误差有较好的平衡性和连续性。
+
+如何在不同的建模和渲染场景中生成不同的合适的Blue noise是一个重要的话题，在几乎所有的图像处理场景中Dithering都是必要的。
+
+\subsubsection{Filtering}
+
+Filtering和图像的特征处理高度相关，最广泛和最简单的应用是Blurring模糊。让高频信息逐渐减少，剩下的集中在低频信息。
+基本的Blurring Filter使用模糊核将图像的局部进行适当的归一化。
+
+最简单的模糊核是一个3*3矩阵，无限维的卷积核相当于连续空间上的函数卷积
+
+\[
+h(t) = f * g = \int_{-\infty}^{\infty} f(\tau)g(t - \tau) d\tau
+\]
+
+相当于首先镜像然后向右平移。离散情况中卷积核在二维的像素图像上进行移动，常用的卷积核Laplace Kernel
+在二维图像上卷积运算的数学表达如下，其中h为卷积核，b为输出，a为输入。
+
+\[
+b[x, y] = \sum_{u = -\infty}^{\infty}\sum_{v = -\infty}^{\infty}a[u,v]h[x - u,y - v]  
+\]
+
+Filtering方法可以进行图像特征提取，可以进行竖直方向和水平方向的有限差分，从而提取不同的信息。边提取算子的数学表达如下：
+
+\[
+\nabla a  = (\frac{\partial a}{\partial x}, \frac{\partial a}{\partial y}) , \qquad |\nabla a| = \sqrt{(\frac{\partial a}{\partial x})^2 + (\frac{\partial a}{\partial y}^2)}
+\]
+
+将以上计算梯度的梯度信息取整数近似可以得到Sobel edge Filter，是一个离散的非线性卷积核。
+\[
+\frac{\partial}{\partial x} \Rightarrow
+\begin{bmatrix}
+    -1 & 0 & 1 \\
+    -2 & 0 & 2 \\
+    -1 & 0 & 1
+\end{bmatrix}
+\]
+
+有限差分可以解决一阶微分，同时可以用Laplace算子求二阶微分提取出图像的边缘。离散化的laplace算子意思是显然的，就是对比某个像素点和周边的差异。
+laplace算子的连续近似如下：
+
+\[
+\nabla^2 f = \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2}
+\]
+
+\[
+\begin{aligned}
+\frac{\partial^2 f}{\partial x^2} &\approx f(x+1, y) - 2f(x, y) + f(x-1, y) \\
+\frac{\partial^2 f}{\partial y^2} &\approx f(x, y+1) - 2f(x, y) + f(x, y-1)
+\end{aligned}
+\]
+
+对应的离散卷积核为：
+
+\[
+\mathbf{L} = \begin{bmatrix}
+    0 & 1 & 0 \\
+    1 & -4 & 1 \\
+    0 & 1 & 0
+\end{bmatrix}
+\]
+
+\subsubsection{Image inpainting}
+
+图像补全的中心任务是填补image的某些缺失部分，让结果尽可能合理。这里的合理（Plausible）有以下含义：
+
+\begin{itemize}
+    \item Spatial locality ：和周围和谐
+    \item Occam’s Razor ：不添加额外的非必要信息
+    \item 梯度尽可能小
+\end{itemize}
+
+这种算法和计算过程常常称为laplace图像补全。这里优化函数的数学表示是
+
+\[
+f = \arg \min_f \iint ||\nabla f|| d\Omega
+\]
+
+这种技术还被应用于Image cloning/insertion，图像克隆和拼接，算法可以完成前景和背景的融合。相比于之前的Laplace处理，这里
+要应用Poission处理，目标是将另一张图片注入另一张图片，优化函数令当前的梯度和图片尽可能接近。前面的Laplace处理是$\nabla g = 0$的特例
+(背景是泛函分析中函数的变分法)
+
+\[
+Purpose: \min_f \iint_{\Omega} ||\nabla f - \nabla g|| ^ 2 dxdy
+\]
+
+在计算机科学中本质是离散意义上Possion和Laplace方程的求解。将梯度转换为差分，得到以下方程：
+
+\[
+\frac{f_{i+1,j} + f_{i-1,j} - 2f_{i,j}}{h^2} + \frac{f_{i,j+1} + f_{i,j-1} - 2f_{i,j}}{h^2} = \rho^2
+\]
+
+证明只需使用二元函数的Taylor展开，使用差分的方式进行计算，保留一次项。在实际应用中会注意到边界条件，如果边界条件是已知量（Dirichlet Boundary）则直接带入。离散化的
+Laplace算子形如如下表达式：
+
+\[
+\nabla^2 f = \frac{f_{i+1,j} + f_{i-1,j} + f_{i,j+1} + f_{i,j-1} - 4f_{i,j}
+}{h^2}
+\]
+
+对图片中所有的像素点使用Laplace算子，得到一个大型的线性方程组。使用Jacobi行列式进行迭代求解（Laplace Smoothing算法）
+求解矩阵方程$\mathbf{Ax} = \mathbf{b}$,有直接法（LU分解），Jacobi迭代法，Gauss-Siebi迭代法。
+
+\paragraph{Matting}
+
+Matting就是一般所指的抠图。抠图使用的方法使用掩码和前景。已知Alpha算子对图像进行混合，需要区分前景和背景。混合方程（compositing equation）为：
+
+\[
+I_i = \alpha_i F_i + (1 - \alpha_i) B_i
+\]
+
+对RGB三通道分别成立：
+
+\[
+\begin{aligned}
+I_i^{R} &= \alpha_i F_i^{R} + (1 - \alpha_i) B_i^{R} \\
+I_i^{G} &= \alpha_i F_i^{G} + (1 - \alpha_i) B_i^{G} \\
+I_i^{B} &= \alpha_i F_i^{B} + (1 - \alpha_i) B_i^{B}
+\end{aligned}
+\]
+
+其中 $I_i$ 为观测像素值，$F_i$ 为前景色，$B_i$ 为背景色，$\alpha_i \in [0,1]$ 为Alpha掩码。每个像素只有3个方程却有 $F_i, B_i, \alpha_i$ 共7个未知数。
+所以这个方程有无穷多个解。一种解决方法就是使用绿幕，令背景能够用已知的数值直接带入，减少未知数。这个方法的问题是，绿幕/蓝幕抠图由于漫反射可能会影响到前景。
+在当代也可以用AI方法辅助解决。
+
 \end{document}
