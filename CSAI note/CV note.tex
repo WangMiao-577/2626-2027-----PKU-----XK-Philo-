@@ -705,4 +705,193 @@ Y' = Y^{1/\gamma}
     \item \textbf{颜色与传感：}视杆与视锥细胞、CIE RGB、Bayer 阵列与去马赛克、Gamma 校正。
 \end{itemize}
 
+\section{Image Processing}
+
+\subsection{逐像素处理Pixel(Point) Processing}
+
+\subsubsection{基本P图操作}
+Pixel Processing的基础操作主要有以下几个层面：
+
+\begin{itemize}
+    \item \textbf{变暗（darken）：}$I(x,y) - 128$
+    \item \textbf{变亮（lighten）：}$I(x,y) + 128$
+    \item \textbf{降低对比度（low contrast）：}$I(x,y)/2$
+    \item \textbf{反色（invert）：}$255 - I(x,y)$
+    \item \textbf{灰度化（gray）：}$\mathbf{dot}\bigl([0.3,\ 0.6,\ 0.1],\ I(x,y)\bigr)$，三个权重依次对应 R、G、B 通道，绿色权重最大
+\end{itemize}
+
+\subsubsection{Histogram Equalization}
+Pixel Processing中较复杂的是直方图均衡化方法，用来调整图像中RGB通道的强度。用意在于调整比较复杂的颜色密度分布变换为均匀分布。这个方法的数学原理是将概率分布变换为均匀分布，寻找一个单调递增的映射函数T（为了保证是可逆的不丢失信息），将原有分布复合通过这个映射之后得到均匀分布。
+
+具体的技巧是，首先把RGB的灰度分布曲线画出来（对每一个颜色通道，统计每种灰度对应的像素个数，然后归一化计算概率分布），得到概率密度函数pdf，积分得到cdf，将CDF的轴拉成255对应灰度值范围，然后将原始灰度数值映射为新的处理过后的灰度值。
+
+\[
+s_k = (L - 1)CDF(r_k)
+\]
+
+为什么CDF呢？论证的过程需要依照随机变量变换定理，变换的规则是变换前后在同一个足够小区间上的必须是一致的（概率总量守恒）
+
+根据概率论中的随机变量变换定理，变量变换前后在区间 $[r, r+dr]$ 与 $[s, s+ds]$ 内的概率总量必须守恒：$$p_s(s) \vert{}ds\vert{} = p_r(r) \vert{}dr\vert{}$$
+
+设原始图像的灰度值是一个连续随机变量 $r \in [0, L-1]$，其概率密度函数（PDF）为 $p_r(r)$。我们希望寻找一个单调递增的映射函数 $s = T(r)$，使得变换后的新灰度变量 $s$ 在 $[0, L-1]$ 上服从均匀分布，即：$$p_s(s) = \frac{1}{L-1}$$
+
+由于映射函数 $T(r)$ 是单调递增的（以保证像素灰度相对大小顺序不颠倒，避免图像反色），有 $\frac{ds}{dr} > 0$，因此：$$p_s(s) = p_r(r) \cdot \frac{dr}{ds}$$3. 导出映射函数：累积分布函数（CDF）将要求的均匀分布 $p_s(s) = \frac{1}{L-1}$ 
+
+代入上式：$$\frac{1}{L-1} = p_r(r) \cdot \frac{dr}{ds} \implies \frac{ds}{dr} = (L-1) p_r(r)$$对微分方程两边关于 $r$ 进行积分：$$s = T(r) = (L-1) \int_0^r p_r(w) \, dw = (L-1) \cdot F_r(r)$$其中 $F_r(r)$ 正是原始灰度的累积分布函数（CDF）。
+
+值得注意的一个拓展：随机变量变换定理也可以倒过来用，C语言标准库中，使用标准随机数在y轴上面取值，反函数映射到x轴上，即可得到关于x的均匀随机分布。
+
+\subsection{Filtering}
+
+\subsubsection{线性滤波器}
+\paragraph{线性滤波器的分类}
+图像滤波常常用于图像的模糊，锐化，特征提取等算法。线性滤波器就是根据不同的过滤原理实现卷积算子，是一个3*3的矩阵kernel，然后在图像周围补0,扫描整个图像。
+\paragraph{盒式滤波器（Box Filter）}
+卷积核为全 1 矩阵除以元素个数，即邻域算术平均，得到低通模糊：
+$$K_{\text{box}} = \frac{1}{9}\begin{bmatrix} 1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1 \end{bmatrix}$$
+
+\paragraph{高斯滤波器（Gaussian Filter）}
+卷积核由二维高斯函数采样并归一化，中心权重大、四周小，同属低通滤波（Low Pass Filtering）：
+$$K_{\text{gauss}} = \frac{1}{16}\begin{bmatrix} 1 & 2 & 1 \\ 2 & 4 & 2 \\ 1 & 2 & 1 \end{bmatrix}$$
+
+\paragraph{锐化滤波器（Sharpening Filter）}
+单位冲激核减去均值核，得到高通核：
+$$K_{\text{sharp}} = \begin{bmatrix} 0 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 0 \end{bmatrix} - \frac{1}{9}\begin{bmatrix} 1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1 \end{bmatrix}$$
+等价于在原图上叠加被放大的高频成分：
+$$\text{Sharpening: } I + \lambda\,(I - I_{\text{blur}})$$
+其中 $I_{\text{blur}}$ 为低通滤波结果，$\lambda$ 为锐化强度系数。
+
+\paragraph{相关数学知识}
+算法上来讲，为了实现高效的滤波，在Separable Filtering中采用数学技巧降低计算量。本质上在某些核中可以使用线性技巧，将矩阵Kernel展开到$K = vh^{T}$的形式，然后只需要做两个一维乘法。
+
+线性滤波的数学特征主要有以下两个：
+
+\begin{itemize}
+    \item Correlation: $$g(i,j) = \sum_{k,l}f(i+k,j+l)h(k,l)$$
+    \item Convolution: $$g(i,j) = \sum_{k,l}f(i-k,j-l)h(k,l)$$
+\end{itemize}
+
+这两个算子都具备线性和平移不变性。
+
+\begin{itemize}
+    \item $h \circ (f_0+f_1) = h \circ f_0 + h \circ f_1$
+    \item Shift Invarience: $(h \circ g)(i , j) = (h \circ f)(i + h , j + l) $ 
+\end{itemize}
+
+Filter和卷积神经网络中的特征提取算法有非常紧密的联系。
+
+\subsubsection{非线性滤波器}
+
+\paragraph{双边滤波}
+
+Gaussian滤波的主要困难在于只考虑了像素位置的相近性，但是没有考虑像素灰度的差异，会忽略边缘，让重要的信息变模糊。
+
+将Gaussian滤波（Domain Kernel）和颜色（Range Kernel）变化的结合起来，得到Bilateral Filter的权重
+
+\[
+w (i,j,k,l) = \exp(-\frac{(i-k)^2+(j-l)^2}{2\sigma_{d}^{2}}-\frac{||f(i,j) - f(k,l)||^2}{2\sigma_{r}^{2}})
+\]
+
+将此作为权重，结合softmax的归一化操作，得到滤波核
+
+\[
+g(i,j) = \frac{f(k,l)w(i,j,k,l)}{w(i,j,k,l)} \Rightarrow softmax(-\frac{(F_i-F_j)^2}{\sigma}f)
+\]
+
+这种滤波技术常用于美颜磨皮和ps技术, 多模态学习中的Kernel本质上就是可以学习的滤波器。
+
+\paragraph{Joint Bilaterial Filter}
+
+如果有高清图片作为参考，进行图像滤波的时候可以直接参照正确答案查看颜色的相似性，实现去噪（用没Flash的参照给有Flash的进行去噪）。这也是神经网络中自注意力的灵感来源。如果自身的颜色细节是不好的，滤波器中的sigma参数应当依据无Flash的高清图片来确定，得到joint滤波。
+
+上图是 No-Flash 图某一行的灰度剖面，$\sigma_d$ 控制参与平均的空间邻近范围；下图是 Flash 图同一行的剖面，$\sigma_r'$ 由 Flash 图确定颜色相似范围。两者分别对应权重公式中的域核（Domain Kernel）与值核（Range Kernel）。
+
+技术路径分三步：
+
+\begin{enumerate}[label=\arabic*.]
+    \item 以 Flash 图为引导图（guide），对 No-Flash 图做 Joint Bilateral Filter，得到去噪后的基础层：
+    \[
+    I_{\mathrm{base}} = \mathrm{JBF}(I_{\mathrm{noflash}} \mid I_{\mathrm{flash}})
+    \]
+    \item 对 Flash 图做普通 Bilateral Filter 得到其平滑版本，再相除提取细节层：
+    \[
+    I_{\mathrm{detail}} = I_{\mathrm{flash}} / \mathrm{BF}(I_{\mathrm{flash}})
+    \]
+    \item 两者相乘，把 Flash 图的高频细节搬回低噪声的 No-Flash 图上：
+    \[
+    I_{\mathrm{result}} = I_{\mathrm{base}} \times I_{\mathrm{detail}}
+    \]
+\end{enumerate}
+
+想要保持细节，则可以对原图进行滤波，提取高频细节。高频细节为了得到对比度，原图不带闪光灯饱和度低，对比时不宜使用减法提取，应该用除法提取对比度高的图像。
+
+\subsection{UpSampling \& DownSmapling}
+
+\subsubsection{DownSampling和防走样}
+减小图像尺寸如果要通过降采样随机丢弃行列的方法进行实现，有可能出现走样的情况。这是因为采样频率无法反映图形中的高频噪声和高频细节，所以出现了不知所谓的结果。解决的方法是首先进行高斯滤波，将图像变得平滑。
+
+将高斯平滑的方法和sampling排列起来，则可以构造出Gaussian金字塔，表现这个缩小的过程。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{/home/simson/图片/截图/截图 2026-09-17 11-55-56.png}
+\end{figure}
+
+\subsubsection{UpSampling}
+
+把小的图片放大，会出现非常模糊的情况，为了避免简单使用放大像素的方法，需要进行插值。
+
+插值的数学原理可以用如下公式进行表示，以一元函数插值为例：
+
+设采样点为整数位置 $x_k$，已知采样值 $f(x_k)$，插值即构造 $g(x)$ 满足 $g(x_k)=f(x_k)$，并用于估计采样点之间的函数值。记 $x$ 落在区间 $[x_k,x_{k+1}]$ 内，$t=x-x_k\in[0,1)$。
+
+最近邻插值（Nearest Neighbor）：取离 $x$ 最近的采样值，$g(x)$ 是阶梯函数
+\[
+g(x)=f(x_k),\qquad k=\arg\min_{j}|x-x_j|
+\]
+
+线性插值（Linear）：用相邻两点连直线
+\[
+g(x)=(1-t)\,f(x_k)+t\,f(x_{k+1})
+\]
+
+Cubic 插值：在每个区间上用三次多项式，由两端函数值与一阶导数连续共四个条件定出系数
+\[
+g(x)\big|_{[x_k,x_{k+1}]}=a_3(x-x_k)^3+a_2(x-x_k)^2+a_1(x-x_k)+a_0
+\]
+\[
+g(x_k)=f(x_k),\quad g(x_{k+1})=f(x_{k+1}),\quad g'(x_k^-)=g'(x_k^+),\quad g'(x_{k+1}^-)=g'(x_{k+1}^+)
+\]
+
+插值的方法有最近邻插值法，线性插值法。最近邻插值就是直接把最近邻居的数值搬过来，形成类似直方图的函数状态；比这个效果稍好的是线性插值，可以至少具有丰富的变化和导数。效果更好的是选取分段的高次函数，比如Cubic插值选用三次函数保证一阶连续。
+
+放到图像上采样的插值算法中，双线性插值法是较为常用的，只需要知道周围四个邻居的数值，但是注意，双线性插值是一种非线性插值，结果中有交叉项。如果要追求好的效果，用Bicubic插值。
+
+双线性插值（Bilinear）：用周围四个邻居。记 $u=x-i,\ v=y-j$，$(u,v)\in[0,1)^2$
+\[
+g(x,y)=(1-u)(1-v)f(i,j)+u(1-v)f(i+1,j)+(1-u)v\,f(i,j+1)+uv\,f(i+1,j+1)
+\]
+写成矩阵形式，交叉项 $uv$ 出现在展开后的二次项中：
+\[
+g(x,y)=
+\begin{bmatrix}1-u & u\end{bmatrix}
+\begin{bmatrix}f(i,j) & f(i,j+1)\\ f(i+1,j) & f(i+1,j+1)\end{bmatrix}
+\begin{bmatrix}1-v\\ v\end{bmatrix}
+\]
+
+Bicubic 插值：用周围 $4\times4=16$ 个邻居，两个方向分别套用同一个三次核 $W$，可分离地写成
+\[
+g(x,y)=\sum_{m=-1}^{2}\sum_{n=-1}^{2} f(i+m,\ j+n)\,W(u-m)\,W(v-n)
+\]
+其中 $W$ 为三次卷积核（$a$ 通常取 $-0.5$）
+\[
+W(s)=
+\begin{cases}
+(a+2)|s|^3-(a+3)|s|^2+1, & |s|\le 1\\[2pt]
+a|s|^3-5a|s|^2+8a|s|-4a, & 1<|s|<2\\[2pt]
+0, & |s|\ge 2
+\end{cases}
+\]
+
+
 \end{document}

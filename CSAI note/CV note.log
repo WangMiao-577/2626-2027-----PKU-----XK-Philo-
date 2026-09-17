@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  15 SEP 2026 20:28
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  17 SEP 2026 12:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1689,11 +1689,15 @@ Package fontspec Info:
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
 (Font)              size <10.95> substituted on input line 2.
 
-)
+[1])
 \tf@toc=\write5
 \openout5 = `"CV note.toc"'.
 
- [1] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] (CV note.aux)
+ [2] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14]
+File: /home/simson/图片/截图/截图 2026-09-17 11-55-56.png Graphic file (type bmp)
+</home/simson/图片/截图/截图 2026-09-17 11-55-56.png>
+ [15]
+[16] (CV note.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/08/07>
@@ -1707,12 +1711,12 @@ Package rerunfilecheck Info: File `"CV note".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 45151 strings out of 404899
- 1151254 string characters out of 5480821
- 1689147 words of memory out of 5000000
- 73106 multiletter control sequences out of 15000+600000
+ 45183 strings out of 404899
+ 1152786 string characters out of 5480821
+ 1690683 words of memory out of 5000000
+ 73135 multiletter control sequences out of 15000+600000
  635541 words of font info for 119 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  107i,13n,118p,1193b,927s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on CV note.pdf (13 pages).
+Output written on CV note.pdf (19 pages).

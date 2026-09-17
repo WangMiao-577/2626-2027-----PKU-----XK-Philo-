@@ -9,6 +9,15 @@
 \usepackage{pgfplots}
 \usepackage{longtable}
 \pgfplotsset{compat=newest}
+\usepackage{amssymb,amsthm}% 数学写作环境：定义/定理/引理/例题/解答，共用计数器并按节编号
+\renewcommand{\proofname}{\normalfont\bfseries 证明}
+\newtheoremstyle{cnthm}{0.8em}{0.8em}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{cnthm}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{example}[theorem]{例题}
+\newtheorem{solution}[theorem]{解答}
 \usepackage{tikz}
 \usepackage{xcolor} % 用于颜色设置
 \usepackage{listings} % 用于代码块
@@ -506,5 +515,93 @@ I_i^{B} &= \alpha_i F_i^{B} + (1 - \alpha_i) B_i^{B}
 其中 $I_i$ 为观测像素值，$F_i$ 为前景色，$B_i$ 为背景色，$\alpha_i \in [0,1]$ 为Alpha掩码。每个像素只有3个方程却有 $F_i, B_i, \alpha_i$ 共7个未知数。
 所以这个方程有无穷多个解。一种解决方法就是使用绿幕，令背景能够用已知的数值直接带入，减少未知数。这个方法的问题是，绿幕/蓝幕抠图由于漫反射可能会影响到前景。
 在当代也可以用AI方法辅助解决。
+
+\appendix
+
+\section{数学知识补充}
+
+\subsection{Fourier变换}
+
+Fourier变换是图像处理中的常用数学规律，图像处理中涉及的主要是二维的Fourier变换，所以这里只探讨二维的情况，高维的情况可以自行推广。Fourier变换听起来很高级，但是实际上本质就是一个特殊的可逆线性变换，
+(在图像处理中相当于变换坐标轴)，变换的目的类似于极坐标方程和直角坐标方程之间的转换。也就是对于同一个函数或者点，用不同的方式选取我们关注的信息进行表达。Fourier变换会有计算上和理解上的好处，我们马上就会看到。
+\subsubsection{二维Fourier变换的定义}
+
+\begin{definition}[二维Fourier变换离散版本]
+    设定二维空间域中的函数为$f(x,y)$,则该函数的Fourier变换结果为
+    \[
+    F(u,v) = \sum_{x = 0}^{M - 1} \sum_{y = 0}^{N - 1} f(x,y) e^{-j2\pi\left(\frac{ux}{M} + \frac{vy}{N}\right)}
+    \]
+\end{definition}
+
+连续版本的只需要把求和改写成二重积分，没有什么难度，而且和VCL处理关系不大，不予列举。现在我们需要明确DFT的含义。DFT变换之后得到的函数是一个复值函数，可以写成实部和虚部分离的形式：
+
+\[
+F(u,v) = R(u,v) + j I(u,v)
+\]
+
+二维Fourier变换的意义不太清楚，我们回忆一维Fourier变换的想法。对于一个信号函数，应当是由不同频率的正弦波叠加而成的。Fourier变换给出的关于频率$\omega$的函数说明了不同频率的波形情况。
+将频率的概念推广到二维频域，则频域内的每一个点都对应了一个函数，说明了本频率空间内的信号情况。回看上式。$\sqrt{R^2 + I^2}$，被称之为模值，说明了频率的强弱也就是携带的能量（所谓高频低频指的就是这个）。
+我们画的“频谱”也就是指“幅值”的频谱。而该复数的辐角$\theta = \arctan\frac{I}{R}$称之为相位。
+
+\subsubsection{二维Fourier变换的性质}
+
+Fourier变换不仅有分析上的好处，还有计算上的好处。首先二维Fouirer变换是一个线性变换，这点不难验证。从定义中可以看出，
+这其实就是对二维矩阵进行了矩阵乘法。Fourier变换对应的矩阵是Fourier矩阵，定义如下：
+
+\begin{definition}[Fourier矩阵]
+    定义旋转因子：$$\omega_N = e^{-j\frac{2\pi}{N}}$$
+
+    矩阵 $\mathbf{F}_N$ 的第 $k$ 行、第 $n$ 列（索引均从 $0$ 到 $N-1$）的元素为：
+    
+    $$\mathbf{F}_N[k, n] = \omega_N^{k \cdot n} = e^{-j\frac{2\pi}{N} kn}$$
+\end{definition}
+
+容易验证，这是一个酉矩阵，因此Fourier变换具有酉变换的所有性质。现在请我们回忆酉变换最重要的性质：
+
+首先是可逆性，这意味着转换到频域之后不会有任何信息丢失。（也就是说对这个矩阵携带的信息进行了重新的分类而不改变内容）。
+
+对于二维Fourier变换的逆变换有如下公式：
+
+\begin{theorem}[Fourier变换的逆变换]
+    设$f(x,y)$进行Fourier变换之后变成了$F(u,v)$,则逆变换形如以下表达式：
+    \[
+    f(x, y) = \frac{1}{MN} \sum_{u=0}^{M-1} \sum_{v=0}^{N-1} F(u,v) e^{j2\pi\left(\frac{ux}{M}+ \frac{vy}{N}\right)}
+    \]
+\end{theorem}
+
+其次是保距性，由于是酉矩阵，变换前后点之间的距离是不会发生变化的。在研究频谱的视角下这意味着信号函数携带的总能量严格等于频域内各点所携带的总能量之和，此即著名的Parseval等式。能量
+在VCL的信息处理中有极为重要的应用。
+
+\begin{theorem}[Parseval等式]
+    Parseval 等式写作：
+    
+    $$\sum_{x=0}^{M-1} \sum_{y=0}^{N-1} \vert{}f[x, y]\vert{}^2 = \frac{1}{MN} \sum_{u=0}^{M-1} \sum_{y=0}^{N-1} \vert{}F[u, v]\vert{}^2$$
+
+    注：这时工程上常常采用的没有归一化的形式，严格的定义两面各自用一个常数归一化就可以。
+\end{theorem}
+
+这说明了每个频域点携带的能量，和原来每个像素点携带的能量是完全相等的。能量可以简单理解为信息量，这进一步说明Fourier变换前后信息没有丢失。
+
+\subsubsection{Fourier变换的运算}
+Fourier变换重要的运算性质有两个，首先是Fourier变换由于指数的性质容易降维拆分，在计算过程中可以直接先后计算两个一维Fourier变换而不需要计算二维的结构。正如以下公式：
+
+\[
+F(u, v) = \sum_{x=0}^{M-1} \left( \sum_{y=0}^{N-1} f(x, y) e^{-j 2\pi \frac{vy}{N}} \right) e^{-j 2\pi \frac{ux}{M}}
+\]
+
+首先对每行求，然后再对结果求，这样可以将计算复杂度由$O(M^2 N^2)$降到$O(MNlog(MN))$
+
+其次是Fouier变换可以帮助计算卷积和高阶导数。卷积和高阶导数的计算是非常复杂的，然而经过Fourier变换，卷积可以退化为乘法计算，可以有效降低计算复杂度。具体关系如下，其中*表示做卷积。
+
+\[
+\mathcal{F} \{f * g\} = \mathcal{F} \{f\} \mathcal{F} \{g\} \qquad \mathcal{F} \{\frac{d^n f}{d x^n}\} = (j 2\pi u)^n \mathcal{F} \{u\}
+\]
+
+在进行复杂的卷积计算时，可以首先用DFT变换做乘法，然后变换回来，达到降低计算量的效果。
+
+\section{Dithering算法补充}
+
+Dithering算法的主要难点在于各种不同的噪声。我们应当知道噪声的原理，各种噪声的数学模型和生成方法。
+
 
 \end{document}

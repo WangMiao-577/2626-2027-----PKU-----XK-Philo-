@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  9 SEP 2026 12:01
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  16 SEP 2026 12:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/home/simson/latex/Western Philosophy.tex"
-(/home/simson/latex/Western Philosophy.tex
+**"/home/simson/latex/Philosophy note/Western Philosophy.tex"
+(/home/simson/latex/Philosophy note/Western Philosophy.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
 (/home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
@@ -1499,11 +1499,6 @@ Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
 )
 
 Package fontspec Info: 
-(fontspec)             Could not resolve font "Ubuntu/B" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
 (fontspec)             Font family 'Ubuntu(0)' created for font 'Ubuntu' with
 (fontspec)             options [].
 (fontspec)              
@@ -1512,8 +1507,8 @@ Package fontspec Info:
 (fontspec)              
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
 (fontspec)             <->"Ubuntu/OT:script=latn;language=dflt;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
-(fontspec)             <->"Ubuntu/OT:script=latn;language=dflt;+smcp;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"Ubuntu/B/OT:script=latn;language=dflt;"
 (fontspec)             - 'italic' (m/it) with NFSS spec.:
 (fontspec)             <->"Ubuntu/I/OT:script=latn;language=dflt;"
 (fontspec)             - 'bold italic' (b/it) with NFSS spec.:
@@ -1724,7 +1719,23 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
 
-[2] (Western Philosophy.aux)
+[2]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.64723pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.64723pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
+
+[3]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.64723pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.64723pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
+
+[4] (Western Philosophy.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/08/07>
@@ -1738,12 +1749,12 @@ Package rerunfilecheck Info: File `"Western Philosophy".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 44685 strings out of 404899
- 1128503 string characters out of 5480821
- 1675534 words of memory out of 5000000
- 72659 multiletter control sequences out of 15000+600000
- 632704 words of font info for 100 fonts, out of 8000000 for 9000
+ 44836 strings out of 404899
+ 1139301 string characters out of 5480821
+ 1677947 words of memory out of 5000000
+ 72806 multiletter control sequences out of 15000+600000
+ 632736 words of font info for 104 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 107i,12n,118p,1221b,1311s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 107i,13n,118p,1237b,1313s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Western Philosophy.pdf (4 pages).
+Output written on Western Philosophy.pdf (6 pages).

@@ -32,3 +32,20 @@
 \contentsline {subsubsection}{\numberline {2.7.4}彩色滤镜阵列与去马赛克}{11}{subsubsection.2.7.4}%
 \contentsline {subsubsection}{\numberline {2.7.5}Gamma 校正}{11}{subsubsection.2.7.5}%
 \contentsline {subsection}{\numberline {2.8}本讲小结}{11}{subsection.2.8}%
+\contentsline {section}{\numberline {3}Image Processing}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}逐像素处理Pixel(Point) Processing}{11}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}基本P图操作}{11}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Histogram Equalization}{12}{subsubsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.2}Filtering}{13}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}线性滤波器}{13}{subsubsection.3.2.1}%
+\contentsline {paragraph}{线性滤波器的分类}{13}{paragraph*.2}%
+\contentsline {paragraph}{盒式滤波器（Box Filter）}{13}{paragraph*.3}%
+\contentsline {paragraph}{高斯滤波器（Gaussian Filter）}{13}{paragraph*.4}%
+\contentsline {paragraph}{锐化滤波器（Sharpening Filter）}{13}{paragraph*.5}%
+\contentsline {paragraph}{相关数学知识}{13}{paragraph*.6}%
+\contentsline {subsubsection}{\numberline {3.2.2}非线性滤波器}{14}{subsubsection.3.2.2}%
+\contentsline {paragraph}{双边滤波}{14}{paragraph*.7}%
+\contentsline {paragraph}{Joint Bilaterial Filter}{14}{paragraph*.8}%
+\contentsline {subsection}{\numberline {3.3}UpSampling \& DownSmapling}{15}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}DownSampling和防走样}{15}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}UpSampling}{15}{subsubsection.3.3.2}%
