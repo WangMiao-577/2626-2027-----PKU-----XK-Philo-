@@ -29,3 +29,24 @@
 \contentsline {paragraph}{运算性质}{7}{paragraph*.14}%
 \contentsline {paragraph}{类型转换}{7}{paragraph*.15}%
 \contentsline {subsection}{\numberline {2.4}信息的表示和存储}{7}{subsection.2.4}%
+\contentsline {section}{\numberline {3}机器级编程:Machine Programming}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}处理器系统}{7}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Intel处理器}{7}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}x86 CLones： Advanced Micro Devices（AMD）}{8}{subsubsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.3}相关定义}{8}{subsubsection.3.1.3}%
+\contentsline {paragraph}{Architecture}{8}{paragraph*.16}%
+\contentsline {paragraph}{MicroArcitecture}{8}{paragraph*.17}%
+\contentsline {subsubsection}{\numberline {3.1.4}机器语言和汇编代码视角下的计算机系统}{8}{subsubsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.2}C程序的编译过程和反汇编}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}汇编语言}{9}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}从 C 到汇编：编译流水线}{9}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}反汇编：机器码与汇编的对应}{10}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}汇编语言的特点}{11}{subsubsection.3.3.3}%
+\contentsline {paragraph}{读取}{11}{paragraph*.18}%
+\contentsline {paragraph}{逻辑}{11}{paragraph*.19}%
+\contentsline {paragraph}{表示特点}{12}{paragraph*.20}%
+\contentsline {subsubsection}{\numberline {3.3.4}汇编操作}{12}{subsubsection.3.3.4}%
+\contentsline {paragraph}{寄存器}{12}{paragraph*.21}%
+\contentsline {paragraph}{Move指令}{12}{paragraph*.22}%
+\contentsline {paragraph}{内存寻址}{12}{paragraph*.23}%
+\contentsline {paragraph}{算术运算指令和逻辑运算指令}{13}{paragraph*.24}%

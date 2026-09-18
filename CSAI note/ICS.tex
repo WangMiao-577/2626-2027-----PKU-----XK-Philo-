@@ -120,6 +120,68 @@
     morekeywords=[2]{class, id, href, src, rel, type, charset, lang, name, content, style},
     keywordstyle=[2]\color{purple!80!black},
 }
+
+% ==================== 汇编代码环境 ====================
+% 与 MyCppStyle 共用同一套字体、配色、行号与边框，只换语言和背景色
+\definecolor{asmbg}{RGB}{237,246,255}% 很浅的蓝，等于 lightblue!8!white
+
+\lstdefinelanguage{x86asm}{
+    sensitive    = false,       % 大小写不敏感，%RAX 与 %rax 都能识别
+    alsoletter   = {.},         % 让 .globl / .quad 这类伪指令整体参与匹配
+    morecomment  = [l]{\#},     % AT&T 语法的注释符
+    morecomment  = [l]{;},      % Intel 语法的注释符
+    morecomment  = [l]{//},
+    morecomment  = [s]{/*}{*/},
+    morestring   = [b]{"},
+    morestring   = [b]{'},
+    morekeywords = {%            指令与伪指令，沿用 C 的关键字颜色
+        mov, movb, movw, movl, movq, movabs,
+        movzbl, movzwl, movslq, movsbl, movswl,
+        lea, leaq, push, pushq, pop, popq, xchg,
+        add, addq, sub, subq, imul, imulq, mul, idiv, idivq, div,
+        inc, dec, neg, not, and, andq, or, orq, xor, xorq,
+        sal, sar, shl, shr, cmp, cmpq, test, testq,
+        jmp, je, jz, jne, jnz, jg, jge, jl, jle, ja, jae, jb, jbe, js, jns,
+        sete, setne, setg, setge, setl, setle, seta, setb,
+        cmove, cmovne, cmovg, cmovge, cmovl, cmovle,
+        call, callq, ret, retq, leave, nop, nopw, syscall, endbr64,
+        .globl, .global, .text, .data, .bss, .rodata, .section,
+        .align, .p2align, .byte, .word, .long, .quad, .string, .asciz,
+        .zero, .size, .type, .file, .ident
+    },
+    morekeywords = [2]{%         寄存器
+        rax, rbx, rcx, rdx, rsi, rdi, rbp, rsp, rip,
+        r8, r9, r10, r11, r12, r13, r14, r15,
+        eax, ebx, ecx, edx, esi, edi, ebp, esp,
+        ax, bx, cx, dx, si, di, bp, sp,
+        al, bl, cl, dl, sil, dil, bpl, spl, ah, bh, ch, dh,
+        r8d, r9d, r10d, r11d, r12d, r13d, r14d, r15d,
+        xmm0, xmm1, xmm2, xmm3, ymm0, ymm1
+    }
+}
+
+\lstdefinestyle{MyAsmStyle}{
+    language         = x86asm,
+    basicstyle       = \consolasfont,
+    keywordstyle     = \color{blue!70!black},
+    keywordstyle     = [2]\color{purple!80!black},
+    commentstyle     = \color{green!50!black},
+    stringstyle      = \color{red!60!black},
+    numberstyle      = \tiny\color{gray},
+    numbers          = left,
+    frame            = single,
+    rulecolor        = \color{lightgray},
+    breaklines       = true,
+    backgroundcolor  = \color{asmbg},
+    tabsize          = 4,
+    showstringspaces = false,
+    xleftmargin      = 2em,
+    escapeinside     = ``,
+}
+
+% 直接可用的环境：\begin{asmcode} ... \end{asmcode}
+\lstnewenvironment{asmcode}[1][]{\lstset{style=MyAsmStyle, #1}}{}
+
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,      
@@ -565,5 +627,297 @@ x \times_f y = Round(x + y)
 需要注意的是Internet的存储方式是使用大端法。
 
 每个字符只占据一个字节，所以字符串的存储不受到大小端法的影响，可以用字符串起到标示和检查的效果。
+
+\section{机器级编程:Machine Programming}
+
+\subsection{处理器系统}
+
+\subsubsection{Intel处理器}
+Intelx86处理器系统是当前主流的处理器系统。Intel处理器的设计是不断进化的，Intel指令集性能较好，功耗较高。
+
+关于Intel的指令集非常有名，简称CISC，叫作复杂指令集。指令集的内容很多且格式复杂，但是只有一小部分是在linux系统会见到的。复杂指令集的功耗让很难match到精简指令集系统的表现。
+
+\subsubsection{x86 CLones： Advanced Micro Devices（AMD）}
+
+AMD从前一直追随Intel架构，用微弱的性能换极低的能耗。在进化到64位系统之后首先主导开发Intel X86-64处理器。
+
+\subsubsection{相关定义}
+
+\paragraph{Architecture}
+
+也称ISA，指指令集架构。指令集架构指的是在编写机器语言和汇编语言的时候需要遵循的指令集规范。（架构决定了如何解释机器代码和汇编代码）
+
+\paragraph{MicroArcitecture}
+
+cache sizes ，core frequency一类计算机内部的具体执行方式的总称，决定了程序具体被如何执行。
+
+\subsubsection{机器语言和汇编代码视角下的计算机系统}
+
+CPU处理器模型：
+\begin{itemize}
+    \item PC：Programm counter
+    \item Register file
+    \item Condition codes(条件码)
+\end{itemize}
+
+内存Memory模型：
+
+\begin{itemize}
+    \item Byte addressable array
+    \item Code and user data
+    \item Stack to support procedures
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\footnotesize, x=1cm, y=1cm,
+    cpu/.style={draw=blue!65!black, fill=blue!8, line width=0.8pt, rounded corners=3pt},
+    mem/.style={draw=green!55!black, fill=green!8, line width=0.8pt, rounded corners=3pt}]
+
+  % ===== CPU：PC / Register file / Condition codes =====
+  \draw[cpu] (0,0) rectangle (4.2,2.8);
+  \node[blue!65!black] at (2.1,2.45) {\textbf{CPU}};
+  \node[align=center] at (2.1,1.28) {PC (Program counter)\\[4pt] Register file\\[4pt] Condition codes};
+
+  % ===== Memory：按字节编址的数组 =====
+  \draw[mem] (9.2,0) rectangle (13.6,2.8);
+  \node[green!45!black] at (11.4,2.45) {\textbf{Memory 内存}};
+  \node[align=center] at (11.4,1.20) {Byte addressable array\\[4pt] Code and user data\\[4pt] Stack to support procedures};
+
+  % ===== CPU $\to$ Memory：地址 =====
+  \draw[->,blue!65!black,line width=1pt] (4.2,2.05) -- (9.2,2.05);
+  \node[fill=white,inner sep=2pt] at (6.7,2.05) {地址 Address};
+
+  % ===== Memory $\to$ CPU：指令 =====
+  \draw[->,green!45!black,line width=1pt] (9.2,1.35) -- (4.2,1.35);
+  \node[fill=white,inner sep=2pt] at (6.7,1.35) {指令 Instruction};
+
+  % ===== CPU $\leftrightarrow$ Memory：数据 =====
+  \draw[<->,red!70!black,line width=1pt] (4.2,0.65) -- (9.2,0.65);
+  \node[fill=white,inner sep=2pt] at (6.7,0.65) {数据 Data};
+\end{tikzpicture}
+\caption{CPU 与内存之间的数据流动。PC 给出地址，内存按字节编址取出该地址上的指令或数据送回 CPU；load/store 经 Register file 读写数据，Condition codes 记录运算结果的状态。}
+\end{figure}
+
+\subsection{C程序的编译过程和反汇编}
+
+\subsection{汇编语言}
+
+汇编代码不是凭空写出来的，它由 C 代码经一条固定的流水线生成，也可以反过来从二进制里还原出来。这两个方向各有一套工具，是读懂机器级程序的基本功。
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\footnotesize, x=1cm, y=1cm,
+    txtf/.style={draw=blue!65!black, fill=blue!8, line width=0.8pt, rounded corners=3pt,
+                 align=center, minimum width=2.3cm, minimum height=1.5cm},
+    binf/.style={draw=green!55!black, fill=green!8, line width=0.8pt, rounded corners=3pt,
+                 align=center, minimum width=2.3cm, minimum height=1.5cm}]
+
+  % ===== 五个中间产物：前三个是 ASCII 文本，后两个是二进制 =====
+  \node[txtf] (f1) at ( 1.15,0.75) {sum.c\\[2pt] C 源文件};
+  \node[txtf] (f2) at ( 4.40,0.75) {sum.i\\[2pt] 预处理后};
+  \node[txtf] (f3) at ( 7.65,0.75) {sum.s\\[2pt] 汇编代码};
+  \node[binf] (f4) at (10.90,0.75) {sum.o\\[2pt] 可重定位目标};
+  \node[binf] (f5) at (14.15,0.75) {a.out\\[2pt] 可执行文件};
+
+  % ===== 四步工具 =====
+  \draw[->,line width=0.8pt] (f1) -- node[above,inner sep=1pt] {cpp} (f2);
+  \draw[->,line width=0.8pt] (f2) -- node[above,inner sep=1pt] {cc1} (f3);
+  \draw[->,line width=0.8pt] (f3) -- node[above,inner sep=1pt] {as}  (f4);
+  \draw[->,line width=0.8pt] (f4) -- node[above,inner sep=1pt] {ld}  (f5);
+\end{tikzpicture}
+\caption{从 C 源文件到可执行文件的生成流程。cpp、cc1、as、ld 依次是预处理器、编译器、汇编器和链接器。前三步的产物（.c、.i、.s）都是 ASCII 文本，人可以直接读；后两步的产物（.o 和可执行文件）是二进制，只能用工具解析。gcc 的 \texttt{-E}、\texttt{-S}、\texttt{-c} 三个选项分别让它停在对应的阶段。}
+\end{figure}
+
+\subsubsection{从 C 到汇编：编译流水线}
+
+以一段求数组和的 C 程序为例，它也是后面反复要用的例子：
+
+\begin{lstlisting}[style=MyCppStyle]
+#include <stdio.h>
+
+long sum(long *a, long n) {
+    long s = 0;
+    for (long i = 0; i < n; i++)
+        s += a[i];
+    return s;
+}
+
+int main(void) {
+    long a[] = {1, 2, 3, 4, 5};
+    printf("%ld\n", sum(a, 5));
+    return 0;
+}
+\end{lstlisting}
+
+gcc 并不是一步把 .c 变成可执行文件的，它按上图把四个阶段依次串起来。用 \texttt{-E}、\texttt{-S}、\texttt{-c} 可以让它在任意一步停下，看清每个中间产物：
+
+\begin{lstlisting}[style=MyCppStyle, language=sh]
+$ gcc -E sum.c -o sum.i     # 预处理器 cpp：展开 #include 和宏
+$ gcc -S sum.c              # 编译器 cc1：把 C 翻译成 sum.s
+$ gcc -c sum.c              # 汇编器 as：把汇编翻译成二进制的 sum.o
+$ gcc sum.c -o sum          # 链接器 ld：把 sum.o 和库拼成可执行文件
+
+$ ./sum
+15
+
+$ file sum.o
+sum.o: ELF 64-bit LSB relocatable, x86-64, version 1 (SYSV), not stripped
+$ file sum
+sum:   ELF 64-bit LSB pie executable, x86-64, dynamically linked, ...
+\end{lstlisting}
+
+sum.i 打开是展开后的 C 代码，通常有上千行；sum.s 就是汇编。而 sum.o 和 sum 用文本编辑器打开只会是乱码——file 命令一眼就能把它们认出来，这正是上图中蓝色和绿色的分界。
+
+\subsubsection{反汇编：机器码与汇编的对应}
+
+.o 和可执行文件里装的是二进制指令，要用 objdump 才能看。\texttt{objdump -d} 会把每一段机器码翻译回汇编，并把原始字节一并列出来：
+
+\begin{lstlisting}[style=MyCppStyle, language=sh]
+$ gcc -O1 -c sum.c
+$ objdump -d sum.o
+\end{lstlisting}
+
+\begin{asmcode}
+0000000000000000 <sum>:
+   0:   f3 0f 1e fa           endbr64
+   4:   48 85 f6              test   %rsi,%rsi
+   7:   7e 27                 jle    30 <sum+0x30>
+   9:   48 89 f8              mov    %rdi,%rax
+   c:   48 8d 0c f7           lea    (%rdi,%rsi,8),%rcx
+  10:   ba 00 00 00 00        mov    $0x0,%edx
+  20:   48 03 10              add    (%rax),%rdx
+  23:   48 83 c0 08           add    $0x8,%rax
+  27:   48 39 c8              cmp    %rcx,%rax
+  2a:   75 f4                 jne    20 <sum+0x20>
+  2c:   48 89 d0              mov    %rdx,%rax
+  2f:   c3                    ret
+  30:   ba 00 00 00 00        mov    $0x0,%edx
+  35:   eb f5                 jmp    2c <sum+0x2c>
+\end{asmcode}
+
+最左边是地址，中间是机器码字节，右边是 objdump 还原出的汇编：一条汇编恰好对应中间那串字节。带立即数的 mov 占 5 字节，不带立即数的 mov 和 add 占 3 字节，ret 只占 1 字节。这段反汇编与后文 \texttt{gcc -S} 生成的 sum.s 逐行一致，只是多了地址和机器码两列——所以读汇编和读机器码是同一件事，区别只在于后者要查指令编码表。
+
+（上面省略了 gcc 为对齐循环入口插入的 8 字节 \texttt{nop} 填充，所以地址从 0x10 直接跳到 0x20。）
+
+需要注意的是，objdump 默认也用 AT\&T 语法，但它不写 \texttt{movq}、\texttt{addq} 这类宽度后缀——宽度已经由 %rsi、%rdx 这些寄存器名确定了。
+
+\subsubsection{汇编语言的特点}
+
+先看一段 C 代码，以及 gcc -O1 为它生成的汇编（省略 gcc 自动加上、与语义无关的 \texttt{.cfi} 伪指令和 \texttt{endbr64}）：
+
+\begin{lstlisting}[style=MyCppStyle]
+long sum(long *a, long n) {
+    long s = 0;
+    for (long i = 0; i < n; i++)
+        s += a[i];
+    return s;
+}
+\end{lstlisting}
+
+\begin{asmcode}
+sum:
+    testq   %rsi, %rsi          # n <= 0 ?
+    jle     .L4
+    movq    %rdi, %rax          # %rax = a
+    leaq    (%rdi,%rsi,8), %rcx # %rcx = a + n*8，指向数组末尾
+    movl    $0, %edx            # s = 0
+.L3:
+    addq    (%rax), %rdx        # s += *a
+    addq    $8, %rax            # a++
+    cmpq    %rcx, %rax          # 走到末尾了吗
+    jne     .L3
+.L1:
+    movq    %rdx, %rax          # 返回值必须放进 %rax
+    ret
+.L4:
+    movl    $0, %edx            # n <= 0 时 s = 0
+    jmp     .L1
+\end{asmcode}
+
+\paragraph{读取}
+汇编不提供结构化的语义，读它只能沿着 PC 的顺序走：先看助记符确定“做什么”，再看操作数确定“对谁做”，遇到 \texttt{jmp}、\texttt{jne} 这类跳转就把控制流接到目标标签上。所以读汇编的基本功不是逐行理解，而是跟着跳转指令画出控制流图——上面这段代码真正的循环体只有 \texttt{.L3} 到 \texttt{jne} 这四行，前面的 \texttt{testq}、\texttt{jle} 只是进入循环前的边界检查。
+
+\paragraph{逻辑}
+汇编里没有变量、类型和表达式，只有寄存器、内存和立即数三种东西。任何中间结果都必须显式占用一个具体位置：要么留在寄存器里，要么压到栈上（关掉优化后，gcc 会把每个 C 变量都摊在栈帧里）。运算只能在寄存器之间进行，内存中的数据要先 load 进寄存器、算完再 store 回去。控制流也不是 \texttt{if}、\texttt{for} 这样的结构，而是拆成“比较 + 跳转”两步：\texttt{testq}、\texttt{cmpq} 只负责设置条件码（Condition codes），\texttt{jle}、\texttt{jne} 再根据条件码决定跳不跳——这正是前面 CPU 模型里 Condition codes 存在的意义。
+
+\paragraph{表示特点}
+\begin{itemize}
+    \item \textbf{一条汇编指令对应一条机器指令}：助记符就是操作码的文本写法，二者一一对应。因此汇编与 ISA 强绑定，同一段 C 在 x86-64 和 ARM 上生成的汇编完全不同，汇编层面不存在跨平台的抽象。
+    \item \textbf{宽度写在名字里}：\texttt{movb}、\texttt{movw}、\texttt{movl}、\texttt{movq} 分别是 1、2、4、8 字节的操作；寄存器名同样自带宽度，\texttt{\%al} $\subset$ \texttt{\%ax} $\subset$ \texttt{\%eax} $\subset$ \texttt{\%rax}。
+    \item \textbf{前缀区分操作数种类}：寄存器加 \texttt{\%}，立即数加 \texttt{\$}，操作数顺序是“源在前、目的在后”。这是 AT\&T 语法；Intel 语法没有前缀、顺序相反，两者只是同一台机器上的两种写法。
+    \item \textbf{访存统一写成 \texttt{D(Rb,Ri,S)}}，即 地址 $=$ 偏移 $+$ 基址 $+$ 变址 $\times$ 比例。例子中的 \texttt{(\%rdi,\%rsi,8)} 就是数组下标寻址：基址是数组首地址，变址是下标，比例是 \texttt{sizeof(long)}。
+    \item \textbf{参数和返回值的位置由调用约定固定}：前六个整型参数依次放在 \texttt{\%rdi}、\texttt{\%rsi}、\texttt{\%rdx}、\texttt{\%rcx}、\texttt{\%r8}、\texttt{\%r9}，返回值放在 \texttt{\%rax}。所以 \texttt{sum} 一进来，\texttt{a} 已经在 \texttt{\%rdi}、\texttt{n} 已经在 \texttt{\%rsi} 里了。
+\end{itemize}
+
+\subsubsection{汇编操作}
+
+\paragraph{寄存器}
+
+寄存器在本课程的系统中
+
+\paragraph{Move指令}
+
+Move指令的操作数有三种：寄存器，内存地址和立即数。除了不能用一条指令在两个内存地址之间传递信息，其余可以两两互相传递。想要实现前一句的效果，应当经过寄存器中转。前面的寄存器表示源，后面的寄存器表示目标。
+
+\begin{asmcode}
+    movq %rax, %rdx
+\end{asmcode}
+
+\paragraph{内存寻址}
+
+内存中寻找地址有两种寻址方法：一是直接从寄存器中取出一个数据作为内存地址，从寄存器中寻址；第二种是通用的寻址形式。
+
+$$D(Rb,Ri,S)$$
+
+Rb叫作基址，Ri是变址，S为比例因子（只允许1,2,4,8），D为常数偏移量。
+
+$$Mem[Reg[Rb]+S*Reg[Ri]+D]$$
+
+上面是寻址公式，可以覆盖大量的不同场景的寻址方式和计算方法。根据以上公式，地址计算的汇编指令是：
+
+\begin{asmcode}
+    leaq Src Dst
+\end{asmcode}
+
+这种汇编指令主要用于以下两种场景：
+
+\begin{itemize}
+    \item 在不访问的情况下计算内存地址
+    \item 进行形如$x + k * y$的算术运算
+\end{itemize}
+
+譬如以下计算x*12的代码,利用寻址算法减少了内存寻址和计算开销。
+\begin{asmcode}
+    leaq (%rdi,%rdi,2), %rax 
+    salq $2, %rax 
+\end{asmcode}
+
+\paragraph{算术运算指令和逻辑运算指令}
+
+首先是双操作数的运算指令，写法是助记符后面跟 \texttt{S, D}，效果是拿 D 和 S 运算后写回 D：
+
+\begin{itemize}
+    \item \texttt{add S, D}：$D \leftarrow D + S$，加法
+    \item \texttt{sub S, D}：$D \leftarrow D - S$，减法
+    \item \texttt{imul S, D}：$D \leftarrow D \times S$，有符号乘法
+    \item \texttt{and S, D}：$D \leftarrow D \wedge S$，按位与
+    \item \texttt{or S, D}：$D \leftarrow D \vee S$，按位或
+    \item \texttt{xor S, D}：$D \leftarrow D \oplus S$，按位异或
+    \item \texttt{sal k, D}、\texttt{shl k, D}：$D \leftarrow D \ll k$，左移，两者完全等价
+    \item \texttt{sar k, D}：算术右移 $k$ 位，空位补符号位
+    \item \texttt{shr k, D}：逻辑右移 $k$ 位，空位补 $0$
+\end{itemize}
+
+其中 S 可以是立即数、寄存器或内存，D 可以是寄存器或内存，但 S 和 D 不能同时是内存。除移位外，其余指令都会顺带设置条件码。
+
+接下来是单操作数的运算指令，操作数既是源又是目的：
+
+\begin{itemize}
+    \item \texttt{inc D}：$D \leftarrow D + 1$，自增；注意它\textbf{不}影响进位标志 CF
+    \item \texttt{dec D}：$D \leftarrow D - 1$，自减；同样不影响 CF
+    \item \texttt{neg D}：$D \leftarrow -D$，取负
+    \item \texttt{not D}：$D \leftarrow \neg D$，按位取反；它\textbf{不}设置任何条件码
+\end{itemize}
 
 \end{document}
