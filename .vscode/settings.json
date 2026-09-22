@@ -62,6 +62,26 @@
   "latex-workshop.latex.autoClean.run": "onFailed",
   "latex-workshop.linting.chktex.enabled": false,
   "latex-workshop.linting.latex.enabled": false,
+  "files.exclude": {
+    "**/*.aux": true,
+    "**/*.log": true,
+    "**/*.out": true,
+    "**/*.toc": true,
+    "**/*.lof": true,
+    "**/*.lot": true,
+    "**/*.fls": true,
+    "**/*.fdb_latexmk": true,
+    "**/*.synctex.gz": true,
+    "**/*.synctex(busy)": true,
+    "**/*.bbl": true,
+    "**/*.blg": true,
+    "**/*.nav": true,
+    "**/*.snm": true,
+    "**/*.vrb": true,
+    "**/*.xdv": true,
+    "**/*.run.xml": true,
+    "**/*.bcf": true
+  },
   "terminal.integrated.env.linux": {
     "PATH": "/home/simson/bin:/home/simson/latex/miktex/usr/bin:${env:PATH}",
     "LD_LIBRARY_PATH": "/home/simson/latex/miktex/usr/lib"
