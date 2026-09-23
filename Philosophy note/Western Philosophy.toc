@@ -5,3 +5,6 @@
 \contentsline {subsection}{\numberline {2.1}笛卡尔生平简介}{2}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Discart的我思}{3}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}上帝}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}永恒真理}{4}{subsection.2.4}%
+\contentsline {paragraph}{对永恒真理概念的改造}{4}{paragraph*.2}%
+\contentsline {paragraph}{卡氏物理学}{5}{paragraph*.3}%

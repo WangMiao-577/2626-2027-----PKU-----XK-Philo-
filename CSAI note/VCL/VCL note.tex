@@ -19,6 +19,7 @@
 \newtheorem{example}[theorem]{例题}
 \newtheorem{solution}[theorem]{解答}
 \usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing} % Bezier 构造图中的花括号标注
 \usepackage{xcolor} % 用于颜色设置
 \usepackage{listings} % 用于代码块
 \usepackage{fontspec} % 关键：用于使用系统字体 (XeLaTeX/LuaLaTeX)
@@ -655,6 +656,386 @@ F(P + \Delta) = F(P) + 2N \cdot \Delta
         }
 }
 \end{lstlisting}
+
+\paragraph{曲线的表示方法}
+
+更加普遍的曲线绘制方法取决于曲线的表示方式，主要有两种：显式表示和隐式表示。
+
+\begin{itemize}
+    \item Explicit显式表达：函数表达式$y= f(x)$,可以用带入的方法快速得到复杂曲线。
+    \item Implicit隐式表达：分形曲线，Signed Distance Fuction，解析几何方程
+\end{itemize}
+
+在曲线基础绘制中的一个主题是曲线的参数方程表示（Parametric）。回顾圆的参数方程：
+\[
+\begin{cases}
+    x(t) = r \cos t,\\
+    y(t) = r \sin t
+\end{cases}
+\]
+
+可以看到曲线方程具有较好的表示形式和稳定性，可以相应地降低计算量，表示的曲线范围也更广。并且数学上参数曲线的微分容易计算。
+
+\[
+\mathbf r'(t)
+=
+\frac{d\mathbf r}{dt}
+=
+\begin{bmatrix}
+x'(t)\\
+y'(t)\\
+z'(t)
+\end{bmatrix}.
+\]
+
+在明确了表示方法之后，我们可以发现曲线的绘制不能用直接的lagarange插值法得到高阶多项式，因为这样会使得计算难度过大。容易想到可以分段计算拼成光滑情况的多项式(Piecewise Fuctions),平衡连续性和可控性。
+由此发展出多种插值方法：
+
+\paragraph{Linear Interpolation}
+
+线性插值在两个点之间直接绘制直线，一个线性插值函数记作lerp，则：
+
+\[
+lerp(t) = (1 - t) u_0 + t u_1
+\]
+
+根据上述计算，构造插值的Basis Fuction，将一个图像上所有点的插值规则集合在同样一个函数里面。已知插值方程为：
+
+\definecolor{lerpblue}{RGB}{135,165,217}   % 基函数三角形填充（蓝）
+\definecolor{lerpgreen}{RGB}{197,222,182}  % 基函数三角形填充（绿）
+\definecolor{lerpoverlap}{RGB}{126,168,158}% 两个三角形重叠处
+\definecolor{lerpdotblue}{RGB}{68,114,196} % 采样点 $y_i$
+\definecolor{lerpdotgreen}{RGB}{112,173,71}% 采样点 $y_{i+1}$
+\definecolor{lerpdashblue}{RGB}{48,78,130}
+\definecolor{lerpdashgreen}{RGB}{52,77,37}
+
+\begin{center}
+\begin{minipage}[c]{6.9cm}
+  \centering
+  % 坐标按原图像素给出，x/y 方向各按 0.0141cm/px 缩放（y 轴向下）
+  \begin{tikzpicture}[x=0.0141cm,y=-0.0141cm]
+    % 横轴
+    \draw[line width=0.8pt] (18,243) -- (485,243);
+    % 两个基函数的三角形（先蓝后绿，重叠区域再用混合色覆盖）
+    \fill[lerpblue]    (178.3,84)    -- (85.7,243)  -- (300.9,243) -- cycle;
+    \fill[lerpgreen]   (306,157.5)   -- (410.7,243) -- (184.2,243) -- cycle;
+    \fill[lerpoverlap] (259.6,189.5) -- (184.2,243) -- (300.9,243) -- cycle;
+    % 由采样点向横轴作的两条虚竖线
+    \draw[lerpdashblue,line width=1pt,dash pattern=on 6pt off 2pt]  (178.5,84) -- (180.5,243);
+    \draw[lerpdashgreen,line width=1pt,dash pattern=on 6pt off 2pt] (306,157.5) -- (306.5,243);
+    % 连接两个采样点的直线
+    \draw[line width=0.8pt] (178.5,84) -- (306,157.5);
+    % 横轴上的结点与两个采样点
+    \fill (83.5,243)  circle[radius=0.0846cm];
+    \fill (180.5,243) circle[radius=0.0846cm];
+    \fill (305,243)   circle[radius=0.0846cm];
+    \fill (409,243)   circle[radius=0.0846cm];
+    \fill[lerpdotblue]  (178.5,84)    circle[radius=0.0917cm];
+    \fill[lerpdotgreen] (306,157.5)   circle[radius=0.0917cm];
+    % 标注
+    \node at (158,59.5)  {\Large$y_i$};
+    \node at (337.5,131) {\Large$y_{i+1}$};
+    \node at (96.5,279)  {\Large$x_{i-1}$};
+    \node at (179,280)   {\Large$x_i$};
+    \node at (315,279)   {\Large$x_{i+1}$};
+  \end{tikzpicture}
+\end{minipage}\hspace{1.1cm}%
+\begin{minipage}[c]{6.9cm}
+  \centering\large\renewcommand{\arraystretch}{0.6}
+  $\textstyle y = \frac{x_{i+1}-x}{x_{i+1}-x_i}y_i + \frac{x-x_i}{x_{i+1}-x_i}y_{i+1}$
+  \\[1.7em]
+  $\textstyle B_i(x) = \begin{cases}
+      \frac{x-x_{i-1}}{x_i-x_{i-1}}, & x \in [x_{i-1},x_i] \\[-2.5pt]
+      \frac{x_{i+1}-x}{x_{i+1}-x_i}, & x \in [x_i,x_{i+1}] \\[-2.5pt]
+      0, & \text{else}
+  \end{cases}$
+\end{minipage}
+\end{center}
+
+基函数是插值问题中更加广泛的概念，对于一个基函数$B_i(x)$,满足以下要求（公理）：
+
+\[
+B_i(x_j) = \delta_{ij} = 
+\begin{cases}
+    1, i = j,\\
+    0, i \not = j
+\end{cases}
+\]
+
+\paragraph{Bezier Curve Interpolation}
+
+1962年，法国雷诺汽车公司（Renault）的工程师Pierre Bezier提出了一种新的曲线表示方式：给定起点$u_0$与终点$u_1$，再补充若干个额外的控制点，就能让一条光滑曲线被这些控制点"牵引"着从$u_0$走到$u_1$。
+
+\definecolor{bezpt}{RGB}{255,0,0}        % 端点 $u_0,u_1$
+\definecolor{bezctrl}{RGB}{0,0,255}      % 控制点 $t_0$
+\definecolor{bezlerp}{RGB}{71,219,205}   % 中间点 $a_0,a_1$ 与构造边
+\definecolor{bezb}{RGB}{112,48,160}      % 点 $b$
+\definecolor{bezorange}{RGB}{197,90,17}  % 橙色标注与箭头
+\definecolor{bezcurve}{RGB}{242,196,132} % 二次 Bezier 曲线
+\definecolor{bezhull}{RGB}{237,125,49}   % 凸包图中的三次 Bezier 曲线
+\definecolor{bezb1}{RGB}{47,189,253}     % $(1-t)^3$
+\definecolor{bezb2}{RGB}{242,163,241}    % $3t(1-t)^2$
+\definecolor{bezb3}{RGB}{77,219,206}     % $3t^2(1-t)$
+\definecolor{bezb4}{RGB}{244,180,84}     % $t^3$
+
+\subparagraph{生成与动机}
+
+先考察最简单的配置：除两个端点之外只多给一个控制点$t_0$。构造完全建立在上一节的lerp之上，先在两条边上各取一个按同一参数$t$插值出来的中间点：
+
+\[
+a_0 = lerp(u_0,t_0,t) = (1-t)u_0 + t\,t_0, \qquad
+a_1 = lerp(t_0,u_1,t) = (1-t)t_0 + t\,u_1
+\]
+
+再把$a_0,a_1$当作一对新的端点，做一次同样的插值：
+
+\[
+b = lerp(a_0,a_1,t) = (1-t)a_0 + t\,a_1
+\]
+
+固定$t$时$b$是曲线上的一个点；让$t$从0连续变到1，$b$扫过的轨迹就是所要求的那条曲线。下图取$t=0.6$：三条构造边上的花括号标注的其实是同一件事——每一轮插值得到的点都把所在的那条边按$t:(1-t)$分成两段，所以三个花括号都写$t=0.6$。可以看到$b$恰好落在曲线上。
+
+\begin{center}
+\begin{tikzpicture}[x=0.0114cm,y=-0.0114cm]
+  % 坐标按课件原图像素给出，x/y 方向各按 0.0114cm/px 缩放（y 轴向下）
+  % 两条构造边 u0-t0-u1
+  \draw[bezlerp,line width=0.8pt] (108.1,1020.9) -- (318.4,609.4) -- (808.7,1020.9);
+  % 二次 Bezier 曲线：(1-t)^2 u0 + 2t(1-t) t0 + t^2 u1
+  \draw[bezcurve,line width=1pt]
+    plot[domain=0:1,samples=80,variable=\t]
+    ({(1-\t)*(1-\t)*108.1 + 2*\t*(1-\t)*318.4 + \t*\t*808.7},
+     {(1-\t)*(1-\t)*1020.9 + 2*\t*(1-\t)*609.4 + \t*\t*1020.9});
+  % a0-a1 连线，b 落在其上
+  \draw[bezb,line width=0.8pt] (234.4,774.4) -- (612.7,857.3);
+  % 三条构造边上的花括号：每轮插值都把所在的边按 t:(1-t) 分段，故均标 t=0.6
+  \draw[lerpdotblue,line width=0.7pt,decorate,
+        decoration={brace,amplitude=0.16cm,mirror}]
+        (108.1,1020.9) -- (234.4,774.4);
+  \draw[lerpdotblue,line width=0.7pt,decorate,
+        decoration={brace,amplitude=0.16cm}]
+        (318.4,609.4) -- (612.7,857.3);
+  \draw[lerpdotblue,line width=0.7pt,decorate,
+        decoration={brace,amplitude=0.16cm,mirror}]
+        (234.4,774.4) -- (461.5,824.5);
+  % 端点、控制点与三个中间点
+  \fill[bezpt]   (108.1,1020.9) circle[radius=0.082cm];
+  \fill[bezpt]   (808.7,1020.9) circle[radius=0.082cm];
+  \fill[bezctrl] (318.4,609.4)  circle[radius=0.082cm];
+  \fill[bezlerp] (234.4,774.4)  circle[radius=0.082cm];
+  \fill[bezlerp] (612.7,857.3)  circle[radius=0.082cm];
+  \fill[bezb]    (461.5,824.5)  circle[radius=0.082cm];
+  % 标注
+  \node at (66,984)             {\Large$u_0$};
+  \node at (370,564)            {\Large$t_0$};
+  \node at (860,991)            {\Large$u_1$};
+  \node[bezorange] at (210,723) {\Large$a_0$};
+  \node[bezorange] at (602,917) {\Large$a_1$};
+  \node[bezb] at (454,796)      {\Large$b$};
+  \node[anchor=west] at (190,960) {\Large$t=0.6$};
+  \node[anchor=west] at (570,770) {\Large$t=0.6$};
+  \node at (330,890)              {\Large$t=0.6$};
+\end{tikzpicture}
+\end{center}
+
+阶数提高时做法没有任何变化，只是"更多的线、更多次lerp"：控制点增加到两个就是二次（square）Bezier曲线，增加到三个就是三次（cubic）Bezier曲线。一条三次Bezier有两个控制点，需要$3+2+1$次lerp——每做完一轮插值，点的个数就减少一个，所以这个过程天然是递推的。
+
+\subparagraph{De Casteljau 迭代算法}
+
+上面这套做法称为De Casteljau算法（德卡斯特里奥）。给定参数$t$，它只有两步：
+
+\begin{enumerate}
+    \item 对每一对相邻的控制点，按参数$t$计算它们的线性插值；
+    \item 用插值得到的结果作为新的控制点集合，重复上一步。
+\end{enumerate}
+
+当控制点只剩下一个时递归终止，剩下的这个点就是参数$t$处的曲线上的点。写成递归函数即：
+
+\begin{lstlisting}[style=MyCppStyle, language=Python]
+def bezier_recursive(points, t):
+    # only one point left: recursion ends, this is the point on the curve
+    if len(points) == 1:
+        return points[0]
+
+    # otherwise: linear interpolation between every pair of neighbours
+    new_points = []
+    for i in range(len(points) - 1):
+        # linear interpolation: P = (1 - t) * P1 + t * P2
+        new_points.append((1 - t) * points[i] + t * points[i + 1])
+
+    # recurse on the reduced set of control points
+    return bezier_recursive(new_points, t)
+\end{lstlisting}
+
+把lerp的系数逐层乘开，就得到同一个结果的解析形式。以二次曲线为例（控制点在这里记作$c_0$，也就是上文的$t_0$）：
+
+\[
+b = (1-t)a_0 + t\,a_1
+  = (1-t)^2u_0 + 2t(1-t)c_0 + t^2u_1
+\]
+
+中间项$2t(1-t)$的系数2来自两条路径的合并：$c_0$既可以在$a_0$一侧乘$(1-t)$、再在$a_1$一侧乘$t$得到，也可以反过来。把每一条路径上的因子都画出来，就得到下面这棵树——蓝色箭头表示乘$(1-t)$，橙色箭头表示乘$t$，从$b$出发走到哪个端点，乘出来的就是那个端点的权重：
+
+\begin{center}
+\begin{tikzpicture}[x=0.0105cm,y=-0.0105cm,>=latex,every node/.style={font=\large}]
+  % 第 0 层
+  \node at (80,1086)  {$\color{bezb}b$};
+  \node at (133,1077) {$1$};
+  % 第 1 层
+  \node[bezorange] at (198,1002) {$a_0$};
+  \node at (352,986)  {$1-t$};
+  \node[bezorange] at (204,1157) {$a_1$};
+  \node at (342,1177) {$t$};
+  % 第 2 层
+  \node at (481,905)  {$u_0$};
+  \node at (696,891)  {$(1-t)^2$};
+  \node[bezorange] at (516,1012) {$c_0$};
+  \node at (711,1083) {$2t(1-t)$};
+  \node[bezorange] at (485,1105) {$c_0$};
+  \node at (455,1253) {$u_1$};
+  \node at (678,1274) {$t^2$};
+  % 箭头：蓝 = *(1-t)，橙 = *t
+  \draw[->,lerpdotblue,line width=0.7pt] (165,1077) -- (258,994);
+  \draw[->,bezorange,line width=0.7pt]   (165,1085) -- (258,1157);
+  \draw[->,lerpdotblue,line width=0.7pt] (437,995)  -- (550,898);
+  \draw[->,bezorange,line width=0.7pt]   (437,1008) -- (560,1065);
+  \draw[->,lerpdotblue,line width=0.7pt] (437,1175) -- (560,1105);
+  \draw[->,bezorange,line width=0.7pt]   (437,1188) -- (560,1268);
+  % 图例
+  \node at (338,1400) {$*(1-t)$};
+  \node at (555,1400) {$*t$};
+  \draw[->,lerpdotblue,line width=0.7pt] (275,1435) -- (410,1435);
+  \draw[->,bezorange,line width=0.7pt]   (495,1435) -- (630,1435);
+\end{tikzpicture}
+\end{center}
+
+值得强调的是，尽管Bezier曲线有解析表达式，实际绘制时仍然使用De Casteljau算法：与解析表达式相比，它更加高效、数值也更加稳定。
+
+\subparagraph{解析表示：Bernstein多项式与杨辉三角}
+
+把上面的过程继续推到三次，四个权重分别是
+
+\[
+(1-t)^3,\qquad 3t(1-t)^2,\qquad 3t^2(1-t),\qquad t^3
+\]
+
+系数$1,3,3,1$恰好是杨辉三角（Pascal's triangle）的一行：
+
+\[
+\begin{array}{c}
+1\\[1pt] 1\quad 1\\[1pt] 1\quad 2\quad 1\\[1pt] 1\quad 3\quad 3\quad 1\\[1pt]
+1\quad 4\quad 6\quad 4\quad 1\\[1pt] 1\quad 5\quad 10\quad 10\quad 5\quad 1\\[1pt]
+1\quad 6\quad 15\quad 20\quad 15\quad 6\quad 1\\[1pt]
+1\quad 7\quad 21\quad 35\quad 35\quad 21\quad 7\quad 1
+\end{array}
+\]
+
+因此这些权重函数也叫Bernstein多项式，一般地有
+
+\[
+B(t) = \sum_{k}\binom{n}{k}t^k(1-t)^{n-k}
+\]
+
+把权重乘回控制点，就得到$n$次Bezier曲线的解析表达式：
+
+\[
+b(t) = \sum_{k=0}^{n}\binom{n}{k}t^k(1-t)^{n-k}u_k,\qquad k = 0,1,\dots,n
+\]
+
+三次的情形写开就是
+
+\[
+b(t) = (1-t)^3u_0 + 3t(1-t)^2u_1 + 3t^2(1-t)u_2 + t^3u_3
+\]
+
+把它整理成矩阵乘积，可以更清楚地看到"权重"与"控制点"是分离的两部分：
+
+\[
+b(t) = \boldsymbol\tau^{\mathsf T}M_B\mathbf u = B(t)^{\mathsf T}\mathbf u
+\]
+
+其中
+
+\[
+\boldsymbol\tau = \begin{bmatrix}1\\t\\t^2\\t^3\end{bmatrix},\qquad
+M_B = \begin{bmatrix}
+    1 & 0 & 0 & 0\\
+    -3 & 3 & 0 & 0\\
+    3 & -6 & 3 & 0\\
+    -1 & 3 & -3 & 1
+\end{bmatrix},\qquad
+B(t) = \begin{bmatrix}
+    (1-t)^3\\ 3t(1-t)^2\\ 3t^2(1-t)\\ t^3
+\end{bmatrix},\qquad
+\mathbf u = \begin{bmatrix}u_0\\u_1\\u_2\\u_3\end{bmatrix}
+\]
+
+$M_B$是只与次数有关的常数矩阵，$B(t)$则只与参数$t$有关，它被称为混合函数（blending functions）。四条混合函数的图像如下。
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    width=7.2cm, height=5.4cm,
+    xmin=0, xmax=1, ymin=0, ymax=1,
+    xtick={0,0.2,0.4,0.6,0.8,1}, ytick={0,0.2,0.4,0.6,0.8,1},
+    xticklabel style={/pgf/number format/fixed, /pgf/number format/zerofill, /pgf/number format/precision=1},
+    yticklabel style={/pgf/number format/fixed, /pgf/number format/zerofill, /pgf/number format/precision=1},
+    tick label style={font=\scriptsize},
+    axis lines=left,
+    clip=false,
+    every axis plot/.append style={line width=0.9pt},
+]
+  \addplot[domain=0:1,samples=100,bezb1]{(1-x)^3};
+  \addplot[domain=0:1,samples=100,bezb2]{3*x*(1-x)^2};
+  \addplot[domain=0:1,samples=100,bezb3]{3*x^2*(1-x)};
+  \addplot[domain=0:1,samples=100,bezb4]{x^3};
+  \node[anchor=west] at (axis cs:0.12,0.94) {$(1-t)^3$};
+  \node[anchor=west] at (axis cs:0.86,0.96) {$t^3$};
+  \node[anchor=west] at (axis cs:1.12,0.30) {$3t^2(1-t)$};
+  \node at (axis cs:0.5,-0.30) {Weight of \textcolor{lerpdotblue}{Cubic Bezier}};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+至此可以把Bezier曲线和上一节的lerp放在一起看：两者都是控制点的加权和，区别只在于权重函数。lerp的权重是$(1-t)$与$t$——也就是本节开头画过的那两个三角形；三次Bezier的权重则是上面这四条曲线。
+
+\subparagraph{性质}
+
+混合函数在端点处的取值决定了曲线在两个端点处的行为。对$n$次Bezier曲线，
+
+\[
+B'(0) = n(u_1-u_0), \qquad B'(1) = n(u_n-u_{n-1})
+\]
+
+也就是说，曲线在$u_0$处的切向就是$u_0\to u_1$的方向（这里的$u_1$指的是紧邻$u_0$的那个控制点）。借助这条性质可以光滑地拼接两条Bezier曲线：只要让接点两侧的一对控制点关于接点中心对称即可。
+
+另一条性质来自Bernstein多项式本身：它保证了Bezier曲线一定落在其控制点的凸包（convex hull）之内——虽然这并不是最紧的界。因此即使我们不存储曲线上的所有数据，也不会偏离控制点太远。
+
+\begin{center}
+\begin{tikzpicture}[x=0.0078cm,y=-0.0078cm]
+  % 控制多边形（凸包的边）
+  \draw[line width=0.9pt] (482.8,1288.4) -- (716.2,988.4) -- (982.8,988.4) -- (1349.5,1305.0) -- cycle;
+  % 以 p0..p3 为控制点的三次 Bezier 曲线
+  \draw[bezhull,line width=1.1pt]
+    plot[domain=0:1,samples=80,variable=\t]
+    ({(1-\t)^3*482.8 + 3*\t*(1-\t)^2*716.2 + 3*\t*\t*(1-\t)*982.8 + \t*\t*\t*1349.5},
+     {(1-\t)^3*1288.4 + 3*\t*(1-\t)^2*988.4 + 3*\t*\t*(1-\t)*988.4 + \t*\t*\t*1305.0});
+  % 四个控制点
+  \fill[lerpdotblue] (482.8,1288.4)  circle[radius=0.116cm];
+  \fill[lerpdotblue] (716.2,988.4)   circle[radius=0.116cm];
+  \fill[lerpdotblue] (982.8,988.4)   circle[radius=0.116cm];
+  \fill[lerpdotblue] (1349.5,1305.0) circle[radius=0.116cm];
+  % 红色指示箭头
+  \draw[->,bezpt,line width=0.9pt,>=latex] (465,1170) -- (867,1039);
+  \draw[->,bezpt,line width=0.9pt,>=latex] (1334,1054) -- (1115,1088);
+  % 标注
+  \node[anchor=west] at (30,1144)   {Bezier curve};
+  \node[anchor=west] at (1360,1046) {convex hull};
+  \node at (620,948)   {$p_1$};
+  \node at (1154,948)  {$p_2$};
+  \node at (412,1312)  {$p_0$};
+  \node at (1462,1312) {$p_3$};
+\end{tikzpicture}
+\end{center}
 
 \subsubsection{凸多边形的绘制}
 

@@ -21,12 +21,19 @@
 \contentsline {subsection}{\numberline {4.4}画图}{7}{subsection.4.4}%
 \contentsline {subsubsection}{\numberline {4.4.1}直线的绘制}{7}{subsubsection.4.4.1}%
 \contentsline {subsubsection}{\numberline {4.4.2}曲线的绘制}{9}{subsubsection.4.4.2}%
-\contentsline {subsubsection}{\numberline {4.4.3}凸多边形的绘制}{10}{subsubsection.4.4.3}%
-\contentsline {subsubsection}{\numberline {4.4.4}凹多边形与三角化}{10}{subsubsection.4.4.4}%
-\contentsline {subsection}{\numberline {4.5}图像变换（Warping）}{10}{subsection.4.5}%
-\contentsline {section}{\numberline {A}数学知识补充}{11}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Fourier变换}{11}{subsection.A.1}%
-\contentsline {subsubsection}{\numberline {A.1.1}二维Fourier变换的定义}{11}{subsubsection.A.1.1}%
-\contentsline {subsubsection}{\numberline {A.1.2}二维Fourier变换的性质}{12}{subsubsection.A.1.2}%
-\contentsline {subsubsection}{\numberline {A.1.3}Fourier变换的运算}{13}{subsubsection.A.1.3}%
-\contentsline {section}{\numberline {B}Dithering算法补充}{13}{appendix.B}%
+\contentsline {paragraph}{曲线的表示方法}{10}{paragraph*.7}%
+\contentsline {paragraph}{Linear Interpolation}{10}{paragraph*.8}%
+\contentsline {paragraph}{Bezier Curve Interpolation}{11}{paragraph*.9}%
+\contentsline {subparagraph}{生成与动机}{11}{subparagraph*.10}%
+\contentsline {subparagraph}{De Casteljau 迭代算法}{11}{subparagraph*.11}%
+\contentsline {subparagraph}{解析表示：Bernstein多项式与杨辉三角}{12}{subparagraph*.12}%
+\contentsline {subparagraph}{性质}{14}{subparagraph*.13}%
+\contentsline {subsubsection}{\numberline {4.4.3}凸多边形的绘制}{14}{subsubsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {4.4.4}凹多边形与三角化}{15}{subsubsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.5}图像变换（Warping）}{15}{subsection.4.5}%
+\contentsline {section}{\numberline {A}数学知识补充}{16}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Fourier变换}{16}{subsection.A.1}%
+\contentsline {subsubsection}{\numberline {A.1.1}二维Fourier变换的定义}{16}{subsubsection.A.1.1}%
+\contentsline {subsubsection}{\numberline {A.1.2}二维Fourier变换的性质}{16}{subsubsection.A.1.2}%
+\contentsline {subsubsection}{\numberline {A.1.3}Fourier变换的运算}{17}{subsubsection.A.1.3}%
+\contentsline {section}{\numberline {B}Dithering算法补充}{18}{appendix.B}%
