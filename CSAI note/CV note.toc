@@ -48,4 +48,10 @@
 \contentsline {paragraph}{Joint Bilaterial Filter}{14}{paragraph*.8}%
 \contentsline {subsection}{\numberline {3.3}UpSampling \& DownSmapling}{15}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}DownSampling和防走样}{15}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}UpSampling}{15}{subsubsection.3.3.2}%
+\contentsline {paragraph}{Laplacian 金字塔}{15}{paragraph*.9}%
+\contentsline {subsubsection}{\numberline {3.3.2}UpSampling}{17}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}联合双边上采样（Joint Bilateral Upsampling）}{18}{subsubsection.3.3.3}%
+\contentsline {paragraph}{为什么要联合上采样}{18}{paragraph*.10}%
+\contentsline {paragraph}{联合双边上采样公式}{18}{paragraph*.11}%
+\contentsline {paragraph}{与其它上采样方法的对比}{21}{figure.6}%
+\contentsline {paragraph}{几点讨论}{21}{paragraph*.13}%

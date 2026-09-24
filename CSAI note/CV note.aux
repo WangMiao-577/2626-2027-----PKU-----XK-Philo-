@@ -55,5 +55,17 @@
 \@writefile{toc}{\contentsline {paragraph}{Joint Bilaterial Filter}{14}{paragraph*.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}UpSampling \& DownSmapling}{15}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}DownSampling和防走样}{15}{subsubsection.3.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}UpSampling}{15}{subsubsection.3.3.2}\protected@file@percent }
-\gdef \@abspage@last{19}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Gaussian 金字塔：每一级先做高斯模糊（Blur）再降采样（Subsample），逐级得到尺寸减半的图像}}{15}{figure.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Laplacian 金字塔}{15}{paragraph*.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Laplacian 金字塔：$L_i$ 是 $G_i$ 减去放大后的 $G_{i+1}$ 所得的残差}}{16}{figure.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Laplacian 金字塔的分解（左）与重建（右）流程}}{16}{figure.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}UpSampling}{17}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}联合双边上采样（Joint Bilateral Upsampling）}{18}{subsubsection.3.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{为什么要联合上采样}{18}{paragraph*.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces 联合双边上采样的动机：降采样—估计深度—上采样，上采样时复用原始输入图像的边缘信息}}{18}{figure.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{联合双边上采样公式}{18}{paragraph*.11}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 联合双边上采样在一维信号上的过程：左列为信号（上：低分辨率深度；下：高分辨率彩色），中列为两个高斯权重 $f$、$g$，右列为相乘后的权重与上采样结果 $\tilde  S_p$}}{20}{figure.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 四种上采样方法在深度图边界处的对比（上排为放大的深度图区域，下排为对应的高分辨率彩色图）}}{21}{figure.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{与其它上采样方法的对比}{21}{figure.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{几点讨论}{21}{paragraph*.13}\protected@file@percent }
+\gdef \@abspage@last{25}

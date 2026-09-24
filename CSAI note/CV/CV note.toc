@@ -1,0 +1,68 @@
+\contentsline {section}{\numberline {1}Introduction to Computer Vision}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Computer Vision Concepts}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}History of Computer Vision}{1}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Overview of Computer Vision}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Why Is Computer Vision Hard?}{2}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Waves of Computer Vision}{3}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Course Roadmap}{4}{subsection.1.6}%
+\contentsline {section}{\numberline {2}Image Formation}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Camera}{5}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Why Do We Need a Pinhole}{5}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Mathematical Pinhole Camera Model}{5}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Coordinate Systems and Extrinsics}{5}{subsubsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.4}Intrinsics}{6}{subsubsection.2.1.4}%
+\contentsline {subsubsection}{\numberline {2.1.5}Summary of Camera Parameters}{6}{subsubsection.2.1.5}%
+\contentsline {subsubsection}{\numberline {2.1.6}Properties of Projection}{6}{subsubsection.2.1.6}%
+\contentsline {subsection}{\numberline {2.2}Lens}{7}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}The Pinhole Dilemma}{7}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Gaussian Lens Formula}{7}{subsubsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.3}Depth of Field}{8}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Field of View}{8}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Lens Aberrations}{8}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}Radial Distortion}{8}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2}Chromatic Aberration}{9}{subsubsection.2.5.2}%
+\contentsline {subsubsection}{\numberline {2.5.3}Vignetting}{9}{subsubsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.6}Colors}{9}{subsection.2.6}%
+\contentsline {subsubsection}{\numberline {2.6.1}The Human Eye}{9}{subsubsection.2.6.1}%
+\contentsline {subsubsection}{\numberline {2.6.2}CIE RGB}{9}{subsubsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.7}Image Sensing}{10}{subsection.2.7}%
+\contentsline {subsubsection}{\numberline {2.7.1}Imaging Pipeline}{10}{subsubsection.2.7.1}%
+\contentsline {subsubsection}{\numberline {2.7.2}Shutter}{10}{subsubsection.2.7.2}%
+\contentsline {subsubsection}{\numberline {2.7.3}Sensor}{10}{subsubsection.2.7.3}%
+\contentsline {subsubsection}{\numberline {2.7.4}Color Filter Array and Demosaicing}{11}{subsubsection.2.7.4}%
+\contentsline {subsubsection}{\numberline {2.7.5}Gamma Correction}{11}{subsubsection.2.7.5}%
+\contentsline {subsection}{\numberline {2.8}Summary}{11}{subsection.2.8}%
+\contentsline {section}{\numberline {3}Image Processing}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Pixel (Point) Processing}{11}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Basic Pixel Operations}{11}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Histogram Equalization}{12}{subsubsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.2}Filtering}{13}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Linear Filters}{13}{subsubsection.3.2.1}%
+\contentsline {paragraph}{Classification of Linear Filters}{13}{paragraph*.2}%
+\contentsline {paragraph}{Box Filter}{13}{paragraph*.3}%
+\contentsline {paragraph}{Gaussian Filter}{13}{paragraph*.4}%
+\contentsline {paragraph}{Sharpening Filter}{13}{paragraph*.5}%
+\contentsline {paragraph}{Mathematical Background}{13}{paragraph*.6}%
+\contentsline {subsubsection}{\numberline {3.2.2}Non-linear Filters}{14}{subsubsection.3.2.2}%
+\contentsline {paragraph}{Bilateral Filter}{14}{paragraph*.7}%
+\contentsline {paragraph}{Joint Bilateral Filter}{14}{paragraph*.8}%
+\contentsline {subsection}{\numberline {3.3}UpSampling \& DownSampling}{15}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}DownSampling and Anti-aliasing}{15}{subsubsection.3.3.1}%
+\contentsline {paragraph}{Laplacian Pyramid}{15}{paragraph*.9}%
+\contentsline {paragraph}{Mathematics of the Laplacian Pyramid}{17}{paragraph*.10}%
+\contentsline {subsubsection}{\numberline {3.3.2}UpSampling}{17}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Joint Bilateral Upsampling}{18}{subsubsection.3.3.3}%
+\contentsline {paragraph}{Motivation: Why Upsample Jointly}{18}{paragraph*.11}%
+\contentsline {paragraph}{The JBU Formula}{19}{paragraph*.12}%
+\contentsline {paragraph}{Comparison with Other Upsampling Methods}{21}{figure.6}%
+\contentsline {paragraph}{Discussion}{21}{paragraph*.14}%
+\contentsline {subsubsection}{\numberline {3.3.4}Image Blending}{22}{subsubsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.4}Image Transformation}{23}{subsection.3.4}%
+\contentsline {paragraph}{Image Warping}{23}{paragraph*.15}%
+\contentsline {paragraph}{Image Morphing}{23}{paragraph*.16}%
+\contentsline {section}{\numberline {4}Figure Detection}{24}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Edge Detection}{24}{subsection.4.1}%
+\contentsline {paragraph}{Mathematical Principle and Matrix Discretization}{24}{paragraph*.17}%
+\contentsline {paragraph}{Noise Suppression and the Gaussian Derivative}{26}{paragraph*.18}%
+\contentsline {paragraph}{Canny Edge Detector}{27}{paragraph*.19}%
+\contentsline {paragraph}{Applications of the Canny Detector}{28}{paragraph*.20}%

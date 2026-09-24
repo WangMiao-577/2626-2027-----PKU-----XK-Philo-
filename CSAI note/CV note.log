@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  17 SEP 2026 12:49
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  24 SEP 2026 10:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1694,10 +1694,24 @@ LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
 \openout5 = `"CV note.toc"'.
 
  [2] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14]
-File: /home/simson/图片/截图/截图 2026-09-17 11-55-56.png Graphic file (type bmp)
-</home/simson/图片/截图/截图 2026-09-17 11-55-56.png>
+File: /home/simson/图片/截图/截图 2026-09-24 10-27-33.png Graphic file (type bmp)
+</home/simson/图片/截图/截图 2026-09-24 10-27-33.png>
+File: /home/simson/图片/截图/截图 2026-09-24 10-32-55.png Graphic file (type bmp)
+</home/simson/图片/截图/截图 2026-09-24 10-32-55.png>
  [15]
-[16] (CV note.aux)
+File: /home/simson/图片/截图/截图 2026-09-24 10-41-19.png Graphic file (type bmp)
+</home/simson/图片/截图/截图 2026-09-24 10-41-19.png>
+
+[16] [17]
+File: /home/simson/图片/截图/截图 2026-09-24 10-20-31.png Graphic file (type bmp)
+</home/simson/图片/截图/截图 2026-09-24 10-20-31.png>
+ [18]
+File: /home/simson/图片/截图/截图 2026-09-24 10-22-53.png Graphic file (type bmp)
+</home/simson/图片/截图/截图 2026-09-24 10-22-53.png>
+ [19]
+File: /home/simson/图片/截图/截图 2026-09-24 10-23-07.png Graphic file (type bmp)
+</home/simson/图片/截图/截图 2026-09-24 10-23-07.png>
+ [20] [21] [22] (CV note.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/08/07>
@@ -1711,12 +1725,12 @@ Package rerunfilecheck Info: File `"CV note".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 45183 strings out of 404899
- 1152786 string characters out of 5480821
- 1690683 words of memory out of 5000000
- 73135 multiletter control sequences out of 15000+600000
+ 45261 strings out of 404899
+ 1157285 string characters out of 5480821
+ 1690964 words of memory out of 5000000
+ 73208 multiletter control sequences out of 15000+600000
  635541 words of font info for 119 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  107i,13n,118p,1193b,927s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on CV note.pdf (19 pages).
+Output written on CV note.pdf (25 pages).
