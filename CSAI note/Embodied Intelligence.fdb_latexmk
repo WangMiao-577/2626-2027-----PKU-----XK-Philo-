@@ -1,15 +1,22 @@
 # Fdb version 4
-["xdvipdfmx"] 1789353290.04029 "Embodied Intelligence.xdv" "Embodied Intelligence.pdf" "Embodied Intelligence" 1789353290.25208 0
-  "Embodied Intelligence.xdv" 1789353289.88543 20980 6f77651679242d084ce4d3fcb66c819e "xelatex"
+["xdvipdfmx"] 1790234734.91072 "Embodied Intelligence.xdv" "Embodied Intelligence.pdf" "Embodied Intelligence" 1790234735.19754 0
+  "Embodied Intelligence.xdv" 1790234734.78928 235348 e8de7bdd058cfd2ee180e3b4e6ebdd90 "xelatex"
   (generated)
   "Embodied Intelligence.pdf"
   (rewritten before read)
-["xelatex"] 1789353288.94759 "Embodied Intelligence.tex" "Embodied Intelligence.xdv" "Embodied Intelligence" 1789353290.25027 0
+["xelatex"] 1790234733.57444 "Embodied Intelligence.tex" "Embodied Intelligence.xdv" "Embodied Intelligence" 1790234735.19569 0
   "/home/simson/.miktex/texmfs/data/miktex/data/le/xetex/xelatex.fmt" 1787568082.44746 22116546 99e4cadbfd30308c72a58e277af08b3e ""
   "/home/simson/.miktex/texmfs/install/fonts/tfm/adobe/symbol/psyr.tfm" 1136743454 1408 5937f58aa508ea2cea4901c07d10f5fe ""
   "/home/simson/.miktex/texmfs/install/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136743454 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/home/simson/.miktex/texmfs/install/fonts/tfm/jknappen/ec/ectt1000.tfm" 1787567986.93691 1348 d70ddf2d5d512b838e50a335e385e919 ""
+  "/home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1787567626.71831 1004 54797486969f23fa377b128694d548df ""
+  "/home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmex10.tfm" 1787567982.57026 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
+  "/home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi10.tfm" 1787567982.57048 1528 abec98dbc43e172678c11b3b9031252a ""
+  "/home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi7.tfm" 1787567982.5706 1528 e2423ae06dc7dee599cceb79d1c9dc32 ""
   "/home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr10.tfm" 1787567982.57065 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
+  "/home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr7.tfm" 1787567982.57074 1300 53d07721103816e093902637bc167021 ""
+  "/home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy10.tfm" 1787567982.57113 1124 6c73e740cf17375f03eec0ee63599741 ""
+  "/home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy7.tfm" 1787567982.57121 1120 2b3f9b25605010c69bc328bea6ac000f ""
   "/home/simson/.miktex/texmfs/install/tex/generic/bigintcalc/bigintcalc.sty" 1788782297.91572 40635 c40361e206be584d448876bba8a64a3b ""
   "/home/simson/.miktex/texmfs/install/tex/generic/bitset/bitset.sty" 1788782296.14763 33961 6b5c75130e435b2bfdb9f480a09a39f9 ""
   "/home/simson/.miktex/texmfs/install/tex/generic/etexcmds/etexcmds.sty" 1788868302.74931 7734 b98cbb34c81f667027c1e3ebdbfce34b ""
@@ -232,10 +239,10 @@
   "/home/simson/.miktex/texmfs/install/tex/xelatex/xecjk/xeCJK.cfg" 1787567630.57998 413 cdd9052ca0c9482ef66addd923b287a0 ""
   "/home/simson/.miktex/texmfs/install/tex/xelatex/xecjk/xeCJK.sty" 1787567630.58084 282996 7dd7ea0b83098f96ae501d2b1eb08c70 ""
   "/home/simson/.miktex/texmfs/install/tex/xelatex/xecjk/xeCJKfntef.sty" 1787567630.58046 53222 268ef1bf1c41d178cea4b583717b886d ""
-  "Embodied Intelligence.aux" 1789353289.88443 321 0972a8af11b77e52d0f890ae78d35822 "xelatex"
-  "Embodied Intelligence.out" 1789353289.88543 58 2891ff9c5e85a91a53e0794bcd2251dc "xelatex"
-  "Embodied Intelligence.tex" 1789353275.12736 6078 b5d045309792ed3686dae7e3e3adbb5c ""
-  "Embodied Intelligence.toc" 1789353289.88543 62 4061c1310ee39fb50e96a8807e41c6ac "xelatex"
+  "Embodied Intelligence.aux" 1790234734.7889 4286 2e3ebb400cc2696afa570018ad302a6d "xelatex"
+  "Embodied Intelligence.out" 1790234734.78928 4018 d95f63f3b6ee876e240b365a25884a58 "xelatex"
+  "Embodied Intelligence.tex" 1790234728.75195 31751 c8f2072dece5299348e61e46ea851152 ""
+  "Embodied Intelligence.toc" 1790234734.78928 2784 9264a6fef946fa9b9dd102b1592076b6 "xelatex"
   (generated)
   "Embodied Intelligence.aux"
   "Embodied Intelligence.log"

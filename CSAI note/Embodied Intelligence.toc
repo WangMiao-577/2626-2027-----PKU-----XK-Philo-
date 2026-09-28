@@ -1,1 +1,28 @@
 \contentsline {section}{\numberline {1}简介}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}课程背景、目标及教学组织}{1}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}开设背景}{1}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}课程简介}{1}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}基本目标}{1}{subsubsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.4}课程大纲}{1}{subsubsection.1.1.4}%
+\contentsline {subsubsection}{\numberline {1.1.5}成绩评定}{2}{subsubsection.1.1.5}%
+\contentsline {subsubsection}{\numberline {1.1.6}课程其他相关信息}{3}{subsubsection.1.1.6}%
+\contentsline {subsection}{\numberline {1.2}具身智能与通用智能体的概念理解及研究进展}{3}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}具身智能（Embodied Intelligence）}{3}{subsubsection.1.2.1}%
+\contentsline {paragraph}{\numberline {1.2.1.1}从“我思故我在”到心身问题}{3}{paragraph.1.2.1.1}%
+\contentsline {paragraph}{\numberline {1.2.1.2}什么是具身智能}{3}{paragraph.1.2.1.2}%
+\contentsline {paragraph}{\numberline {1.2.1.3}心理学与哲学渊源}{3}{paragraph.1.2.1.3}%
+\contentsline {subsubsection}{\numberline {1.2.2}通用智能体（TONG Agent / AGI Agent）}{4}{subsubsection.1.2.2}%
+\contentsline {paragraph}{\numberline {1.2.2.1}人工智能的智能体视角}{4}{paragraph.1.2.2.1}%
+\contentsline {paragraph}{\numberline {1.2.2.2}智能是各种“现象”}{4}{paragraph.1.2.2.2}%
+\contentsline {paragraph}{\numberline {1.2.2.3}人工智能探索与智能学科的诞生}{5}{paragraph.1.2.2.3}%
+\contentsline {paragraph}{\numberline {1.2.2.4}通用智能体的定义}{6}{paragraph.1.2.2.4}%
+\contentsline {paragraph}{\numberline {1.2.2.5}通用智能体的 UV 理论及架构}{6}{paragraph.1.2.2.5}%
+\contentsline {paragraph}{\numberline {1.2.2.6}研究前沿举例}{6}{paragraph.1.2.2.6}%
+\contentsline {subsubsection}{\numberline {1.2.3}范式之争：乌鸦展示的 AI 新范式}{7}{subsubsection.1.2.3}%
+\contentsline {subsubsection}{\numberline {1.2.4}研发通用智能体的核心要点}{7}{subsubsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.3}教学平台、研究示例及 Demo 展示}{7}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}智能机器人教学平台}{7}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}人形机器人运动技能研究}{8}{subsubsection.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.3.3}科研平台与研究方向}{8}{subsubsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.4}课程教学讨论}{9}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}小结}{9}{subsection.1.5}%

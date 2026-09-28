@@ -502,5 +502,15 @@ OUTPUT Embodied Intelligence.xdv
 INPUT ./Embodied Intelligence.toc
 INPUT ./Embodied Intelligence.toc
 INPUT Embodied Intelligence.toc
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmex10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr10.tfm
 OUTPUT Embodied Intelligence.toc
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr7.tfm
 INPUT Embodied Intelligence.aux
