@@ -1,7 +1,7 @@
-PWD /home/simson/latex/Philosophy note
+PWD /home/simson/latex/CSAI note/VCL
 INPUT /home/simson/.miktex/texmfs/data/miktex/data/le/xetex/xelatex.fmt
-INPUT Chinese Philosophy.tex
-OUTPUT Chinese Philosophy.log
+INPUT VCL note.tex
+OUTPUT VCL note.log
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/ctex/config/ctexbackend.cfg
@@ -374,6 +374,12 @@ INPUT /home/simson/.miktex/texmfs/install/tex/generic/pgf/libraries/pgflibrarypl
 INPUT /home/simson/.miktex/texmfs/install/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/tools/longtable.sty
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/tools/longtable.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/amssymb.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/amssymb.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/amsfonts.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/amsfonts.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amscls/amsthm.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amscls/amsthm.sty
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/listings.sty
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/listings.sty
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstpatch.sty
@@ -487,26 +493,137 @@ INPUT /home/simson/.miktex/texmfs/install/tex/latex/tools/tabularx.sty
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/tools/tabularx.sty
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/tools/array.sty
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/tools/array.sty
-INPUT ./Chinese Philosophy.aux
-INPUT ./Chinese Philosophy.aux
-INPUT Chinese Philosophy.aux
-OUTPUT Chinese Philosophy.aux
+INPUT ./VCL note.aux
+INPUT ./VCL note.aux
+INPUT VCL note.aux
+OUTPUT VCL note.aux
 INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/adobe/zapfding/pzdr.tfm
 INPUT /home/simson/.miktex/texmfs/install/tex/latex/graphics/color.sty
-INPUT ./Chinese Philosophy.out
-INPUT ./Chinese Philosophy.out
-INPUT Chinese Philosophy.out
-INPUT Chinese Philosophy.out
-OUTPUT Chinese Philosophy.out
-OUTPUT Chinese Philosophy.xdv
-INPUT ./Chinese Philosophy.toc
-INPUT ./Chinese Philosophy.toc
-INPUT Chinese Philosophy.toc
+INPUT ./VCL note.out
+INPUT ./VCL note.out
+INPUT VCL note.out
+INPUT VCL note.out
+OUTPUT VCL note.out
+OUTPUT VCL note.xdv
+INPUT ./VCL note.toc
+INPUT ./VCL note.toc
+INPUT VCL note.toc
 INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi10.tfm
 INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy10.tfm
 INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmex10.tfm
 INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr10.tfm
-OUTPUT Chinese Philosophy.toc
-INPUT Chinese Philosophy.aux
+OUTPUT VCL note.toc
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi9.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi6.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy9.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy6.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr9.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr6.tfm
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstmisc.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstmisc.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstmisc.sty
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi12.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi12.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmex10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmex10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr12.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr12.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi12.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmex10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr17.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmex10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi8.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy8.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr8.tfm
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmib10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmmib7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmmib5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmbsy10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmbx10.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmbx7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmbx5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi6.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy6.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr6.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmmi5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmsy5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr7.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr5.tfm
+INPUT /home/simson/.miktex/texmfs/install/fonts/tfm/public/cm/cmr5.tfm
+INPUT VCL note.aux
