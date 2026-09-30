@@ -1,0 +1,65 @@
+% !TeX root = ../../Gaussian.tex
+\section{例子与应用}\label{sec:example}
+
+\subsection{二维情形：\texorpdfstring{$n=m=1$}{n=m=1}}
+
+取 $x,y$ 为标量，$\Var(x)=\sigma_1^2$，$\Var(y)=\sigma_2^2$，相关系数 $\rho\in(-1,1)$，即
+\[
+\vmu=\begin{pmatrix}\mu_1\\ \mu_2\end{pmatrix},\qquad
+\mSigma=\begin{pmatrix}\sigma_1^2&\rho\sigma_1\sigma_2\\ \rho\sigma_1\sigma_2&\sigma_2^2\end{pmatrix}.
+\]
+则 $\det\mSigma=\sigma_1^2\sigma_2^2(1-\rho^2)$，
+\[
+\mSigma^{-1}=\frac{1}{1-\rho^2}
+\begin{pmatrix}1/\sigma_1^2&-\rho/(\sigma_1\sigma_2)\\ -\rho/(\sigma_1\sigma_2)&1/\sigma_2^2\end{pmatrix},
+\]
+代入~\eqref{eq:joint} 得到熟悉的二元正态密度
+\[
+P(x,y)=\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+\exp\!\left\{-\frac{1}{2(1-\rho^2)}\left[\frac{(x-\mu_1)^2}{\sigma_1^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}+\frac{(y-\mu_2)^2}{\sigma_2^2}\right]\right\}.
+\]
+用定理~\ref{thm:conditional}：Schur 补 $\mS=\sigma_2^2-\rho^2\sigma_1^2\sigma_2^2/\sigma_1^2=\sigma_2^2(1-\rho^2)$，回归系数 $\mSigma_{yx}\mSigma_{xx}^{-1}=\rho\sigma_2/\sigma_1$，故
+\[
+y\mid x\ \sim\ \Normal\Big(\mu_2+\rho\frac{\sigma_2}{\sigma_1}(x-\mu_1),\ \sigma_2^2(1-\rho^2)\Big).
+\]
+$|\rho|$ 越接近 $1$，知道 $x$ 后对 $y$ 的不确定性 $\sigma_2^2(1-\rho^2)$ 越小，这与直觉一致。
+
+\subsection{线性高斯模型：如何"制造"一个联合高斯}
+
+实际问题中，联合分布往往不是直接给出的，而是通过"先验 + 观测模型"构造出来的。设
+\[
+\vx\sim\Normal(\vmu,\mSigma),\qquad \vy=\mA\vx+\vb+\veps,\quad \veps\sim\Normal(\vzero,\mL^{-1}),\ \veps\text{ 与 }\vx\text{ 独立},
+\]
+其中 $\mA\in\R^{m\times n}$，$\mL\succ 0$ 是噪声精度。这等价于说 $P(\vy\mid\vx)=\Normal(\vy;\mA\vx+\vb,\mL^{-1})$。
+
+\begin{proposition}
+在上述模型下，$(\vx,\vy)$ 联合高斯，且
+\[
+\begin{pmatrix}\vx\\ \vy\end{pmatrix}\sim\Normal\!\left(
+\begin{pmatrix}\vmu\\ \mA\vmu+\vb\end{pmatrix},\ 
+\begin{pmatrix}\mSigma&\mSigma\mA^\T\\ \mA\mSigma&\mL^{-1}+\mA\mSigma\mA^\T\end{pmatrix}\right).
+\]
+\end{proposition}
+
+\begin{proof}
+$\vx$ 与 $\veps$ 独立且各自高斯，故 $\begin{pmatrix}\vx\\ \veps\end{pmatrix}\sim\Normal\Big(\begin{pmatrix}\vmu\\ \vzero\end{pmatrix},\begin{pmatrix}\mSigma&\vzero\\ \vzero&\mL^{-1}\end{pmatrix}\Big)$（两个独立高斯密度之积正是分块对角协方差的联合高斯密度）。而
+\[
+\begin{pmatrix}\vx\\ \vy\end{pmatrix}
+=\begin{pmatrix}\mI&\vzero\\ \mA&\mI\end{pmatrix}\begin{pmatrix}\vx\\ \veps\end{pmatrix}+\begin{pmatrix}\vzero\\ \vb\end{pmatrix}
+\]
+是一个可逆仿射变换，由定理~\ref{thm:affine} 结果仍为高斯，其均值与协方差按 $\mA\vmu+\vb$、$\mA\mSigma\mA^\T$ 的规则计算：
+\[
+\begin{pmatrix}\mI&\vzero\\ \mA&\mI\end{pmatrix}
+\begin{pmatrix}\mSigma&\vzero\\ \vzero&\mL^{-1}\end{pmatrix}
+\begin{pmatrix}\mI&\mA^\T\\ \vzero&\mI\end{pmatrix}
+=\begin{pmatrix}\mSigma&\mSigma\mA^\T\\ \mA\mSigma&\mA\mSigma\mA^\T+\mL^{-1}\end{pmatrix}.
+\]
+\end{proof}
+
+有了联合分布，就可以反过来用定理~\ref{thm:conditional} 求"看到 $\vy$ 之后 $\vx$ 是什么"，即贝叶斯后验：
+\[
+P(\vx\mid\vy)=\Normal\big(\vx;\ \vmu+\bm{K}(\vy-\mA\vmu-\vb),\ \mSigma-\bm{K}\mA\mSigma\big),\qquad
+\bm{K}:=\mSigma\mA^\T\big(\mL^{-1}+\mA\mSigma\mA^\T\big)^{-1}.
+\]
+这正是卡尔曼滤波更新步、高斯过程回归、贝叶斯线性回归等算法的公共核心。矩阵 $\bm{K}$ 通常称为增益矩阵。
+

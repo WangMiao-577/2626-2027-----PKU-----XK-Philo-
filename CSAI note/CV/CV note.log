@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  24 SEP 2026 11:57
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  30 SEP 2026 11:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1693,7 +1693,9 @@ LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
 \tf@toc=\write5
 \openout5 = `"CV note.toc"'.
 
- [2] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14]
+ [2] (Sections/Introduction-to-Computer-Vision.tex [1] [2] [3])
+(Sections/Image-Formation.tex [4] [5] [6] [7] [8] [9] [10])
+(Sections/Image-Processing.tex [11] [12] [13] [14]
 File: /home/simson/图片/截图/截图 2026-09-24 10-27-33.png Graphic file (type bmp)
 </home/simson/图片/截图/截图 2026-09-24 10-27-33.png>
 File: /home/simson/图片/截图/截图 2026-09-24 10-32-55.png Graphic file (type bmp)
@@ -1701,8 +1703,7 @@ File: /home/simson/图片/截图/截图 2026-09-24 10-32-55.png Graphic file (ty
  [15]
 File: /home/simson/图片/截图/截图 2026-09-24 10-41-19.png Graphic file (type bmp)
 </home/simson/图片/截图/截图 2026-09-24 10-41-19.png>
-
-[16] [17]
+ [16] [17]
 File: /home/simson/图片/截图/截图 2026-09-24 10-20-31.png Graphic file (type bmp)
 </home/simson/图片/截图/截图 2026-09-24 10-20-31.png>
  [18] [19]
@@ -1710,7 +1711,8 @@ File: /home/simson/图片/截图/截图 2026-09-24 10-22-53.png Graphic file (ty
 </home/simson/图片/截图/截图 2026-09-24 10-22-53.png>
 File: /home/simson/图片/截图/截图 2026-09-24 10-23-07.png Graphic file (type bmp)
 </home/simson/图片/截图/截图 2026-09-24 10-23-07.png>
- [20] [21]
+
+[20] [21]
 File: /home/simson/图片/截图/截图 2026-09-24 11-04-41.png Graphic file (type bmp)
 </home/simson/图片/截图/截图 2026-09-24 11-04-41.png>
  [22]
@@ -1719,7 +1721,7 @@ File: /home/simson/图片/截图/截图 2026-09-24 11-23-04.png Graphic file (ty
  [23]
 File: /home/simson/图片/截图/截图 2026-09-24 11-23-21.png Graphic file (type bmp)
 </home/simson/图片/截图/截图 2026-09-24 11-23-21.png>
- [24]
+) (Sections/Figure-Detection.tex [24]
 File: /home/simson/latex/CSAI note/CV/figs/edge-prewitt-sobel-kernels.png Graph
 ic file (type bmp)
 </home/simson/latex/CSAI note/CV/figs/edge-prewitt-sobel-kernels.png>
@@ -1738,8 +1740,8 @@ ic file (type bmp)
 File: /home/simson/latex/CSAI note/CV/figs/canny-application-controlnet.png Gra
 phic file (type bmp)
 </home/simson/latex/CSAI note/CV/figs/canny-application-controlnet.png>
- [28] [29]
-(CV note.aux)
+
+[28]) [29] (CV note.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/08/07>
@@ -1753,10 +1755,10 @@ Package rerunfilecheck Info: File `"CV note".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 45311 strings out of 404899
- 1159952 string characters out of 5480821
+ 45344 strings out of 404899
+ 1161117 string characters out of 5480821
  1691200 words of memory out of 5000000
- 73249 multiletter control sequences out of 15000+600000
+ 73269 multiletter control sequences out of 15000+600000
  635541 words of font info for 119 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  107i,13n,118p,1193b,927s stack positions out of 10000i,1000n,20000p,200000b,200000s

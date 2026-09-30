@@ -1,0 +1,20 @@
+% !TeX root = ../../Gaussian.tex
+\section{小结}
+
+\begin{itemize}[nosep]
+  \item 联合高斯 $P(\vx,\vy)$ 的表达式只是把多元高斯密度写在拼接向量 $\vz=(\vx,\vy)$ 上，并把均值与协方差分块。
+  \item 一切推导归结为分块对称正定矩阵的两个事实：$\det\mSigma=\det\mSigma_{xx}\det\mS$，以及二次型的 Schur 分解~\eqref{eq:quad-schur}。两者都来自分块 LDU 分解~\eqref{eq:ldu}。
+  \item 由此得到乘积分解 $P(\vx,\vy)=P(\vx)P(\vy\mid\vx)$，其中边缘分布"直接读块"，条件分布"均值线性修正、协方差取 Schur 补"。
+  \item 协方差矩阵方便描述边缘，精度矩阵方便描述条件：$\mSigma_{y|x}=\mLambda_{yy}^{-1}$，$P(\vy)$ 的协方差是 $\mSigma_{yy}$。
+\end{itemize}
+
+\section*{练习}
+
+\begin{enumerate}[nosep]
+  \item 验证命题~\ref{prop:quad-schur} 中 $\mL^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}$ 的计算，并说明为什么它对应"用 $\vx$ 的信息消去 $\vy$ 中与 $\vx$ 相关的部分"。
+  \item 对 $\mSigma_{yy}$ 取 Schur 补，写出 $P(\vx\mid\vy)$ 的均值与协方差，并与~\eqref{eq:conditional} 对照。
+  \item 设 $\vx\sim\Normal(\vzero,\mI_n)$，$y=\bm{a}^\T\vx$（$\bm{a}\ne\vzero$）。求 $P(\vx\mid y)$，并解释条件协方差 $\mI-\bm{a}\bm{a}^\T/\|\bm{a}\|^2$ 的几何意义。
+  \item 证明 $\mLambda_{xx}-\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}=\mSigma_{xx}^{-1}$，即对精度矩阵取 Schur 补得到协方差块的逆。
+  \item 在线性高斯模型中，利用分块求逆公式~\eqref{eq:blockinv} 证明后验协方差也可写为 $(\mSigma^{-1}+\mA^\T\mL\mA)^{-1}$，后验均值可写为 $(\mSigma^{-1}+\mA^\T\mL\mA)^{-1}\big(\mA^\T\mL(\vy-\vb)+\mSigma^{-1}\vmu\big)$。（提示：这就是 Woodbury 恒等式。）
+\end{enumerate}
+

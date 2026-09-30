@@ -1,0 +1,225 @@
+% !TeX root = ../../Gaussian.tex
+\section{线性代数预备知识}\label{sec:la}
+
+本节内容是后面所有推导的"零件"。读者若已熟悉，可以直接跳到第~\ref{sec:gauss} 节，需要时再回来查阅。
+
+\subsection{内积、二次型与对称矩阵}
+
+\begin{definition}[内积与范数]
+$\vx,\vy\in\R^n$ 的内积为 $\vx^\T\vy=\sum_{i}x_iy_i$，范数为 $\|\vx\|=\sqrt{\vx^\T\vx}$。
+\end{definition}
+
+\begin{definition}[二次型]
+给定 $\mA\in\R^{n\times n}$，函数 $q(\vx)=\vx^\T\mA\vx=\sum_{i,j}A_{ij}x_ix_j$ 称为由 $\mA$ 确定的二次型。
+\end{definition}
+
+由于 $\vx^\T\mA\vx$ 是一个标量，它等于自身的转置：$\vx^\T\mA\vx=(\vx^\T\mA\vx)^\T=\vx^\T\mA^\T\vx$。因此
+\[
+\vx^\T\mA\vx=\vx^\T\Big(\tfrac{\mA+\mA^\T}{2}\Big)\vx ,
+\]
+也就是说，二次型只"看得见"矩阵的对称部分。所以在讨论二次型时，总可以不失一般性地假定 $\mA$ 对称（$\mA=\mA^\T$）。高斯分布指数中的二次型正是由对称矩阵（协方差的逆）确定的。
+
+\subsection{谱定理：对称矩阵可正交对角化}
+
+\begin{theorem}[谱定理]\label{thm:spectral}
+设 $\mA\in\R^{n\times n}$ 对称，则存在正交矩阵 $\mQ$（即 $\mQ^\T\mQ=\mQ\mQ^\T=\mI$）与实对角矩阵 $\mLambda=\diag(\lambda_1,\dots,\lambda_n)$，使得
+\[
+\mA=\mQ\mLambda\mQ^\T=\sum_{i=1}^n \lambda_i\,\bm{q}_i\bm{q}_i^\T ,
+\]
+其中 $\lambda_i$ 是 $\mA$ 的特征值，$\bm{q}_i$（$\mQ$ 的第 $i$ 列）是对应的单位特征向量。
+\end{theorem}
+
+这个定理给出了理解对称矩阵的"坐标系"：在由特征向量 $\bm{q}_1,\dots,\bm{q}_n$ 张成的正交坐标系下，$\mA$ 就是纯粹的逐坐标伸缩。令 $\vw=\mQ^\T\vx$（即把 $\vx$ 在新坐标系下展开），则
+\begin{equation}\label{eq:quad-diag}
+\vx^\T\mA\vx=\vx^\T\mQ\mLambda\mQ^\T\vx=\vw^\T\mLambda\vw=\sum_{i=1}^n\lambda_i w_i^2 .
+\end{equation}
+二次型在新坐标下没有交叉项，这是后面计算高斯积分的关键。
+
+\subsection{正定与半正定矩阵}
+
+\begin{definition}[正定、半正定]
+对称矩阵 $\mA$ 称为\textbf{半正定}（记 $\mA\succeq 0$），若对一切 $\vx$ 有 $\vx^\T\mA\vx\ge 0$；称为\textbf{正定}（记 $\mA\succ 0$），若对一切 $\vx\ne\vzero$ 有 $\vx^\T\mA\vx>0$。
+\end{definition}
+
+\begin{proposition}\label{prop:pd}
+设 $\mA$ 对称，则
+\begin{enumerate}[label=(\arabic*),nosep]
+  \item $\mA\succeq 0$ 当且仅当所有特征值 $\lambda_i\ge 0$；$\mA\succ 0$ 当且仅当所有 $\lambda_i>0$。
+  \item 若 $\mA\succ 0$，则 $\mA$ 可逆，$\mA^{-1}\succ 0$，且 $\det\mA=\prod_i\lambda_i>0$。
+  \item 若 $\mA\succ 0$，则存在唯一的对称正定矩阵 $\mA^{1/2}$ 使 $\mA^{1/2}\mA^{1/2}=\mA$，具体为 $\mA^{1/2}=\mQ\mLambda^{1/2}\mQ^\T$，其中 $\mLambda^{1/2}=\diag(\sqrt{\lambda_i})$。类似地记 $\mA^{-1/2}=(\mA^{1/2})^{-1}=\mQ\mLambda^{-1/2}\mQ^\T$。
+  \item 对任意矩阵 $\mB\in\R^{n\times k}$，$\mB\mB^\T\succeq 0$；若 $\mB$ 的行满秩（秩为 $n$），则 $\mB\mB^\T\succ 0$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) 由~\eqref{eq:quad-diag}，$\vx^\T\mA\vx=\sum_i\lambda_iw_i^2$，而 $\vw=\mQ^\T\vx$ 取遍 $\R^n$ 且 $\vw=\vzero\iff\vx=\vzero$，结论显然。
+(2) 特征值全正故行列式为正，从而可逆；$\mA^{-1}=\mQ\mLambda^{-1}\mQ^\T$ 的特征值为 $1/\lambda_i>0$。
+(3) 直接验证 $(\mQ\mLambda^{1/2}\mQ^\T)^2=\mQ\mLambda\mQ^\T=\mA$；唯一性略。
+(4) $\vx^\T\mB\mB^\T\vx=\|\mB^\T\vx\|^2\ge 0$，且当 $\mB^\T$ 是单射（即 $\mB$ 行满秩）时，$\vx\ne\vzero\Rightarrow\mB^\T\vx\ne\vzero$。
+\end{proof}
+
+\begin{remark}
+协方差矩阵总是半正定的：对任意 $\bm{a}\in\R^n$，$\bm{a}^\T\Cov[\vx]\bm{a}=\Var(\bm{a}^\T\vx)\ge 0$。本讲义只讨论协方差矩阵正定（即"非退化"）的高斯分布，此时密度函数存在。
+\end{remark}
+
+\subsection{行列式与逆的基本性质}
+
+后面反复使用的性质有：
+\begin{align*}
+\det(\mA\mB)&=\det\mA\,\det\mB, &\det(\mA^\T)&=\det\mA, &\det(\mA^{-1})&=(\det\mA)^{-1},\\
+(\mA\mB)^{-1}&=\mB^{-1}\mA^{-1}, &(\mA^\T)^{-1}&=(\mA^{-1})^\T, &\det(c\mA)&=c^n\det\mA\ (\mA\in\R^{n\times n}).
+\end{align*}
+特别地，若 $\mA$ 对称正定，则 $\det(\mA^{1/2})=\sqrt{\det\mA}$，$\det(\mA^{-1/2})=(\det\mA)^{-1/2}$。
+
+对角块矩阵与三角块矩阵的行列式也很简单：
+\[
+\det\begin{pmatrix}\mA&\vzero\\ \vzero&\mD\end{pmatrix}=\det\mA\det\mD,\qquad
+\det\begin{pmatrix}\mI&\mB\\ \vzero&\mI\end{pmatrix}=\det\begin{pmatrix}\mI&\vzero\\ \mC&\mI\end{pmatrix}=1 .
+\]
+
+\subsection{分块矩阵与 Schur 补}\label{sec:schur}
+
+这是本讲义最核心的线性代数工具。设
+\[
+\mM=\begin{pmatrix}\mA&\mB\\ \mC&\mD\end{pmatrix},\qquad
+\mA\in\R^{n\times n},\ \mD\in\R^{m\times m},\ \mA\text{ 可逆}.
+\]
+
+\begin{definition}[Schur 补]
+$\mA$ 在 $\mM$ 中的 Schur 补定义为 $\mM/\mA:=\mD-\mC\mA^{-1}\mB\in\R^{m\times m}$。
+\end{definition}
+
+Schur 补的来源是"分块高斯消元"：用第一块行消去第二块行中的 $\mC$。写成矩阵语言就是下面的分块 LDU 分解。
+
+\begin{lemma}[分块 LDU 分解]\label{lem:ldu}
+若 $\mA$ 可逆，记 $\mS=\mD-\mC\mA^{-1}\mB$，则
+\begin{equation}\label{eq:ldu}
+\begin{pmatrix}\mA&\mB\\ \mC&\mD\end{pmatrix}
+=\begin{pmatrix}\mI&\vzero\\ \mC\mA^{-1}&\mI\end{pmatrix}
+\begin{pmatrix}\mA&\vzero\\ \vzero&\mS\end{pmatrix}
+\begin{pmatrix}\mI&\mA^{-1}\mB\\ \vzero&\mI\end{pmatrix}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+直接把右边乘开：中间两项之积为 $\begin{pmatrix}\mA&\mB\\ \vzero&\mS\end{pmatrix}$，再左乘第一项得
+\[
+\begin{pmatrix}\mA&\mB\\ \mC&\mC\mA^{-1}\mB+\mS\end{pmatrix}=\begin{pmatrix}\mA&\mB\\ \mC&\mD\end{pmatrix}.
+\]
+\end{proof}
+
+由此立刻得到两个重要推论。
+
+\begin{theorem}[分块行列式]\label{thm:blockdet}
+若 $\mA$ 可逆，则 $\det\mM=\det\mA\cdot\det(\mD-\mC\mA^{-1}\mB)$。
+\end{theorem}
+
+\begin{proof}
+对~\eqref{eq:ldu} 两边取行列式，两个三角块矩阵的行列式为 $1$，对角块矩阵的行列式为 $\det\mA\det\mS$。
+\end{proof}
+
+\begin{theorem}[分块求逆]\label{thm:blockinv}
+若 $\mA$ 与 $\mS=\mD-\mC\mA^{-1}\mB$ 都可逆，则 $\mM$ 可逆，且
+\begin{equation}\label{eq:blockinv}
+\mM^{-1}=
+\begin{pmatrix}
+\mA^{-1}+\mA^{-1}\mB\mS^{-1}\mC\mA^{-1} & -\mA^{-1}\mB\mS^{-1}\\
+-\mS^{-1}\mC\mA^{-1} & \mS^{-1}
+\end{pmatrix}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+对~\eqref{eq:ldu} 逐项求逆并反序相乘（注意 $\begin{pmatrix}\mI&\mB'\\ \vzero&\mI\end{pmatrix}^{-1}=\begin{pmatrix}\mI&-\mB'\\ \vzero&\mI\end{pmatrix}$）：
+\[
+\mM^{-1}
+=\begin{pmatrix}\mI&-\mA^{-1}\mB\\ \vzero&\mI\end{pmatrix}
+\begin{pmatrix}\mA^{-1}&\vzero\\ \vzero&\mS^{-1}\end{pmatrix}
+\begin{pmatrix}\mI&\vzero\\ -\mC\mA^{-1}&\mI\end{pmatrix},
+\]
+乘开即得~\eqref{eq:blockinv}。
+\end{proof}
+
+对称的情形（对应协方差矩阵）值得单独记住：若 $\mM$ 对称，即 $\mC=\mB^\T$、$\mA=\mA^\T$、$\mD=\mD^\T$，则 $\mS=\mD-\mB^\T\mA^{-1}\mB$ 也对称，且
+\[
+\mM^{-1}=
+\begin{pmatrix}
+\mA^{-1}+\mA^{-1}\mB\mS^{-1}\mB^\T\mA^{-1} & -\mA^{-1}\mB\mS^{-1}\\
+-\mS^{-1}\mB^\T\mA^{-1} & \mS^{-1}
+\end{pmatrix}.
+\]
+
+\begin{proposition}\label{prop:schur-pd}
+若对称矩阵 $\mM=\begin{pmatrix}\mA&\mB\\ \mB^\T&\mD\end{pmatrix}\succ 0$，则 $\mA\succ 0$，$\mD\succ 0$，且 Schur 补 $\mS=\mD-\mB^\T\mA^{-1}\mB\succ 0$。
+\end{proposition}
+
+\begin{proof}
+取 $\vz=(\vx^\T,\vzero^\T)^\T$ 得 $\vx^\T\mA\vx=\vz^\T\mM\vz>0$（$\vx\ne\vzero$），故 $\mA\succ 0$；同理 $\mD\succ 0$。对 $\mS$：由~\eqref{eq:ldu}，令 $\mL=\begin{pmatrix}\mI&\vzero\\ \mB^\T\mA^{-1}&\mI\end{pmatrix}$，则 $\mM=\mL\begin{pmatrix}\mA&\vzero\\ \vzero&\mS\end{pmatrix}\mL^\T$，于是 $\begin{pmatrix}\mA&\vzero\\ \vzero&\mS\end{pmatrix}=\mL^{-1}\mM\mL^{-\T}\succ 0$，其右下块 $\mS\succ 0$。
+\end{proof}
+
+\subsection{二次型的分块展开与矩阵配方法}
+
+设 $\mM$ 如上对称正定，$\vz=(\vu^\T,\vv^\T)^\T$，$\vu\in\R^n$，$\vv\in\R^m$。把 $\vz^\T\mM\vz$ 按块展开：
+\[
+\vz^\T\mM\vz=\vu^\T\mA\vu+2\vu^\T\mB\vv+\vv^\T\mD\vv .
+\]
+把它看成 $\vv$ 的二次函数并"配方"。一元情形 $dv^2+2bv+a$ 配方得 $d(v+b/d)^2+a-b^2/d$；矩阵情形完全平行：
+
+\begin{lemma}[矩阵配方法]\label{lem:complete-square}
+设 $\mD\succ 0$，则对任意 $\vv$、$\bm{b}$，
+\[
+\vv^\T\mD\vv+2\bm{b}^\T\vv=(\vv+\mD^{-1}\bm{b})^\T\mD(\vv+\mD^{-1}\bm{b})-\bm{b}^\T\mD^{-1}\bm{b}.
+\]
+\end{lemma}
+
+\begin{proof}
+右边展开：$\vv^\T\mD\vv+2\bm{b}^\T\mD^{-1}\mD\vv+\bm{b}^\T\mD^{-1}\mD\mD^{-1}\bm{b}-\bm{b}^\T\mD^{-1}\bm{b}$，利用 $\mD$ 对称及 $\mD^{-1}\mD=\mI$ 化简即得。
+\end{proof}
+
+不过在高斯分布的推导中，更方便的是直接用 LDU 分解~\eqref{eq:ldu} 得到下面的恒等式，它一步就把二次型拆成"只含 $\vu$ 的部分"与"含 $\vv$ 的完全平方"。
+
+\begin{proposition}[二次型的 Schur 分解]\label{prop:quad-schur}
+设 $\mM=\begin{pmatrix}\mA&\mB\\ \mB^\T&\mD\end{pmatrix}\succ 0$，$\mS=\mD-\mB^\T\mA^{-1}\mB$，则
+\begin{equation}\label{eq:quad-schur}
+\begin{pmatrix}\vu\\ \vv\end{pmatrix}^{\!\T}\mM^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}
+=\vu^\T\mA^{-1}\vu+\big(\vv-\mB^\T\mA^{-1}\vu\big)^\T\mS^{-1}\big(\vv-\mB^\T\mA^{-1}\vu\big).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+由定理~\ref{thm:blockinv} 证明中的分解式，
+\[
+\mM^{-1}=\mL^{-\T}\begin{pmatrix}\mA^{-1}&\vzero\\ \vzero&\mS^{-1}\end{pmatrix}\mL^{-1},\qquad
+\mL^{-1}=\begin{pmatrix}\mI&\vzero\\ -\mB^\T\mA^{-1}&\mI\end{pmatrix}.
+\]
+计算 $\mL^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}=\begin{pmatrix}\vu\\ \vv-\mB^\T\mA^{-1}\vu\end{pmatrix}$，代入即得。
+\end{proof}
+
+注意~\eqref{eq:quad-schur} 右边第一项与 $\vv$ 无关，第二项是关于 $\vv$ 的、以 $\mB^\T\mA^{-1}\vu$ 为中心、以 $\mS^{-1}$ 为"精度"的二次型。这正是"边缘 $\times$ 条件"结构的代数根源。
+
+\subsection{多重积分的换元与雅可比行列式}
+
+\begin{theorem}[线性换元]\label{thm:change-var}
+设 $\mA\in\R^{n\times n}$ 可逆，$\vb\in\R^n$，$g:\R^n\to\R$ 可积。作换元 $\vx=\mA\vw+\vb$，则
+\[
+\int_{\R^n} g(\vx)\dd\vx=|\det\mA|\int_{\R^n} g(\mA\vw+\vb)\dd\vw .
+\]
+\end{theorem}
+
+直观理解：线性映射 $\vw\mapsto\mA\vw$ 把单位体积放大为 $|\det\mA|$ 倍，所以体积元 $\dd\vx=|\det\mA|\dd\vw$。
+
+相应地，若随机向量 $\vw$ 有密度 $p_{\vw}$，而 $\vx=\mA\vw+\vb$（$\mA$ 可逆），则 $\vx$ 的密度为
+\begin{equation}\label{eq:density-transform}
+p_{\vx}(\vx)=\frac{1}{|\det\mA|}\,p_{\vw}\big(\mA^{-1}(\vx-\vb)\big).
+\end{equation}
+
+\subsection{一元高斯积分}
+
+\begin{lemma}\label{lem:gauss-int}
+$\displaystyle\int_{-\infty}^{\infty}e^{-t^2/2}\dd t=\sqrt{2\pi}$，更一般地对 $\lambda>0$，$\displaystyle\int_{-\infty}^{\infty}e^{-\lambda t^2/2}\dd t=\sqrt{2\pi/\lambda}$。
+\end{lemma}
+
+\begin{proof}
+记 $I=\int e^{-t^2/2}\dd t$。则 $I^2=\iint e^{-(s^2+t^2)/2}\dd s\dd t$，换极坐标 $s=r\cos\theta$，$t=r\sin\theta$，$\dd s\dd t=r\dd r\dd\theta$，得 $I^2=\int_0^{2\pi}\!\int_0^\infty e^{-r^2/2}r\dd r\dd\theta=2\pi$。第二式令 $t=s/\sqrt{\lambda}$ 即得。
+\end{proof}
+

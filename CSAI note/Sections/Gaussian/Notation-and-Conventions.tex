@@ -1,0 +1,12 @@
+% !TeX root = ../../Gaussian.tex
+\section{记号与约定}
+
+全文中，粗体小写字母（如 $\vx,\vmu$）表示列向量，粗体大写字母（如 $\mSigma,\mA$）表示矩阵，普通斜体字母表示标量。$\mA^\T$ 表示转置，$\mA^{-1}$ 表示逆，$\det\mA$（或 $|\mA|$）表示行列式，$\mI_n$ 表示 $n$ 阶单位矩阵。向量 $\vx\in\R^n$ 的分量记为 $x_1,\dots,x_n$。
+
+对随机向量 $\vx$，其均值向量与协方差矩阵定义为
+\[
+\E[\vx]=\begin{pmatrix}\E[x_1]\\ \vdots\\ \E[x_n]\end{pmatrix},\qquad
+\Cov[\vx]=\E\big[(\vx-\E\vx)(\vx-\E\vx)^\T\big]\in\R^{n\times n},
+\]
+即 $\Cov[\vx]$ 的 $(i,j)$ 元是 $\Cov(x_i,x_j)$。两个随机向量之间的互协方差为 $\Cov[\vx,\vy]=\E[(\vx-\E\vx)(\vy-\E\vy)^\T]\in\R^{n\times m}$，显然 $\Cov[\vy,\vx]=\Cov[\vx,\vy]^\T$。
+

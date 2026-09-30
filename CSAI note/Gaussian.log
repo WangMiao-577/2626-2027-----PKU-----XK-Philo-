@@ -1,7 +1,6 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  10 SEP 2026 11:11
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  30 SEP 2026 11:02
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **./Gaussian.tex
 (Gaussian.tex
@@ -963,11 +962,17 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \tf@toc=\write4
 \openout4 = `Gaussian.toc'.
 
+ (Sections/Gaussian/Notation-and-Conventions.tex)
+(Sections/Gaussian/Linear-Algebra-Preliminaries.tex
 LaTeX Font Info:    Font shape `TU/NotoSerifCJKSC(0)/m/sl' in size <10.95> not 
 available
 (Font)              Font shape `TU/NotoSerifCJKSC(0)/m/it' tried instead on inp
-ut line 109.
- [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] (Gaussian.aux)
+ut line 21.
+ [2] [3] [4] [5])
+(Sections/Gaussian/Multivariate-Gaussian-Distribution.tex [6] [7])
+(Sections/Gaussian/Joint-Gaussian-Distribution.tex [8] [9] [10])
+(Sections/Gaussian/Examples-and-Applications.tex [11])
+(Sections/Gaussian/Summary.tex [12]) [13] (Gaussian.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026/07/13>
@@ -976,10 +981,10 @@ Package rerunfilecheck Info: File `Gaussian.out' has not changed.
 (rerunfilecheck)             Checksum: 59CC22951F2FE4580AAC30855726BF06;3532.
  ) 
 Here is how much of TeX's memory you used:
- 18553 strings out of 404899
- 415281 string characters out of 5480821
+ 18602 strings out of 404899
+ 417635 string characters out of 5480821
  844074 words of memory out of 5000000
- 46935 multiletter control sequences out of 15000+600000
+ 46965 multiletter control sequences out of 15000+600000
  646882 words of font info for 150 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  93i,15n,96p,547b,532s stack positions out of 10000i,1000n,20000p,200000b,200000s

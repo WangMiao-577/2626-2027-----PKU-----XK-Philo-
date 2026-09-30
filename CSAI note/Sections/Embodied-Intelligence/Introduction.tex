@@ -1,0 +1,305 @@
+% !TeX root = ../../Embodied Intelligence.tex
+\section{简介}
+
+\subsection{课程背景、目标及教学组织}
+
+\subsubsection{开设背景}
+
+\begin{itemize}
+    \item AI 赋能千行百业，有深有浅、宽窄不一：AI+制造、AI+交通、AI+医疗、AI+物流、AI+仓储、AI+农业、AI+教育……
+    \item \hl{面向开放真实场景的具身机器人将是下一个爆发点}。（来源：中国信通院）
+\end{itemize}
+
+\subsubsection{课程简介}
+
+以下是AI总结的，如你所见这是一门在理论方面较为Water的课程，所以就交给AI大人吧x
+
+本课程聚焦\textbf{具身智能}（Embodied Artificial Intelligence）与\textbf{通用智能体}（Tong Agents）两个前沿方向，融合认知科学、人工智能与机器人学，系统讲解智能体在物理与社会环境中的感知、行动与决策机制。
+
+课程涵盖基础理论、关键技术、机器人实操及动手实践，通过基于机器人实体及仿真平台的课程模块实践项目，培养学生设计智能体系统及解决复杂场景问题的实践动手能力和团队协作素养。
+
+\subsubsection{基本目标}
+
+\begin{enumerate}[itemsep=2pt]
+    \item 掌握具身智能与通用智能体的核心理论与前沿研究动态。
+    \item 掌握多种实体机器人的感知--规划--控制功能研发的基本方法与技术。
+    \item 熟悉多种机器人实体平台及 Tongverse 等仿真平台与机器人学习方法。
+    \item 培养动手能力，通过项目实践独立设计智能体算法，完成从建模、编码到部署的完整项目链路。
+    \item 通过小组项目合作，提升团队协作的素养，培养解决实际问题的综合能力。
+\end{enumerate}
+
+\subsubsection{课程大纲}
+
+{\small
+\begin{longtable}{@{}p{1.5cm}p{8.7cm}p{2.0cm}p{1.8cm}@{}}
+\toprule
+\textbf{No.} & \textbf{Content} & \textbf{Lecturer} & \textbf{Date} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{No.} & \textbf{Content} & \textbf{Lecturer} & \textbf{Date} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Lecture 0 & Opening Event（课程简介） & 罗定生 & 9月10日 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Module 1}\quad 智能机器人基础知识} \\
+Lecture 1 & Overview of Robot System（机器人系统概述） & 罗定生 & 9月17日 \\
+Lecture 2 & Robot Modeling and Control Methods（机器人建模与控制方法） & 罗定生 & 9月24日 \\
+Lecture 3 & Sensoring the World（机器人具身传感与感知） & 赵卉菁 & 10月08日 \\
+Lecture 4 & Robot-environment interaction modeling（机器人环境交互建模） & 赵卉菁 & 10月15日 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Module 2}\quad 具身智能关键技术} \\
+Lecture 5 & Robot Simulation System（机器人仿真系统） & 刘航欣 & 10月22日 \\
+Lecture 6 & Robot Motion Planning and Trajectory Generation（机器人运动规划与轨迹生成） & 刘航欣 & 10月29日 \\
+Lecture 7 & Basic Knowledge of Robot Learning（机器人学习基础知识） & 刘航欣 & 11月05日 \\
+Lecture 8 & Embodied Learning of Robot Skills（机器人技能具身学习） & 刘航欣 & 11月12日 \\
+Lecture 9 & Practical Teaching 1: Schema of Task-specific Robot Skill Learning（实践教学1：面向特定任务的机器人技能研发框架——小组选题进展交流及研讨） & 罗定生 & 11月19日 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Module 3}\quad 通用智能体研究前沿} \\
+Lecture 10 & Multimodal Scene Understanding and World Models（多模态场景理解与世界模型） & 罗定生 & 11月26日 \\
+Lecture 11 & Introduction to Embodied Vision-language-action Models（具身VLA大模型简介） & 罗定生 & 11月26日 \\
+Lecture 12 & Overview of Virtual Digital Human Technology（虚拟数字人技术概述） & 张振亮 & 12月03日 \\
+Lecture 13 & Architecture and Key Technologies of AGI Agents（通用智能体架构与关键技术） & 张振亮 & 12月10日 \\
+Lecture 14 & Construction of Tong Agent（通用智能体构建） & 张振亮 & 12月17日 \\
+Lecture 15 & Practical Teaching 2: Task-specific Robot Skill Development（实践教学2：机器人特定任务技能研发进展——小组项目汇报及研讨） & 罗定生 & 12月24日 \\
+Lecture 16 & Course Summary（课程总结） & 罗定生 & 12月24日 \\
+\end{longtable}
+}
+
+课程思路：以\textbf{物理机器人}（Module 1/2 的感知--建模--控制--仿真--规划--学习）与\textbf{虚拟人}（Module 3 的多模态、VLA、数字人、智能体架构）为两条主线，中间以两次实践教学环节（Lecture 9、Lecture 15）串联，最终由 Lecture 16 总结。
+
+\subsubsection{成绩评定}
+
+\begin{itemize}[itemsep=2pt]
+    \item 课堂考勤（10 分）
+    \item 三次个人作业（15 + 15 + 10 分）
+    \begin{itemize}
+        \item 模块 1：选择一款机器人案例绘制系统框图，并针对简单控制任务完成一次 PID 参数对比或响应分析，说明感知/建模误差对控制效果的影响。
+        \item 模块 2：在仿真环境中完成简单导航或操作任务，通过对比规划方法或训练基础策略，在改变场景条件的情况下进行测试，记录指标并分析成败原因。
+        \item 模块 3：结合简单机器人任务场景，针对自然语言指令识别关键要素并拆解机器人动作，同时为含歧义或障碍的指令制定澄清、绕行或安全停止策略。
+    \end{itemize}
+    \item 小组期末课程大作业及报告（50 分）
+    \begin{itemize}
+        \item 从指定仓库拉取代码与仿真环境，录制目标抓取样例数据，利用该数据集训练并调优策略模型，最终展示机械臂在无人工干预下自主完成抓取的效果。
+        \item 加分挑战：（1）跨越高度障碍夹取架上物品；（2）实现先开柜门再夹取物品的复合操作。
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{课程其他相关信息}
+
+\begin{itemize}[itemsep=2pt]
+    \item 作业发布：小作业以各章节为单位布置、限时提交；大作业在期末前发布，限时提交。
+    \item 交互平台：教学网、微信群。
+    \item 课程助教：向思丞、耿垚、戴冠哲、蓝婕睿。
+\end{itemize}
+
+\subsection{具身智能与通用智能体的概念理解及研究进展}
+
+\subsubsection{具身智能（Embodied Intelligence）}
+
+\paragraph{从“我思故我在”到心身问题}
+
+\begin{itemize}[itemsep=2pt]
+    \item 笛卡尔：“I think, therefore I am!”，出自 1637 年《谈谈方法》（\textit{Discourse on Method}）——引出\textbf{心身问题}（the mind-body problem）。
+    \item \textbf{里程碑实验：Libet et al. (1983)}（美国加州大学旧金山分校神经科学家 B. Libet）
+
+    \begin{tabular}{@{}ll@{}}
+        $0$ & 静息（repose） \\
+        $-500$ ms & EEG 测得\textbf{准备电位}（readiness potential） \\
+        $-200$ ms & 被试注意到“决定”时刻光点的位置 \\
+        $0$ ms & 动作发生（act） \\
+    \end{tabular}
+
+    \item 结论：自主动作的发起似乎由\hl{无意识的神经活动}引起，而非相反。
+    \item 新观点：不是心智（ideas/mind）控制行动，而是\textbf{身体决定了我们的思维}——\textit{How the body shapes the way we think}（Rolf Pfeifer / Josh Bongard, 2006）。该观点对理解自然智能与人工智能均有重要意义。
+\end{itemize}
+
+\paragraph{什么是具身智能}
+
+\begin{fancybox}[grassgreen]{具身智能}
+一种基于\textbf{物理身体}进行感知和行动的智能系统：通过智能体与环境的交互获取信息、理解问题、做出决策并实现行动，从而产生智能行为和适应性。
+\end{fancybox}
+
+Rodney Brooks（现代机器人之父）指出：“智能行为可以直接从自主机器与其环境的简单物理交互中产生，而这种交互不依赖于预先设定的复杂算法。”\footnote{Brooks, R.A., 1991. Intelligence without representation. \textit{Artificial intelligence}, 47(1-3), pp.139--159.}
+
+\paragraph{心理学与哲学渊源}
+
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{认知心理学的演变}：20 世纪 60 年代以来，以计算机模拟为基础的符号加工模式居支配地位，其后以神经网状结构与并行加工为基础的联结主义模式进入视野。两者都把注意中心转向内部心理过程、着力探求调节行为的认知机制，故统称“认知主义”（cognitivism）。受认知语言学、文化人类学、哲学、机器人技术、AI 等影响，认知心理学正经历一场“\textbf{后认知主义}”（postcognitivism）变革——盘旋在认知科学上空的幽灵正是“\textbf{具身认知}”。
+    \item \textbf{哲学渊源}：具身思想是欧美哲学家反思和批判主客二元论的产物。
+    \begin{itemize}
+        \item 海德格尔以“存在”（Being-in-the-world）超越二元世界划分：没有主客体之分，人认识世界的方式是用身体以合适的方式与世界中的其他物体互动，并在互动中获得对世界的认识。
+        \item 梅洛-庞蒂《知觉现象学》提出具身哲学：知觉的主体是身体，身体嵌入世界之中，犹如心脏嵌入身体，知觉、身体和世界是一个统一体。
+    \end{itemize}
+    \item \textbf{心理学溯源}：可追溯至杜威和詹姆斯的机能主义。杜威认为把经验和理性截然分开是错误的，一切理性思维都以身体经验为基础；詹姆斯的情绪理论直接提出身体在心智和情绪形成中的作用；皮亚杰和维果茨基也分析了认知及其他高级心理机能对外部活动的依赖性，强调身体活动（感知运动）的内化对思维和认知过程的作用。
+    \item 以具身认知为基础、强调身体核心地位的关于智能本质的探索，形成了\textbf{具身智能}的观点。
+\end{itemize}
+
+\subsubsection{通用智能体（TONG Agent / AGI Agent）}
+
+\paragraph{人工智能的智能体视角}
+
+\begin{itemize}[itemsep=2pt]
+    \item AI 经历了 60 余年的研究及此前 2000 余年的相关工作。Stuart Russell \& Peter Norvig 以“\textbf{智能体 Agent}”为主题定义人工智能为“\textbf{对从环境中感知信息并执行行动的 Agent 的研究}”，从而将已有探索综合到一个共同框架中，而非试图在各自历史背景下解释人工智能的各个子领域。
+    \item 数学刻画——\textbf{智能体函数}（agent function）：
+    \[
+        f: \mathcal{P}^* \to \mathcal{A}, \quad \text{将任意感知序列 } \mathcal{P}^* \text{ 映射为动作 } a \in \mathcal{A}
+    \]
+    \item 形象化示意：Stimulus $\to$ Receptors $\to$ Agent/Brain $\to$ Effectors $\to$ Response；感知通道包括视觉（vision）、听觉（audition）、触觉（tactus）、力觉（force）、惯性（inertance）等，智能体作用于环境并接收反馈。
+\end{itemize}
+
+\paragraph{智能是各种“现象”}
+
+智能是智能体在\textbf{多尺度、多维度}，与环境和社会交互，实现大量任务的过程中表现出来的现象，例如：个体生存与环境交互、内心的思考活动、社会群体行为（交流合作等）。
+
+\begin{itemize}[itemsep=2pt]
+    \item 智能现象 = 客观（唯物）+ 主观（唯心）。
+    \item 以 Heider-Simmel（1944）动画实验为例：可见的、感知到的是 2 个三角形、1 个圆、线段与矩形；看不见的、认知到的是人物、动作、事件、性格、社会关系、意图与心理活动。
+    \item 我们从简单视频中感受到了丰富的智能现象，\hl{其中 95\% 是幻觉}，即佛经所谓“相由心生”。
+\end{itemize}
+
+\paragraph{人工智能探索与智能学科的诞生}
+
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{初心}：如何使一个人工制造系统（artificial system, machine, device）像人一样聪明，从而更好地服务于人类社会的生产生活。相关想象自古有之：公元前 11 世纪周穆王召见偃师与歌舞伶人、公元前 5 世纪古希腊青铜巨人塔罗斯、公元前 4 世纪人造系统如何思考。
+    \item \textbf{学科}：依据学术的性质而划分的科学门类。作为一个学科，需包含相对独立的知识体系、明确的科学问题和目标、完善的人才培养体系，以及服务社会现实问题的功用等。
+    \item \textbf{智能学科的诞生}：2002 年北京大学成立全球首个智能科学系、率先设立智能科学与技术专业，标志着智能学科的正式诞生，北大因此被学者认为是全球智能学科的“诞生地”。20 年后，2022 年 9 月智能学科成为教育部新增交叉门类 6 个一级学科之一，标志其成为一门独立学科。
+\end{itemize}
+
+\textbf{北京大学智能学科发展历程}
+
+\begin{itemize}[itemsep=1pt]
+    \item \textbf{1983}：成立北京大学计算机科学技术研究所（现王选所）。
+    \item \textbf{1985}：成立北大第一个多学科交叉研究机构——信息科学中心。
+    \item \textbf{1986}：建立视觉与听觉信息国家重点实验室。
+    \item \textbf{2002}：成立全球首个智能科学系（智能学科诞生地）。
+    \item \textbf{2003}：设立智能学科与技术本科专业（国内首个）。
+    \item \textbf{2007}：设立硕士点、博士点。
+    \item \textbf{2018}：设立智能科学与技术实验班。
+    \item \textbf{2019}：成立人工智能研究院。
+    \item \textbf{2020}：获批国家一流本科专业建设点。
+    \item \textbf{2021}：成立智能学院。
+    \item \textbf{2022}：获批跨媒体通用人工智能全国重点实验室；“双一流”学科、交叉学科门类一级学科。
+    \item \textbf{2023}：获批教育部“通计划”支撑。
+    \item \textbf{2024}：人工智能双学位启动；获批国家人工智能产教融合创新平台建设。
+\end{itemize}
+
+\textbf{核心目标及任务}：通用人工智能是未来 10 年至 20 年国际科技发展的前沿和争夺的焦点，要从弱人工智能迈向强人工智能、从注重感知性能发展到强调认知能力，即深度融合、走向统一。六项建设任务：育人、强基、顶天、立地、交叉、聚才。
+
+\textbf{共建单位及方向规划}：学科共建单位为智能学院、人工智能研究院；本科教学依托元培学院（通班）、信科学院（智班）；建设平台为通用人工智能全国重点实验室、国家人工智能产教融合创新平台；延伸机构为北京大学武汉人工智能研究院、北京通用人工智能研究院。规划 10 个学科主攻方向：计算机视觉、自然语言处理、听觉/言语与音乐、智能图形与交互、机器学习、认知推理、多智能体、智能机器人、数据智能与计算智能、智能芯片。
+
+\paragraph{通用智能体的定义}
+
+\begin{fancybox}[grassgreen]{通用智能体（TONG Agent）}
+能够在\textbf{价值空间与能力空间}体系下进行自主学习、完成任务，最大化其价值，同时具备一定价值“进化”能力的个体；简言之，即通用人工智能（AGI）的承载智能体（AGI Agent）。
+\end{fancybox}
+
+AGI 包含两个\textbf{完备性}：认知架构完备性、测试环境完备性；以及三个\textbf{基本特征}：
+
+\begin{enumerate}[itemsep=2pt]
+    \item 能够执行无限的任务；
+    \item 能够自主生成新的任务；
+    \item 由价值系统驱动，与人类价值观实现对齐。
+\end{enumerate}
+
+\paragraph{通用智能体的 UV 理论及架构}
+
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{UV 系统理论}：智能体由\textbf{价值}（价值函数 $V$，需求、审美、价值观）与\textbf{能力}（势能函数 $U$，视觉、语言、认知、运动、学习）两个空间刻画，二者均分 $L_1 \sim L_5$ 五个层级，通过 AI-Index 进行价值评价与能力评价。
+    \begin{itemize}
+        \item 价值层级：初级自身价值（生理需求、情绪价值）$\to$ 高级自身价值（安全、环境物体价值）$\to$ 初级社交价值（他人价值、友谊）$\to$ 高级社交价值（声誉、金钱、联盟）$\to$ 群体价值（社会、国家、种族）。
+        \item 能力层级：初级感知/运动/认知推理 $\to$ 词汇、视觉、技能、物理直觉 $\to$ 空间理解、词汇增加、直觉心理认知 $\to$ 场景理解、丰富情感、社会角色 $\to$ 语言表达、抽象思维、社会规范与伦理。
+    \end{itemize}
+    \item \textbf{当前通用智能体内部组成及未来发展}：感知（视觉、文本、声音、触觉）$\to$ 更好的可解释性与多模态融合；记忆（短期、长期）$\to$ 高效层次化记忆、自更新记忆；推理（想法、一致性、精炼）$\to$ 因果感知推理、鲁棒/高效/长时程推理；元认知（意识、自我觉知、自我演化）$\to$ 更好的自我演进与认知能力。
+\end{itemize}
+
+\paragraph{研究前沿举例}
+
+\begin{itemize}[itemsep=3pt]
+    \item \textbf{具身大模型——端到端}：端到端具身大模型实现从人类指令到机械臂执行的直接过程，以 Google RT-1、RT-2 的迭代为例：
+    \begin{itemize}
+        \item RT-1——关注\textbf{泛化能力}；
+        \item RT-2——获得\textbf{涌现能力}（Vision-Language-Action Models transfer web knowledge to robotic control）。
+    \end{itemize}
+    \item \textbf{具身大模型——分层端到端}：将感知、规划决策、控制与执行各模块分为多个层级，经由不同的神经网络进行训练，最后进行整合。
+    \begin{itemize}
+        \item figure 02 机器人分层模型：OpenAI model（图像常识推理）$\to$ Neural Network Policies（快速灵巧操作）$\to$ Whole Body Controller（安全稳定动力学），对应行为选择、200\,Hz 动作、1\,kHz 关节力矩。
+        \item Hi Robot 分层 VLA 模型：用户提示/交互 $\to$ High-Level Policy (VLM) $\to$ 底层语言指令 $\to$ Low-Level Policy (VLA) $\to$ 动作，同时可给出机器人语言回应。
+    \end{itemize}
+    \item \textbf{“通通”}：由北京通研院联合北大自主研发的\hl{全球首个通用智能体}，也是首个由\textbf{价值因果驱动}的 AGI 系统。
+\end{itemize}
+
+\textbf{标志性成果}
+
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{成果 1}：2024 年 1 月 28 日，全球首个通用智能人小女孩“通通”正式亮相“迈向通用人工智能前沿科技成果展”；4 月 25 日入选 2024 中关村论坛重大科技成果。同时发布全球首个通用人工智能评级标准与测试平台（TongTest）。“通通”可作为通用底座支撑各类垂直应用场景，形成千万个“通用智能人”赋能千行百业。
+    \item \textbf{成果 2}：大型社会模拟器（大科学装置）。基于 U-V 平衡解的泛化理论，结合人工智能、大数据和虚拟现实等技术，开展社会有机体的仿真模拟，形成大规模城市运行模拟平台，以了解社会状态、预测发展趋势、检视公共政策和干预方案的系统性后果，服务科学智能决策。
+\end{itemize}
+
+\subsubsection{范式之争：乌鸦展示的 AI 新范式}
+
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{乌鸦的能力}：体积小、不需要大模型；功耗低（0.1 瓦 $\sim$ 1 瓦）；不需大数据学习。乌鸦可以完成许多惊人的任务，而现今的 AI 系统却远没有达到这种潜能。
+    \item \textbf{大数据、小任务范式}（鹦鹉范式 / ChatGPT）：需要大量重复数据来训练；可以说人话、但不解话意；不能对应现实的因果逻辑。
+    \item \textbf{小数据、大任务范式}（乌鸦范式 / 通用人工智能）：自主的智能——感知、认知、推理、学习、执行；不依赖大数据——无标注数据、无监督学习；低功耗——小于 1 瓦。
+    \item \hl{决定人工智能系统的三个关键要素：架构、任务、数据}，不同的选择导致不同的系统和路径。
+\end{itemize}
+
+\subsubsection{研发通用智能体的核心要点}
+
+本质问题：如何研发“像人一样聪明”的智能体？核心要点为：\textbf{价值驱动}、\textbf{具身交互}、\textbf{因果推理}、\textbf{常识}、\textbf{发展演进}、\textbf{大模型}。
+
+\subsection{教学平台、研究示例及 Demo 展示}
+
+\subsubsection{智能机器人教学平台}
+
+智能机器人教学平台建设（自主研发 + 引进）。
+
+\subsubsection{人形机器人运动技能研究}
+
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{行走能力自主习得}：基于正交试验设计主动学习的人形机器人行走能力快速自主习得。
+    \item \textbf{抗推搡恢复能力自主习得}：借鉴人行为策略的人形机器人抗推搡能力自主习得。
+    \item \textbf{跌倒控制}（双足仿人机器人跌倒控制的主动顺应方法）：以 12 维向量 $w = (w_1, w_2, \ldots, w_{12})$ 表示姿态——髋关节角 1、膝关节角 1、踝关节角 1、手臂 3（肩关节 pitch/roll 各 1、肘关节 1）。
+    \begin{itemize}
+        \item 落地冲击前的\textbf{特定姿态}；
+        \item 落地冲击后的\textbf{主动顺应}（active compliance）：关节力矩增量速度 3 个（髋、膝、肘）+ 关节角增量 3 个（髋、膝、肘）。
+    \end{itemize}
+    \item \textbf{运动行为能力的迁移学习}：斜坡表面双足行走的迁移学习——由平地行走迁移至上坡行走、下坡行走、背书包行走。
+\end{itemize}
+
+\subsubsection{科研平台与研究方向}
+
+\begin{itemize}[itemsep=3pt]
+    \item \textbf{国家人工智能产教融合创新平台具身智能模块}：结合智能算法与物理实体，提高智能体理解和与真实世界互动能力；通过融合现实和虚拟环境的混合交互获取更丰富的数据和反馈，以在线学习和终生学习等方式持续演化改进模型，突破当前数据集任务复用难、采集标注慢、泛化性能差等技术瓶颈，实现在虚实融合的多模态环境中完成高效训练。围绕突破智能体演化的关键技术瓶颈，布局智能体演化理论、价值对齐与人机协作、人的数字孪生与行为仿真、机器人自主感知与规划。
+    \item \textbf{具身数据采集平台}：构建面向开放场景的机器人多模态具身数据采集平台，采集真实机器人数据；研究训练机器人实际技能的具身数据库标准构建方案，形成针对典型场景的示范具身数据库、典型模仿学习算法集与典型技能库，搭建互动展示示范平台。
+    \item \textbf{面向开放任务的机器人技能习得及技能库构建}。
+    \item \textbf{面向具身交互的遥操作系统研发}：基于智能手机 VR、基于外骨骼、基于主从映射、基于手部识别、灵巧手--机械臂联合遥操作，以及基于 VR 设备的精细遥操作。
+    \item \textbf{具身交互场景与互动展示平台建设}：物料搬运与整理、快餐食品制作、生化实验室操作、电子器件组装。
+    \item \textbf{面向开放场景的人形机器人具身交互}：
+    \begin{enumerate}[itemsep=1pt]
+        \item 精确感知：针对场景对象，提出基于知识蒸馏的未知物体持续学习（IROS 2024）和基于跨模态域适应的点云特征提取（ICRA 2025）；
+        \item 推理与规划：面向复杂任务，提出基于大型语言模型的任务和运动规划以及运动失败推理（IROS 2024），以及基于多模态大模型的机器人双臂长链任务规划；
+        \item 交互与执行：针对交互对象意图理解，提出三维人体统一建模用于姿态感知与意图预测（CVPR 2024）；针对全身整体控制任务，提出基于身体基模理论的全身动量控制算法；
+        \item 产业落地：“人形机器人+”工业场景，与蔚来汽车、一汽红旗达成项目合作，驱动人形机器人部署在汽车装配产线上，开展质检、分拣等任务。
+    \end{enumerate}
+    \item \textbf{面向长链任务的具身双臂协同操作}：围绕“如何对复杂语义信息的机器人双臂长链任务进行规划与协同操作”这一科学问题，采用多模态大模型理解语义信息，将任务拆解为多个预定义的技能；借鉴人类婴儿手臂操作技能的发展机理，通过与环境不断交互，自主获得可逐步演进的机器人感知运动能力。子问题包括：受人类婴儿启示的机器人内模型构建、机器人身体构型自主学习、具身任务规划数据集构建、通用技能库构建。
+    \item \textbf{极低时延远程协同自动驾驶}：车路协同感知云平台，涉及边缘计算设备、雷达、摄像机、路侧 RSU、车载 T-Box，以及车端运行数据与车辆轨迹数据。
+\end{itemize}
+
+\subsection{课程教学讨论}
+
+课堂 Q\&A 与教学讨论。
+
+\subsection{小结}
+
+\begin{itemize}[itemsep=2pt]
+    \item 介绍课程背景、目标及教学组织；
+    \item 理解具身智能与通用智能体的核心概念；
+    \item 归纳研发通用智能体的核心要点；
+    \item 展示教学平台、研究示例及相关 Demo；
+    \item 课程教学讨论。
+\end{itemize}
+

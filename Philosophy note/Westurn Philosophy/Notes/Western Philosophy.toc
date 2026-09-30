@@ -1,0 +1,27 @@
+\contentsline {section}{\numberline {1}近代哲学的背景}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}近代历史的奠基}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}对哲学发展的影响}{1}{subsection.1.2}%
+\contentsline {section}{\numberline {2}笛卡尔哲学}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}笛卡尔生平简介}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Discart的我思}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}上帝}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}永恒真理}{4}{subsection.2.4}%
+\contentsline {paragraph}{对永恒真理概念的改造}{4}{paragraph*.2}%
+\contentsline {paragraph}{卡氏物理学}{5}{paragraph*.3}%
+\contentsline {subsection}{\numberline {2.5}实体二元论}{5}{subsection.2.5}%
+\contentsline {section}{\numberline {3}霍布斯哲学}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}生平简介（1588）}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}唯物的经验论}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}唯名论与语言}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}心灵与意志}{6}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}政治哲学}{6}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}自然状态}{6}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}自然法要求创造主权者}{7}{subsubsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.3}主权者的构成与权限}{7}{subsubsection.3.5.3}%
+\contentsline {section}{\numberline {4}帕斯卡和马勒布朗士}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Pascal哲学}{7}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}生平}{7}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}名言}{8}{subsubsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.3}哲学观点}{8}{subsubsection.4.1.3}%
+\contentsline {paragraph}{批评耶稣会的教义}{8}{paragraph*.4}%
+\contentsline {paragraph}{Pascal’s Wager帕斯卡之赌}{8}{paragraph*.5}%

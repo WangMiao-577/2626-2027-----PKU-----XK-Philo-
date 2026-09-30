@@ -1,0 +1,99 @@
+% !TeX root = ../../Gaussian.tex
+\section{多元高斯分布}\label{sec:gauss}
+
+\subsection{从一元到多元}
+
+一元高斯分布 $\Normal(\mu,\sigma^2)$ 的密度为
+\[
+p(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big).
+\]
+指数中的 $(x-\mu)^2/\sigma^2$ 可写作 $(x-\mu)\,(\sigma^2)^{-1}(x-\mu)$，归一化常数中的 $\sigma^2$ 是"协方差"。把这两处的 $\sigma^2$ 换成协方差矩阵 $\mSigma$，就得到多元情形。
+
+\begin{definition}[多元高斯分布]\label{def:mvn}
+设 $\vmu\in\R^n$，$\mSigma\in\R^{n\times n}$ 对称正定。若随机向量 $\vx\in\R^n$ 的密度为
+\begin{equation}\label{eq:mvn}
+\Normal(\vx;\vmu,\mSigma)=\frac{1}{(2\pi)^{n/2}(\det\mSigma)^{1/2}}
+\exp\Big(-\frac12(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)\Big),
+\end{equation}
+则称 $\vx$ 服从均值为 $\vmu$、协方差为 $\mSigma$ 的多元高斯分布，记 $\vx\sim\Normal(\vmu,\mSigma)$。矩阵 $\mLambda:=\mSigma^{-1}$ 称为\textbf{精度矩阵}。
+\end{definition}
+
+要说明这个定义是合理的，需要验证三件事：它确实是一个概率密度（积分为 $1$）；它的均值确实是 $\vmu$；它的协方差确实是 $\mSigma$。
+
+\subsection{归一化常数的推导}
+
+\begin{proposition}\label{prop:normalize}
+$\displaystyle\int_{\R^n}\exp\Big(-\frac12(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)\Big)\dd\vx=(2\pi)^{n/2}(\det\mSigma)^{1/2}$。
+\end{proposition}
+
+\begin{proof}
+思路是用谱定理把二次型对角化，把 $n$ 重积分化为 $n$ 个一元高斯积分之积。
+
+由谱定理，$\mSigma=\mQ\mLambda\mQ^\T$，$\mLambda=\diag(\lambda_1,\dots,\lambda_n)$，$\lambda_i>0$。作换元
+\[
+\vx-\vmu=\mQ\mLambda^{1/2}\vw,\qquad\text{即}\quad \vx=\mSigma^{1/2}\mQ\,\vw+\vmu\ \ (\text{也可直接取 }\vx=\mQ\mLambda^{1/2}\vw+\vmu).
+\]
+按定理~\ref{thm:change-var}，$\dd\vx=|\det(\mQ\mLambda^{1/2})|\dd\vw=\prod_i\sqrt{\lambda_i}\dd\vw=(\det\mSigma)^{1/2}\dd\vw$（用到 $|\det\mQ|=1$）。而
+\[
+(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)
+=\vw^\T\mLambda^{1/2}\mQ^\T\,\mQ\mLambda^{-1}\mQ^\T\,\mQ\mLambda^{1/2}\vw
+=\vw^\T\vw=\sum_{i=1}^n w_i^2 .
+\]
+于是
+\begin{align*}
+\int_{\R^n}e^{-\frac12(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)}\dd\vx
+&=(\det\mSigma)^{1/2}\int_{\R^n}e^{-\frac12\sum_iw_i^2}\dd\vw\\
+&=(\det\mSigma)^{1/2}\prod_{i=1}^n\int_{\R}e^{-w_i^2/2}\dd w_i
+=(\det\mSigma)^{1/2}(2\pi)^{n/2}.
+\end{align*}
+\end{proof}
+
+上面证明中的换元 $\vw=\mLambda^{-1/2}\mQ^\T(\vx-\vmu)$ 称为\textbf{白化}：它把一般的高斯变量变成各分量独立的标准正态变量。反过来说，任何多元高斯变量都可以写成 $\vx=\vmu+\mSigma^{1/2}\vw$，其中 $\vw\sim\Normal(\vzero,\mI)$。这一观点使得均值与协方差的计算变得非常简单。
+
+\subsection{均值与协方差}
+
+\begin{proposition}
+若 $\vx\sim\Normal(\vmu,\mSigma)$，则 $\E[\vx]=\vmu$，$\Cov[\vx]=\mSigma$。
+\end{proposition}
+
+\begin{proof}
+先处理标准情形 $\vw\sim\Normal(\vzero,\mI)$：其密度 $\prod_i(2\pi)^{-1/2}e^{-w_i^2/2}$ 是各分量密度之积，故各 $w_i$ 独立同分布于 $\Normal(0,1)$，于是 $\E[\vw]=\vzero$，$\Cov[\vw]=\E[\vw\vw^\T]=\mI$（对角元 $\E[w_i^2]=1$，非对角元 $\E[w_iw_j]=\E[w_i]\E[w_j]=0$）。
+
+一般情形，由~\eqref{eq:density-transform} 反推：$\vx=\mSigma^{1/2}\vw+\vmu$ 的密度恰为~\eqref{eq:mvn}（读者可代入验证，注意 $|\det\mSigma^{1/2}|=(\det\mSigma)^{1/2}$）。因此
+\[
+\E[\vx]=\mSigma^{1/2}\E[\vw]+\vmu=\vmu,\qquad
+\Cov[\vx]=\E\big[\mSigma^{1/2}\vw\vw^\T\mSigma^{1/2}\big]=\mSigma^{1/2}\,\mI\,\mSigma^{1/2}=\mSigma .
+\]
+\end{proof}
+
+\subsection{仿射变换保持高斯性}
+
+\begin{theorem}[仿射变换]\label{thm:affine}
+设 $\vx\sim\Normal(\vmu,\mSigma)$，$\vx\in\R^n$，$\mA\in\R^{k\times n}$ 行满秩（$k\le n$），$\vb\in\R^k$。则
+\[
+\mA\vx+\vb\sim\Normal(\mA\vmu+\vb,\ \mA\mSigma\mA^\T).
+\]
+\end{theorem}
+
+\begin{proof}
+均值与协方差直接由线性性得到：$\E[\mA\vx+\vb]=\mA\vmu+\vb$，$\Cov[\mA\vx+\vb]=\mA\,\Cov[\vx]\,\mA^\T=\mA\mSigma\mA^\T$，且由命题~\ref{prop:pd}(4)，$\mA\mSigma\mA^\T=(\mA\mSigma^{1/2})(\mA\mSigma^{1/2})^\T\succ 0$。
+
+剩下要证的是分布仍为高斯。若 $k=n$（$\mA$ 可逆），由~\eqref{eq:density-transform}，$\vy=\mA\vx+\vb$ 的密度为
+\begin{align*}
+&\frac{1}{|\det\mA|}\Normal\big(\mA^{-1}(\vy-\vb);\vmu,\mSigma\big)\\
+&\qquad=\frac{1}{(2\pi)^{n/2}|\det\mA|(\det\mSigma)^{1/2}}
+\exp\Big(-\frac12(\vy-\mA\vmu-\vb)^\T\mA^{-\T}\mSigma^{-1}\mA^{-1}(\vy-\mA\vmu-\vb)\Big),
+\end{align*}
+其中我们用了 $\mA^{-1}(\vy-\vb)-\vmu=\mA^{-1}(\vy-\mA\vmu-\vb)$。注意 $\mA^{-\T}\mSigma^{-1}\mA^{-1}=(\mA\mSigma\mA^\T)^{-1}$，且 $|\det\mA|\,(\det\mSigma)^{1/2}=\big(\det(\mA\mSigma\mA^\T)\big)^{1/2}$，这正是 $\Normal(\vy;\mA\vmu+\vb,\mA\mSigma\mA^\T)$。
+
+若 $k<n$，把 $\mA$ 补成可逆方阵 $\widetilde{\mA}=\begin{pmatrix}\mA\\ \mA'\end{pmatrix}$（在 $\mA$ 的行空间的正交补中任选 $n-k$ 个线性无关的行），则 $\widetilde{\mA}\vx+\widetilde{\vb}$ 是 $n$ 维高斯，而 $\mA\vx+\vb$ 是它的前 $k$ 个分量，即它的一个边缘分布。边缘分布仍是高斯这一事实将在定理~\ref{thm:marginal} 中证明（那里的证明不依赖本定理）。
+\end{proof}
+
+\begin{remark}
+定理~\ref{thm:affine} 说明：高斯族在仿射变换下封闭，且只需追踪均值与协方差这两个量。这是高斯分布在概率论、统计和机器学习中如此好用的根本原因。
+\end{remark}
+
+\subsection{几何图像}
+
+密度~\eqref{eq:mvn} 的等高线由 $(\vx-\vmu)^\T\mSigma^{-1}(\vx-\vmu)=c$ 给出。由~\eqref{eq:quad-diag}，在以 $\vmu$ 为原点、以特征向量 $\bm{q}_i$ 为坐标轴的坐标系下，这个方程是 $\sum_i w_i^2/\lambda_i=c$，即一个椭球：主轴方向是 $\mSigma$ 的特征向量，半轴长与 $\sqrt{\lambda_i}$ 成比例。协方差越大的方向，分布越"扁长"。
+

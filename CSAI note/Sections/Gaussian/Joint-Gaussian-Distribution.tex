@@ -1,0 +1,157 @@
+% !TeX root = ../../Gaussian.tex
+\section{两个高维随机变量的联合高斯分布 \texorpdfstring{$P(\vx,\vy)$}{P(x,y)}}\label{sec:joint}
+
+\subsection{设定与联合密度}
+
+现在设 $\vx\in\R^n$、$\vy\in\R^m$，并把它们拼成一个 $(n+m)$ 维向量
+\[
+\vz=\begin{pmatrix}\vx\\ \vy\end{pmatrix}\in\R^{n+m}.
+\]
+所谓"$\vx$ 与 $\vy$ 联合高斯"，就是指 $\vz\sim\Normal(\vmu,\mSigma)$。把均值与协方差按同样方式分块：
+\begin{equation}\label{eq:partition}
+\vmu=\begin{pmatrix}\vmu_x\\ \vmu_y\end{pmatrix},\qquad
+\mSigma=\begin{pmatrix}\mSigma_{xx}&\mSigma_{xy}\\ \mSigma_{yx}&\mSigma_{yy}\end{pmatrix},\qquad
+\mSigma_{xx}\in\R^{n\times n},\ \mSigma_{yy}\in\R^{m\times m},\ \mSigma_{yx}=\mSigma_{xy}^\T .
+\end{equation}
+这里 $\vmu_x=\E[\vx]$，$\vmu_y=\E[\vy]$，$\mSigma_{xx}=\Cov[\vx]$，$\mSigma_{yy}=\Cov[\vy]$，$\mSigma_{xy}=\Cov[\vx,\vy]$。
+
+于是联合密度的\textbf{表达式}就是把~\eqref{eq:mvn} 写在 $\vz$ 上：
+\begin{equation}\label{eq:joint}
+\boxed{\;
+P(\vx,\vy)=\frac{1}{(2\pi)^{(n+m)/2}\,(\det\mSigma)^{1/2}}
+\exp\!\left(-\frac12
+\begin{pmatrix}\vx-\vmu_x\\ \vy-\vmu_y\end{pmatrix}^{\!\T}
+\begin{pmatrix}\mSigma_{xx}&\mSigma_{xy}\\ \mSigma_{yx}&\mSigma_{yy}\end{pmatrix}^{\!-1}
+\begin{pmatrix}\vx-\vmu_x\\ \vy-\vmu_y\end{pmatrix}
+\right).\;}
+\end{equation}
+写下它并不困难，真正有内容的问题是：\emph{这个分块矩阵的逆是什么？指数如何展开？由此能读出什么？} 以下逐步回答。
+
+\subsection{第一步：用 Schur 补写出精度矩阵}
+
+记精度矩阵 $\mLambda=\mSigma^{-1}$ 并同样分块为 $\begin{pmatrix}\mLambda_{xx}&\mLambda_{xy}\\ \mLambda_{yx}&\mLambda_{yy}\end{pmatrix}$。由命题~\ref{prop:schur-pd}，$\mSigma_{xx}\succ 0$，且 Schur 补
+\begin{equation}\label{eq:schur-S}
+\mS:=\mSigma_{yy}-\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}\ \succ 0 .
+\end{equation}
+把定理~\ref{thm:blockinv} 用于 $\mSigma$（取 $\mA=\mSigma_{xx}$，$\mB=\mSigma_{xy}$，$\mC=\mSigma_{yx}$，$\mD=\mSigma_{yy}$）得到
+\begin{equation}\label{eq:precision-blocks}
+\begin{aligned}
+\mLambda_{xx}&=\mSigma_{xx}^{-1}+\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1},
+&\mLambda_{xy}&=-\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1},\\
+\mLambda_{yx}&=-\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1},
+&\mLambda_{yy}&=\mS^{-1}.
+\end{aligned}
+\end{equation}
+同时由定理~\ref{thm:blockdet}，
+\begin{equation}\label{eq:det-split}
+\det\mSigma=\det\mSigma_{xx}\cdot\det\mS .
+\end{equation}
+
+\begin{remark}
+\eqref{eq:precision-blocks} 中最值得注意的是 $\mLambda_{yy}=\mS^{-1}$：精度矩阵的一个对角块，等于协方差矩阵中对应块的 Schur 补的逆，而\emph{不}等于 $\mSigma_{yy}^{-1}$。这一点在后面解释"条件协方差"时会再出现。
+\end{remark}
+
+\subsection{第二步：展开指数}
+
+令 $\vu=\vx-\vmu_x$，$\vv=\vy-\vmu_y$。指数中的二次型是
+\[
+\Delta^2:=\begin{pmatrix}\vu\\ \vv\end{pmatrix}^{\!\T}\mSigma^{-1}\begin{pmatrix}\vu\\ \vv\end{pmatrix}.
+\]
+把命题~\ref{prop:quad-schur} 直接套用于 $\mM=\mSigma$，得到
+\begin{equation}\label{eq:exp-split}
+\Delta^2=\underbrace{\vu^\T\mSigma_{xx}^{-1}\vu}_{\text{只含 }\vx}
++\underbrace{\big(\vv-\mSigma_{yx}\mSigma_{xx}^{-1}\vu\big)^\T\mS^{-1}\big(\vv-\mSigma_{yx}\mSigma_{xx}^{-1}\vu\big)}_{\text{关于 }\vy\text{ 的完全平方}} .
+\end{equation}
+
+为了让读者看到"配方"是如何发生的，这里再给出一个不借助命题~\ref{prop:quad-schur}、而是直接用精度矩阵分块~\eqref{eq:precision-blocks} 和引理~\ref{lem:complete-square} 的推导。按块展开：
+\[
+\Delta^2=\vu^\T\mLambda_{xx}\vu+2\vu^\T\mLambda_{xy}\vv+\vv^\T\mLambda_{yy}\vv .
+\]
+把它看作 $\vv$ 的二次函数：$\vv^\T\mLambda_{yy}\vv+2(\mLambda_{yx}\vu)^\T\vv$，由引理~\ref{lem:complete-square}（$\mD=\mLambda_{yy}$，$\bm{b}=\mLambda_{yx}\vu$）：
+\[
+\vv^\T\mLambda_{yy}\vv+2(\mLambda_{yx}\vu)^\T\vv
+=(\vv+\mLambda_{yy}^{-1}\mLambda_{yx}\vu)^\T\mLambda_{yy}(\vv+\mLambda_{yy}^{-1}\mLambda_{yx}\vu)
+-\vu^\T\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}\vu .
+\]
+代入~\eqref{eq:precision-blocks}：$\mLambda_{yy}^{-1}\mLambda_{yx}=-\mS\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1}=-\mSigma_{yx}\mSigma_{xx}^{-1}$，所以完全平方项的中心是 $\vv-\mSigma_{yx}\mSigma_{xx}^{-1}\vu$，精度是 $\mLambda_{yy}=\mS^{-1}$。剩余部分为
+\begin{align*}
+\vu^\T\big(\mLambda_{xx}-\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}\big)\vu
+&=\vu^\T\Big(\mSigma_{xx}^{-1}+\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1}
+-\mSigma_{xx}^{-1}\mSigma_{xy}\mS^{-1}\,\mS\,\mS^{-1}\mSigma_{yx}\mSigma_{xx}^{-1}\Big)\vu\\
+&=\vu^\T\mSigma_{xx}^{-1}\vu ,
+\end{align*}
+与~\eqref{eq:exp-split} 一致。顺便注意到一个对偶的事实：$\mLambda_{xx}-\mLambda_{xy}\mLambda_{yy}^{-1}\mLambda_{yx}=\mSigma_{xx}^{-1}$，即\emph{精度矩阵的 Schur 补等于协方差矩阵对应块的逆}。
+
+\subsection{第三步：联合密度的乘积分解}
+
+把~\eqref{eq:exp-split} 与~\eqref{eq:det-split} 代回~\eqref{eq:joint}，并把常数按 $(2\pi)^{(n+m)/2}=(2\pi)^{n/2}(2\pi)^{m/2}$ 拆开：
+\begin{align}
+P(\vx,\vy)
+&=\frac{1}{(2\pi)^{n/2}(\det\mSigma_{xx})^{1/2}}\exp\Big(-\tfrac12(\vx-\vmu_x)^\T\mSigma_{xx}^{-1}(\vx-\vmu_x)\Big)\notag\\
+&\quad\times\frac{1}{(2\pi)^{m/2}(\det\mS)^{1/2}}\exp\Big(-\tfrac12\big(\vy-\vmu_{y|x}\big)^\T\mS^{-1}\big(\vy-\vmu_{y|x}\big)\Big),
+\label{eq:product}
+\end{align}
+其中
+\begin{equation}\label{eq:cond-mean}
+\vmu_{y|x}:=\vmu_y+\mSigma_{yx}\mSigma_{xx}^{-1}(\vx-\vmu_x).
+\end{equation}
+也就是说，
+\begin{equation}\label{eq:factor}
+\boxed{\;P(\vx,\vy)=\Normal(\vx;\vmu_x,\mSigma_{xx})\cdot\Normal\big(\vy;\ \vmu_y+\mSigma_{yx}\mSigma_{xx}^{-1}(\vx-\vmu_x),\ \mSigma_{yy}-\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}\big).\;}
+\end{equation}
+这个式子是本讲义的中心结论，下面两个定理只是对它的解读。
+
+\subsection{边缘分布}
+
+\begin{theorem}[边缘分布]\label{thm:marginal}
+若 $\begin{pmatrix}\vx\\ \vy\end{pmatrix}\sim\Normal\Big(\begin{pmatrix}\vmu_x\\ \vmu_y\end{pmatrix},\begin{pmatrix}\mSigma_{xx}&\mSigma_{xy}\\ \mSigma_{yx}&\mSigma_{yy}\end{pmatrix}\Big)$，则
+\[
+P(\vx)=\int_{\R^m}P(\vx,\vy)\dd\vy=\Normal(\vx;\vmu_x,\mSigma_{xx}),\qquad
+P(\vy)=\Normal(\vy;\vmu_y,\mSigma_{yy}).
+\]
+\end{theorem}
+
+\begin{proof}
+对~\eqref{eq:factor} 关于 $\vy$ 积分。第一个因子与 $\vy$ 无关；第二个因子是关于 $\vy$ 的高斯密度 $\Normal(\vy;\vmu_{y|x},\mS)$（$\mS\succ 0$ 已由~\eqref{eq:schur-S} 保证，而 $\vmu_{y|x}$ 只是一个依赖于 $\vx$ 的常向量），由命题~\ref{prop:normalize} 其积分为 $1$。故 $P(\vx)=\Normal(\vx;\vmu_x,\mSigma_{xx})$。对 $P(\vy)$，交换 $\vx,\vy$ 的角色（即对 $\mSigma_{yy}$ 取 Schur 补）即可。
+\end{proof}
+
+结论非常直观：\emph{高斯向量的一部分分量仍是高斯的，其均值与协方差就是原均值、协方差中对应的块}——直接"读"出来即可，不需要任何计算。
+
+\subsection{条件分布}
+
+\begin{theorem}[条件分布]\label{thm:conditional}
+在定理~\ref{thm:marginal} 的设定下，
+\begin{equation}\label{eq:conditional}
+P(\vy\mid\vx)=\Normal\big(\vy;\ \vmu_{y|x},\ \mSigma_{y|x}\big),\qquad
+\begin{cases}
+\vmu_{y|x}=\vmu_y+\mSigma_{yx}\mSigma_{xx}^{-1}(\vx-\vmu_x),\\[2pt]
+\mSigma_{y|x}=\mSigma_{yy}-\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}=\mLambda_{yy}^{-1}.
+\end{cases}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+由定义 $P(\vy\mid\vx)=P(\vx,\vy)/P(\vx)$，用~\eqref{eq:factor} 与定理~\ref{thm:marginal} 相除，第一个因子恰好约去。
+\end{proof}
+
+对~\eqref{eq:conditional} 的几点解读：
+\begin{enumerate}[nosep]
+  \item \textbf{条件均值是 $\vx$ 的仿射函数。} 系数矩阵 $\mSigma_{yx}\mSigma_{xx}^{-1}$ 正是"用 $\vx$ 线性回归 $\vy$"的最优系数；$\vx$ 偏离其均值多少，就按这个矩阵成比例地修正对 $\vy$ 的预期。
+  \item \textbf{条件协方差不依赖于 $\vx$ 的取值}，且 $\mSigma_{y|x}\preceq\mSigma_{yy}$（因为 $\mSigma_{yx}\mSigma_{xx}^{-1}\mSigma_{xy}\succeq 0$）：观测到 $\vx$ 之后，关于 $\vy$ 的不确定性只会减少或不变。
+  \item \textbf{用精度矩阵表述更简洁：} $\mSigma_{y|x}=\mLambda_{yy}^{-1}$，$\vmu_{y|x}=\vmu_y-\mLambda_{yy}^{-1}\mLambda_{yx}(\vx-\vmu_x)$。这说明精度矩阵"天然适合"描述条件分布，而协方差矩阵"天然适合"描述边缘分布。
+\end{enumerate}
+
+\subsection{独立性}
+
+\begin{corollary}
+联合高斯的 $\vx$ 与 $\vy$ 相互独立，当且仅当 $\mSigma_{xy}=\vzero$（不相关）。
+\end{corollary}
+
+\begin{proof}
+若 $\mSigma_{xy}=\vzero$，则~\eqref{eq:factor} 中 $\vmu_{y|x}=\vmu_y$、$\mS=\mSigma_{yy}$，联合密度化为 $\Normal(\vx;\vmu_x,\mSigma_{xx})\Normal(\vy;\vmu_y,\mSigma_{yy})=P(\vx)P(\vy)$。反之独立蕴含不相关对任何分布都成立。
+\end{proof}
+
+\begin{remark}
+"不相关 $\Rightarrow$ 独立"对一般分布不成立，它是高斯分布的特殊性质。此外，"$\vx$、$\vy$ 各自高斯"并不能推出"$(\vx,\vy)$ 联合高斯"，联合高斯是一个更强的假设。
+\end{remark}
+

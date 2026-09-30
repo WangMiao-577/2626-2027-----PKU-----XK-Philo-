@@ -1,10 +1,9 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  17 SEP 2026 14:38
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.8.24)  30 SEP 2026 11:02
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/home/simson/latex/CSAI note/ICS.tex"
-(/home/simson/latex/CSAI note/ICS.tex
+**./ICS.tex
+(ICS.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
 (/home/simson/.miktex/texmfs/install/tex/latex/ctex/ctexart.cls
@@ -1702,7 +1701,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
 
-[1]
+[1] (Sections/ICS/Introduction.tex)
+(Sections/ICS/Representation-and-Manipulation-of-Information.tex
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.64723pt, for example:
@@ -1756,7 +1756,7 @@ Package fontspec Info:
 t;"
 
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.53937> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 476.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 184.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1781,7 +1781,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
 
-[6]
+[6]) (Sections/ICS/Machine-Level-Programming.tex
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.64723pt, for example:
@@ -1831,7 +1831,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.64723pt}.
 
-[12]
+[12])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.64723pt, for example:
@@ -1853,12 +1853,12 @@ Package rerunfilecheck Info: File `ICS.out' has not changed.
 (rerunfilecheck)             Checksum: 0C8652E322AE445A22C4872A773193FE;3748.
  ) 
 Here is how much of TeX's memory you used:
- 45646 strings out of 404899
- 1150669 string characters out of 5480821
- 2063904 words of memory out of 5000000
- 73575 multiletter control sequences out of 15000+600000
+ 45670 strings out of 404899
+ 1151744 string characters out of 5480821
+ 2064353 words of memory out of 5000000
+ 73590 multiletter control sequences out of 15000+600000
  636290 words of font info for 133 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 107i,17n,118p,1216b,1943s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 107i,17n,118p,1187b,1943s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on ICS.pdf (15 pages).

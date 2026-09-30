@@ -1,0 +1,324 @@
+% !TeX root = ../VCL note.tex
+\section{几何（Geometry）}
+
+这里计算机图形学的研究范围拓广到了三维，主要研究3D图像的建模问题。首先是介绍性的内容：如何在计算机上编码和表达一个三维物体？首先是显式表达方法：
+
+\begin{itemize}
+    \item Explicit:显式表达，计算效率更高。
+    \begin{enumerate}
+        \item Point Cloud（点云）
+        \item Polygon mesh（多边形网格，最经典和重要）
+        \item Subdivision surface
+    \end{enumerate}
+    \item Implicit:隐式表达，适合表达更需要细节的内容
+\end{itemize}
+
+以上所有方法都是建立三维到二维的映射并进行二维存储。
+
+\subsection{多边形网格Polygon mesh}
+
+\subsubsection{Triangle Mesh的存储}
+
+在计算机图形学（Computer Graphics）里，.obj 通常指 Wavefront OBJ 文件，是一种非常经典的三维模型文件格式。下文以obj格式为例。
+
+多边形网格（polygon mesh）的通用表示是三张表：vertex table（顶点表）、edge table（边表）和 polygon-surface table（面表）。顶点表逐个记录顶点坐标，$V_1: x_1, y_1, z_1$ 到 $V_5: x_5, y_5, z_5$；边表记录每条边的两个端点，$E_1: V_1, V_2$，$E_2: V_2, V_3$，$E_3: V_3, V_1$，$E_4: V_3, V_4$，$E_5: V_4, V_5$，$E_6: V_5, V_1$；面表记录每个面由哪些边围成，$S_1: E_1, E_2, E_3$，$S_2: E_3, E_4, E_5, E_6$。另外，多面体上还有欧拉定理：$v - e + f = 2$。
+
+最简单的存储三角形的方法是Triangle Soup，按照三角形的编号依次存储。三个点有序编号，可以看出三角形的三维朝向。例如
+\[
+\begin{gathered}
+\text{tris}[0] = \{(x_0, y_0, z_0), (x_2, y_2, z_2), (x_1, y_1, z_1)\} \\
+\text{tris}[1] = \{(x_0, y_0, z_0), (x_3, y_3, z_3), (x_2, y_2, z_2)\}
+\end{gathered}
+\]
+这个方法的问题是一个点可能有好几个编号，非常混乱。
+
+稍微高效一点的是obj的list of vertices和list of indexed triangles。存储所有顶点的坐标，以及用下标储存的面的列表：verts[0], verts[1], $\cdots$ 依次是 $(x_0, y_0, z_0)$、$(x_1, y_1, z_1)$、$(x_2, y_2, z_2)$、$(x_3, y_3, z_3)$ 等等，tInd[0] $= 0, 2, 1$，tInd[1] $= 0, 3, 2$。它比 Triangle Soup 复杂，但共享顶点位置信息，内存占用更小；改动一个顶点在三维空间中的位置，所有用到它的多边形都会跟着移动，网格的完整性因此得到保证。
+
+上述方法在读取和翻译时，由于后面的边集合每个都用形如（起点，终点，所在三角形）的三元组表示，依据三角形对三元组进行排序，依次找出三角形对应的边和公共边集合。以找三角形的邻居为例，先把顶点位置写成一个向量
+\[
+\mathbf{x} = \begin{bmatrix} \mathbf{x}_0 \\ \vdots \\ \mathbf{x}_i \\ \vdots \\ \mathbf{x}_{10} \end{bmatrix} \in \mathbf{R}^{33}
+\]
+（共 11 个顶点，每个 3 个坐标）。三角形列表是一串下标三元组：$\{(0,1,2), (2,1,4), (2,4,3), \cdots\}$。把每个三角形的三条边都写成（起点，终点，所在三角形）的三元组，得到 triangle edge list：
+\[
+\{\{0,1,0\}, \{1,2,0\}, \{0,2,0\}; \{1,2,1\}, \{1,4,1\}, \{2,4,1\}, \{1,4,2\}, \cdots\}
+\]
+（最后一位是三角形编号）。对它 sort and remove，同一条边的记录就排到了一起，得到按边组织、仍带三角形编号的 edge list：
+\[
+\begin{gathered}
+\{\{0,1,0\}, \{0,2,0\}, \{0,2,4\}, \{0,9,4\}, \{0,9,5\}, \{0,10,5\}, \cdots \\
+\{1,2,0\}, \{1,2,1\}, \{1,4,1\}, \{2,3,2\}, \{2,3,3\}, \{2,4,1\}, \{2,4,2\}, \cdots\}
+\end{gathered}
+\]
+以及只留端点对的 edge list：$\{\{0,1\}, \{0,2\}, \{0,9\}, \{0,10\}, \{1,2\}, \{1,3\}, \{1,4\}, \cdots\}$，由此得到相邻三角形列表 neighboring triangle list：$\{\{0,1\}, \{1,2\}\}$，即边 $\{0,1\}$ 由三角形 0 和 1 共用，边 $\{1,2\}$ 由三角形 1 和 2 共用。反过来，如何找顶点的邻居？
+
+针对以上方法的局限性，发展出了半边的数据结构。每一条边可对应双方向两个三角形。
+
+其中的关键想法是：把每条边拆成两条方向相反的有向半边（half-edge），一条归它一侧的面，另一条归另一侧的面，两条半边互为 twin（孪生）。这样一来网格中就不再有孤立的元素：顶点、边、面各自指向自己的一条半边，互为 twin 的两条半边把相邻的两个面“粘”在一起，从任何一个元素出发都能顺着这些指针走遍整个网格。
+
+单看一条边：它被拆成方向相反的两条半边，一条属于它左侧的面，一条属于它右侧的面，二者互为 twin，边本身只是装这两条半边的容器。同一条半边在它所属的面内还有下一条半边 next，沿着 next 就能绕着这个面走一圈。
+
+四个结构体的定义如下：
+
+\begin{lstlisting}[style=MyCppStyle]
+struct Halfedge {
+    Halfedge *twin;   // 孪生半边
+    Halfedge *next;   // 同一个面内的下一条半边
+    Vertex   *vertex; // 指向的顶点
+    Edge     *edge;   // 所属的边
+    Face     *face;   // 所属的面
+};
+
+struct Vertex {
+    Vec3      pos;      // 顶点位置
+    Halfedge *halfedge; // 该顶点的一条半边
+};
+
+struct Edge {
+    Halfedge *halfedge; // 该边的一条半边，另一半由 twin 找到
+};
+
+struct Face {
+    Halfedge *halfedge; // 该面的一条半边
+};
+\end{lstlisting}
+
+有了这些指针，遍历的代码可以写得很短。第一个例子是遍历一个面的所有顶点：
+
+\begin{lstlisting}[style=MyCppStyle]
+Halfedge* h = f->halfedge;
+do
+    do_work(h->vertex);
+    h = h->next;
+while (h != f->halfedge);
+\end{lstlisting}
+
+从面 f 的某条半边出发，每次处理当前半边指向的顶点 h->vertex，再沿 next 走到同一个面内的下一条半边，绕一圈回到起点为止。整个过程只用到 next 一个指针。
+
+第二个例子是遍历一个顶点周围的所有边：
+
+\begin{lstlisting}[style=MyCppStyle]
+Halfedge* h = v->halfedge;
+do
+    do_work(h->edge);
+    h = h->twin->next;
+while (h != v->halfedge);
+\end{lstlisting}
+
+从顶点 v 的某条半边出发，先处理它所在的边 h->edge，再走 twin 跨到相邻的那个三角形、接 next 转回同一个顶点，如此绕着顶点走一圈。halfedge、twin、next 三个箭头依次把顶点周围的边串了起来。
+
+参考：\url{https://jerryyin.info/geometry-processing-algorithms/half-edge/}
+
+需要补充的是相比三角形网格，四边形网格容易变得平滑，且容易进行存储。很显然你QuadMesh的存储方法非常简单，但是想要得到平滑的表面需要多得多的空间。
+
+\subsection{Subdivision Surface}
+
+中文翻译细分曲面，指的是通过不断增加控制点，不断细分插值，由从一个比较粗糙、低多边形的控制网格出发，通过不断“切小 + 调整顶点位置”，逐渐逼近一个光滑曲面。主要介绍两种算法
+
+\subsubsection{Catmull Clark 细分算法}
+
+这个算法中的很多权重来源于工程经验，没有什么特别的依据和数学定理。这个算法主要是用来根据新加入的控制点更新顶点的。
+
+一次细分做的事情是：往原来的每个面里放一个新的点（face point），往每条边上放一个新的点（edge point），再把原来的每个顶点挪到一个新的位置（vertex point），最后按规则把这些点连起来。于是原来的一个四边形面被切成四个，网格变密了一层，重复做下去就越来越光滑。
+
+先约定记号。设某个四边形面为 $f$，它环绕一周的四个顶点为 $v_1, v_2, v_3, v_4$；某条边的两个端点为 $v_1, v_2$，它两侧的两个面为 $f_1, f_2$；某个顶点记作 $p$，它周围有 $n$ 个面和 $n$ 条边，这 $n$ 个面记作 $f_1, \ldots, f_n$，和它相连的 $n$ 条边的中点记作 $m_1, \ldots, m_n$。注意 $m$ 只是边的中点（midpoint），和要新增的 edge point 不是一回事。
+
+\textbf{Face point}：取该面所有顶点的平均，也就是这个面的重心
+\[
+f = \frac{v_1 + v_2 + v_3 + v_4}{4}.
+\]
+
+\textbf{Edge point}：不只是取边的两个端点，还要把它两侧的面点也算进来
+\[
+e = \frac{v_1 + v_2 + f_1 + f_2}{4}.
+\]
+
+\textbf{Vertex point}：原来的顶点 $p$ 被更新为
+\[
+v = \frac{1}{n}\left[\frac{f_1 + f_2 + f_3 + f_4}{4} + 2\frac{m_1 + m_2 + m_3 + m_4}{4} + (n-3)p\right],
+\]
+这是图中画的 $n = 4$ 的情形，写成一般形式即
+\[
+v = \frac{1}{n}\left[\frac{1}{n}\sum_{i=1}^{n} f_i + \frac{2}{n}\sum_{i=1}^{n} m_i + (n-3)p\right].
+\]
+括号里三项分别是周围 face point 的平均（权重 1）、周围边中点的平均（权重 2）和顶点自己的原位置（权重 $n-3$），最后整体除以 $n$。三项权重之和为 $1 + 2 + (n-3) = n$，再除 $n$ 恰好归一，所以新的顶点位置是这几项的加权平均，权重本身则来自工程经验。
+
+整个算法的步骤可以概括为：
+
+\begin{enumerate}[nosep]
+    \item 对每个面新增一个 face point，对每条边新增一个 edge point；
+    \item 按上式更新每个原顶点，得到新的 vertex point；
+    \item 把这些点连成新的边：每个 face point 与它所在面各条边的 edge point 相连，每个新的 vertex point 与它周围的 edge point 相连；
+    \item 存下新的面，原来的一个面被切成四个新面（1 old face $\rightarrow$ 4 new）。
+\end{enumerate}
+
+\subsubsection{Loop subdivision}
+
+循环平滑是针对于三角形网格的算法，针对三角形网格实际上就是每一次取中点一分为四，然后迭代更新。
+
+一次迭代只做两件事：在每条边上插入一个新顶点，原来的三角形因此被切成四个小三角形；再把所有的老顶点挪到新的位置。这两件事都只用上一轮的顶点位置来计算，算完之后新顶点和老顶点合在一起构成新的三角形网格，作为下一轮的输入，如此反复迭代，网格越来越密，最后收敛到一张光滑曲面。
+
+\definecolor{loopslideblue}{RGB}{117,185,250}
+\definecolor{slidebluetext}{RGB}{0,112,192}
+
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % ============ 左：一个三角形一分为四 ============
+  \fill[loopslideblue] (1.20,4.04) -- (0.64,3.04) -- (1.76,3.04) -- cycle;
+  \draw[line width=0.03cm] (1.20,4.04) -- (0.64,3.04) -- (1.76,3.04) -- cycle;
+  \draw[->,>=latex,line width=0.03cm] (2.02,3.46) .. controls (2.32,3.74) and (2.62,3.74) .. (2.90,3.52);
+  \fill[loopslideblue] (3.56,4.04) -- (2.99,3.04) -- (4.14,3.04) -- cycle;
+  \draw[dashed,line width=0.03cm] (3.56,4.04) -- (2.99,3.04) -- (4.14,3.04) -- cycle;
+  \draw[dashed,line width=0.03cm] (3.275,3.54) -- (3.85,3.54) -- (3.565,3.04) -- cycle;
+
+  % ============ 左下的红字与公式 ============
+  \node[anchor=west,text=red,font=\bfseries\fontsize{6.5}{8.5}\selectfont] at (0.08,2.66) {1. Add New Vertex (on edge):};
+  \fill (0.31,2.40) circle (0.03);
+  \node[anchor=west,font=\fontsize{7}{8.5}\selectfont] at (0.55,2.37) {Two neighbor faces:};
+  \node[anchor=west,font=\fontsize{7}{8.5}\selectfont] at (0.69,1.87) {$\dfrac{3}{8}(v_0 + v_2) + \dfrac{1}{8}(v_1 + v_3)$};
+  \fill (0.31,1.40) circle (0.03);
+  \node[anchor=west,font=\fontsize{7}{8.5}\selectfont] at (0.55,1.39) {One neighbor faces:};
+  \node[anchor=west,font=\fontsize{7}{8.5}\selectfont] at (3.28,1.39) {$\dfrac{v_0 + v_1}{2}$};
+
+  % ============ 菱形：边上的新顶点 ============
+  \fill[loopslideblue] (5.67,3.70) -- (5.09,2.72) -- (5.67,1.74) -- (6.25,2.72) -- cycle;
+  \draw[line width=0.03cm] (5.67,3.70) -- (5.09,2.72) -- (5.67,1.74) -- (6.25,2.72) -- cycle;
+  \draw[line width=0.03cm] (5.09,2.72) -- (6.25,2.72);
+  \draw[dashed,line width=0.03cm] (5.38,3.21) -- (5.96,3.21);
+  \draw[dashed,line width=0.03cm]
+      (5.67,2.72) -- (5.38,3.21)  (5.67,2.72) -- (5.96,3.21)
+      (5.67,2.72) -- (5.38,2.23)  (5.67,2.72) -- (5.96,2.23);
+  \fill (5.67,3.70) circle (0.055);
+  \fill (5.09,2.72) circle (0.055);
+  \fill (5.67,1.74) circle (0.055);
+  \fill (6.25,2.72) circle (0.055);
+  \draw[line width=0.02cm,fill=white] (5.67,2.72) circle (0.055);
+  \node[font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (5.66,3.92) {1/8};
+  \node[anchor=east,font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (5.00,2.72) {3/8};
+  \node[anchor=west,font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (6.32,2.72) {3/8};
+  \node[font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (5.68,1.51) {1/8};
+  \node[font=\bfseries\fontsize{9}{11}\selectfont] at (5.75,0.90) {New vertices};
+  \node[font=\fontsize{6.5}{8}\selectfont] at (5.70,0.66) {(weighted sum of vertices on};
+  \node[font=\fontsize{6.5}{8}\selectfont] at (5.70,0.44) {split edge, and vertices};
+  \node[font=\fontsize{6.5}{8}\selectfont] at (5.75,0.22) {``across from'' edge)};
+
+  % ============ 六边形：老顶点的更新 ============
+  \coordinate (C) at (9.02,2.72);
+  \coordinate (A1) at (10.15,2.72);
+  \coordinate (A2) at (9.585,3.70);
+  \coordinate (A3) at (8.455,3.70);
+  \coordinate (A4) at (7.89,2.72);
+  \coordinate (A5) at (8.455,1.74);
+  \coordinate (A6) at (9.585,1.74);
+  \fill[loopslideblue] (A1) -- (A2) -- (A3) -- (A4) -- (A5) -- (A6) -- cycle;
+  \draw[line width=0.03cm] (A1) -- (A2) -- (A3) -- (A4) -- (A5) -- (A6) -- cycle;
+  \foreach \i in {1,...,6} \draw[line width=0.03cm] (C) -- (A\i);
+  \draw[dashed,line width=0.03cm] (8.1725,3.21) -- (9.8675,3.21);
+  \draw[dashed,line width=0.03cm]
+      (9.02,3.70) -- (8.7375,3.21)   (9.02,3.70) -- (9.3025,3.21)
+      (9.8675,3.21) -- (9.585,2.72)  (9.8675,3.21) -- (9.3025,3.21)
+      (8.1725,3.21) -- (8.455,2.72)  (8.1725,3.21) -- (8.7375,3.21)
+      (9.8675,2.23) -- (9.585,2.72)  (9.8675,2.23) -- (9.3025,2.23)
+      (8.1725,2.23) -- (8.455,2.72)  (8.1725,2.23) -- (8.7375,2.23)
+      (9.02,1.74) -- (8.7375,2.23)   (9.02,1.74) -- (9.3025,2.23);
+  \foreach \i in {1,...,6} \fill (A\i) circle (0.055);
+  \draw[line width=0.02cm,fill=white] (C) circle (0.055);
+  \node[font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (7.94,3.02) {u};
+  \node[font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (8.44,3.93) {u};
+  \node[font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (9.70,3.90) {u};
+  \node[anchor=west,font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (10.28,2.70) {u};
+  \node[font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (8.35,1.53) {u};
+  \node[font=\bfseries\fontsize{7.5}{9.5}\selectfont] at (9.69,1.52) {u};
+  \node[anchor=east,font=\bfseries\fontsize{8}{10}\selectfont] at (7.80,1.62) {1 - n*u};
+  \draw[->,>=latex,line width=0.03cm] (7.84,1.84) .. controls (7.95,2.30) and (8.35,2.58) .. (8.94,2.70);
+  \node[font=\bfseries\fontsize{9}{11}\selectfont] at (8.93,0.90) {Old vertices};
+  \node[font=\fontsize{6.5}{8}\selectfont] at (8.97,0.66) {(weighted sum of};
+  \node[font=\fontsize{6.5}{8}\selectfont] at (8.97,0.44) {edge adjacent vertices)};
+
+  % ============ 右：老顶点的更新公式 ============
+  \node[anchor=west,text=slidebluetext,font=\bfseries\fontsize{8}{10}\selectfont] at (10.55,3.71) {2. Update Old Vertex:};
+  \node[anchor=west,font=\fontsize{7.5}{9.5}\selectfont] at (10.62,2.98) {$\mathbf{v}' = (1 - n * u)\mathbf{v} + \sum\limits_{i=1}^{n} u v_i$};
+  \node[anchor=west,font=\fontsize{7}{8.5}\selectfont] at (10.57,2.09) {n = vertex degree};
+  \node[anchor=west,font=\fontsize{7}{8.5}\selectfont] at (10.57,1.72) {u = 3/16 if n = 3, 3/(8n) otherwise};
+\end{tikzpicture}
+\end{center}
+
+\textbf{第一步：新增边点（add new vertex on edge）。}设被分裂的边为 $(v_0, v_2)$，它两侧的三角形中各有一个“对着这条边”的顶点（across from edge），记为 $v_1, v_3$。当这条边被两个面共用时，新顶点取
+\[
+v_{\text{new}} = \frac{3}{8}(v_0 + v_2) + \frac{1}{8}(v_1 + v_3).
+\]
+四个权重之和为 $\frac{3}{8} + \frac{3}{8} + \frac{1}{8} + \frac{1}{8} = 1$，所以新顶点仍然是老顶点的加权平均，只不过它明显更靠近自己所在的那条边的两个端点（各占 $3/8$），两个“对面顶点”各只出 $1/8$。如果这条边只有一个相邻面（边界边，one neighbor face），就直接取中点
+\[
+v_{\text{new}} = \frac{v_0 + v_1}{2}.
+\]
+图中菱形画的就是内部边的情形：中间的白点是要新增的顶点，左右两个 $3/8$ 是被分裂边的两个端点，上下两个 $1/8$ 则是两个三角形里对着这条边的顶点。
+
+\textbf{第二步：更新老顶点（update old vertex）。}设顶点 $v$ 的度为 $n$（周围邻居顶点的个数），它的 $n$ 个邻居顶点为 $v_1, \ldots, v_n$，则
+\[
+v' = (1 - nu)v + \sum_{i=1}^{n} u v_i, \qquad
+u = \begin{cases}
+3/16, & n = 3, \\
+3/(8n), & n \neq 3.
+\end{cases}
+\]
+每个邻居分到权重 $u$，顶点自己保留 $1 - nu$，两者相加 $(1 - nu) + nu = 1$，所以新位置同样是加权平均。注意当 $n \neq 3$ 时 $nu$ 恒等于 $3/8$：不管周围有几个邻居，顶点让出去的权重总量是固定的，这样网格疏密不均的地方也能过渡得比较均匀；度为 3 的顶点则单独给一个稍大的 $3/16$ 作为补偿。图中六边形画的是这一步，中心的白点是待更新的老顶点，周围一圈标 $u$ 的是它的邻居，箭头指出的 $1 - nu$ 是它留给自己的权重。
+
+把这两步放在一起看，迭代的过程就是：
+
+\begin{itemize}[nosep]
+    \item 新顶点只依赖上一轮的位置，老顶点也只依赖上一轮的位置，两者互不依赖，因此同一轮里所有顶点的更新可以完全并行；
+    \item 一轮迭代之后三角形个数变成原来的四倍（每条边多出一个顶点，每个三角形被切成了四个），而且切出来的还是三角形，所以可以无限迭代下去；
+    \item 网格一轮比一轮密，极限是一张光滑曲面；由于每次都是固定系数的线性组合，极限曲面只由最初的控制网格决定；
+    \item 除了少数度不为 6 的奇异点（extraordinary vertex）附近只有 $C^1$ 连续外，Loop 细分曲面的极限基本都是 $C^2$ 连续的。
+\end{itemize}
+
+\subsection{Mesh Parameterization}
+
+参数化（parameterization）就是给曲面与一块二维区域建立\textbf{一一对应}：网格上的每个顶点 $\mathbf{s}_i = (x_i, y_i, z_i)$ 都要在平面上找到自己的位置 $\mathbf{t}_i = (u_i, v_i)$，于是弯曲的曲面被“摊平”成平面上的一张网格。最常见的用途是纹理映射——把一张二维图片贴到三维模型上；世界地图也是同一件事，球面用 $\theta, \varphi$ 参数化成 $x = R\cos\theta\cos\varphi$、$y = R\sin\theta\cos\varphi$、$z = R\sin\varphi$ 之后画到纸上，就是立体投影、墨卡托投影、朗伯投影这些不同的画法。
+
+摊平必然带来形变，所以还要说明希望保留什么几何量：等距（isometric，保长度）、等面积（equiareal）、保角（conformal），其中保角加等面积才是等距。一般曲面做不到等距，只有可展曲面（developable surface）能真正无失真地摊开，一般曲面只能尽量减少畸变。参数化的目标区域可以是平面（planar）、球面（spherical）或基域（simplicial）等，这里只看平面参数化。开网格（open mesh）分固定边界和自由边界两种处理方式；闭网格（closed mesh）没有边界，得先把它剪开、人为造出一条边界，再当作开网格摊平。
+
+\textbf{弹簧系统（spring system）}是平面参数化里最直观的一种做法。把网格的每条边看成一根弹簧，劲度系数为 $D_{ij}$；已知的是三维网格的顶点位置 $\mathbf{s}_i$，要求的是它们在平面上的位置 $\mathbf{t}_i$。把边界顶点按顺序钉在一个凸多边形上不动，让内部的顶点自由滑动，弹簧的总弹性势能就是
+
+\[
+E = \frac{1}{2}\sum_{i=1}^{n}\sum_{j\in N_i}\frac{1}{2}D_{ij}\|\mathbf{t}_i - \mathbf{t}_j\|^2,
+\]
+
+其中 $N_i$ 是顶点 $i$ 的邻居集合。之所以要钉住边界，是因为单看这个能量，把所有顶点叠在一起（或者任意仿射变换后的构型）能量为零，不约束就没有意义；钉住边界相当于给出“摊开”的基准。
+
+能量最小意味着每个顶点都停在自己受力的平衡点，即对每个 $\mathbf{t}_i$ 求导得零：
+
+\[
+\frac{\partial E}{\partial \mathbf{t}_i} = \sum_{j\in N_i}D_{ij}(\mathbf{t}_i - \mathbf{t}_j) = 0
+\quad\Longrightarrow\quad
+\sum_{j\in N_i}D_{ij}\mathbf{t}_i = \sum_{j\in N_i}D_{ij}\mathbf{t}_j
+\quad\Longrightarrow\quad
+\mathbf{t}_i = \sum_{j\in N_i}\lambda_{ij}\mathbf{t}_j,
+\]
+
+其中
+
+\[
+\lambda_{ij} = D_{ij}\Big/\sum_{k\in N_i}D_{ik}
+\]
+
+是归一化后的权重，$\sum_{j\in N_i}\lambda_{ij} = 1$。这个结果很值得念一遍：\textbf{最优点处，每个内部顶点恰好落在它所有邻居的加权平均位置上}——邻居越“重要”（弹簧系数 $D_{ij}$ 越大），拉得越狠。这也就是前面细分曲面里反复出现的“顶点取邻居加权平均”，只是那里权重来自工程经验，这里来自弹簧能量的最小化，并且要解出来才算数。
+
+把每个顶点的那一行 $\mathbf{t}_i - \sum_{j\in N_i}\lambda_{ij}\mathbf{t}_j = 0$ 摞起来，就得到线性方程组 $\mathbf{A}\mathbf{t} = \mathbf{0}$：矩阵每行只有对角元 1 和邻居位置上的 $-\lambda_{ij}$，非常稀疏。$\mathbf{A}\mathbf{t} = \mathbf{0}$ 当然有解（所有顶点取同一个值就是一解），所以要把边界顶点的行换成“已知值”再求解，写成
+
+\[
+\bar{\mathbf{A}}\mathbf{t} = \mathbf{b}.
+\]
+
+例如一个 9 个顶点的网格，1、2、3、4、5、6 是边界顶点，分别钉在 $(1,2)$、$(2,3)$、$(3,3)$、$(4,2)$、$(3,1)$、$(2,1)$，内部 7、8、9 待求。用均匀权重时，矩阵的前 6 行是单位阵（“这一行直接抄已知值”），后面几行是内部顶点的弹簧方程：某个内部顶点若连了 5 个邻居，这一行就是 5 个 1 加上对角元的 $-5$，右端向量前半填边界坐标、后半填 0。解这个稀疏线性方程组（直接求解，或者用 Gauss–Seidel 之类的迭代松弛：每一轮把每个内部顶点挪到它邻居的加权平均处）就得到了所有顶点的 $(u_i, v_i)$。
+
+权重 $\lambda_{ij}$ 的取法决定参数化的质量，常见的三种是：
+
+\begin{itemize}[nosep]
+    \item \textbf{均匀权重（average）}：$\lambda_{ij} = 1/n_i$，$n_i$ 是顶点 $i$ 的邻居个数。最省事，等价于把顶点放到邻居的算术平均处；只要边界是凸多边形，得到的参数化一定有效（三角形不会翻转），这就是 Tutte 嵌入。
+    \item \textbf{调和坐标（harmonic coordinate）}：$\lambda_{ij} = (\cot\gamma_{ij} + \cot\gamma_{ji})/2$，其中 $\gamma_{ij}$、$\gamma_{ji}$ 是边 $(i,j)$ 两侧三角形中\textbf{对着这条边}的那两个角。它对应离散 Dirichlet 能量的最小化，更接近保角；代价是权重可能为负（钝角三角形），网格不够“Delaunay”时会出现三角形翻转。
+    \item \textbf{均值坐标（mean coordinate）}：$\lambda_{ij} = \left(\tan\frac{\alpha_{ij}}{2} + \tan\frac{\beta_{ji}}{2}\right)\big/r_{ij}$，其中 $\alpha_{ij}$、$\beta_{ji}$ 是边两侧三角形\textbf{在顶点 $i$ 处}的两个角，$r_{ij}$ 是这条边的长度。权重恒为正，配合凸边界能保证映射是一一的。
+\end{itemize}
+
+
+\appendix
+

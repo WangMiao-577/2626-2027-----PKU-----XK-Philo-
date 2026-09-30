@@ -238,38 +238,8 @@
 
 这份讲义是王立威老师的《机器学习》课程笔记，老师讲课水平很高但是不使用PPT，笔记内容也不复刻板书，更多是知识点的总结。既然上了AI的贼船，总得给后人和自己留下点什么，所以创作了这份笔记。
 
-\section{机器学习概述}
+\input{Sections/Machine-Learning/Machine-Learning-Overview}
 
-机器学习的定义很多，本课程采用这种表述：机器从过往的经历和数据中学习知识（learning from experience and data）
+\input{Sections/Machine-Learning/Mathematics-for-Machine-Learning}
 
-\subsection{机器学习的领域（Areas of Machine Learning）}
-
-\begin{itemize}
-    \item 监督学习（Supervised Learning）：通过标注数据进行训练，预测输出。
-    \item 无监督学习（Unsupervised Learning）：从未标注数据中发现模式和结构。
-    \item 强化学习（Reinforcement Learning）：通过与环境交互学习策略以最大化奖励。
-\end{itemize}
-
-\subsection{机器学习的基本范式（Formulation of machine learning）}
-
-\section{机器学习数学}
-
-这一部分是考虑到大家在上这门课的时候大概已经忘记了大一上学的线性代数和微积分）所以本部分会补充所有在后面会用到的数学知识。
-
-\subsection{一般线性代数}
-
-这一部分默认会的都会，从比较重要的上课不强调的开始。
-
-\begin{theorem}[LDU分解]
-
-    $\forall A , |A| \neq 0 $，存在单位下三角矩阵L，单位上三角矩阵U，对角矩阵D，令
-    
-    \[
-        A = LDU
-    \]
-\end{theorem}
-
-\begin{proof}
-    
-\end{proof}
 \end{document}
